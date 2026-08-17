@@ -1,7 +1,7 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Section from "../components/Section.astro";
-import RequestFormButton from "../components/RequestFormButton.astro";
+import Button from "../components/Button.astro";
 import { CONTACT_EMAIL } from "../config/site";
 ---
 
@@ -24,13 +24,13 @@ import { CONTACT_EMAIL } from "../config/site";
       </p>
 
       <div class="mt-10 border-t border-slate-200 pt-8">
-        <h2 class="text-xl font-semibold text-slate-900">Requesting a service?</h2>
+        <h2 class="text-xl font-semibold text-slate-900">Requesting a print?</h2>
         <p class="mt-2 max-w-prose text-slate-600">
-          Kids and parents requesting or using a Printable Dreams service — including submitting a drawing — will
-          use a dedicated form.
+          Kids and parents requesting a print — including submitting a drawing — use a dedicated form. No account
+          needed.
         </p>
         <div class="mt-4">
-          <RequestFormButton />
+          <Button href="/request-a-print" label="Request a Print" variant="primary" />
         </div>
       </div>
     </div>

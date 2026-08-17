@@ -1,0 +1,27 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Section from "../components/Section.astro";
+import RequestFormButton from "../components/RequestFormButton.astro";
+---
+
+<BaseLayout title="Request a Print" description="Request a 3D-printed keepsake made from a kid's drawing.">
+  <Section background="brand">
+    <h1 class="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">Request a Print</h1>
+    <p class="mt-4 max-w-prose text-lg text-slate-700">
+      A child draws something that means something to them, submits it through our request form, and we design
+      and 3D print it into a real, physical keepsake — shipped straight to their door.
+    </p>
+  </Section>
+
+  <Section background="white">
+    <div class="max-w-2xl">
+      <p class="text-slate-700">
+        This is for kids and parents who'd like something printed. No Printable Dreams account is needed — the
+        request form is a separate, public process.
+      </p>
+      <div class="mt-6">
+        <RequestFormButton />
+      </div>
+    </div>
+  </Section>
+</BaseLayout>

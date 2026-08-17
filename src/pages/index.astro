@@ -4,7 +4,6 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import Section from "../components/Section.astro";
 import SectionHeading from "../components/SectionHeading.astro";
 import ImagePlaceholder from "../components/ImagePlaceholder.astro";
-import RequestFormButton from "../components/RequestFormButton.astro";
 import Button from "../components/Button.astro";
 import ProjectCard from "../components/ProjectCard.astro";
 import EmptyState from "../components/EmptyState.astro";
@@ -23,7 +22,7 @@ const featuredProjects = allProjects
       <h1 class="text-5xl font-bold leading-[1.05] tracking-tight text-slate-900 sm:text-6xl">Printable Dreams</h1>
       <p class="mt-5 max-w-prose text-lg text-slate-700">{TAGLINE}</p>
       <div class="mt-8 flex flex-wrap gap-3">
-        <RequestFormButton />
+        <Button href="/request-a-print" label="Request a Print" variant="primary" />
         <Button href="/about/" label="Learn About Our Mission" variant="secondary" />
       </div>
     </div>
@@ -98,11 +97,10 @@ const featuredProjects = allProjects
         Have a child's drawing to bring to life?
       </h2>
       <p class="mt-3 text-slate-700">
-        Kids and parents will be able to submit a drawing through a request form. It isn't live yet — check back
-        soon.
+        Kids and parents can submit a drawing through our request form — no account needed.
       </p>
       <div class="mt-6 flex justify-center">
-        <RequestFormButton />
+        <Button href="/request-a-print" label="Request a Print" variant="primary" />
       </div>
     </div>
   </Section>
@@ -150,6 +148,20 @@ const featuredProjects = allProjects
       />
       <div class="lg:text-right">
         <Button href="/support/" label="Learn More" variant="primary" />
+      </div>
+    </div>
+  </Section>
+
+  <!-- Partner -->
+  <Section background="muted">
+    <div class="grid items-center gap-8 lg:grid-cols-2">
+      <SectionHeading
+        eyebrow="Partner With Us"
+        title="Partner With Printable Dreams"
+        description="Organizations interested in partnering with Printable Dreams can reach out through our partnership form."
+      />
+      <div class="lg:text-right">
+        <Button href="/partner" label="Learn More" variant="secondary" />
       </div>
     </div>
   </Section>

@@ -44,6 +44,18 @@ export const SERVICE_REQUEST_FORM_URL: string | null = null;
 export const DONATION_URL: string | null = null;
 
 /**
+ * Link to the partnership inquiry form (e.g. a Google Form) for
+ * organizations/people interested in partnering with Printable Dreams.
+ *
+ * Same pattern as SERVICE_REQUEST_FORM_URL and DONATION_URL: `null` until a
+ * real URL is supplied. PartnershipButton shows a disabled "coming soon"
+ * state instead of a fake or broken link.
+ *
+ * To go live: replace `null` below with the real form URL string.
+ */
+export const PARTNERSHIP_FORM_URL: string | null = null;
+
+/**
  * The production domain the site will be deployed to (e.g.
  * "https://printabledreams.org"), with no trailing slash. `null` until a
  * domain is chosen.

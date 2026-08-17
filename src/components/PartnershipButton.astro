@@ -1,0 +1,22 @@
+---
+// Partnership call-to-action for the Partner page. Same disabled-until-real
+// pattern as RequestFormButton/DonateButton, driven by PARTNERSHIP_FORM_URL
+// in src/config/site.ts.
+import Button from "./Button.astro";
+import { PARTNERSHIP_FORM_URL } from "../config/site";
+
+interface Props {
+  class?: string;
+}
+
+const { class: className = "" } = Astro.props;
+---
+
+<Button
+  href={PARTNERSHIP_FORM_URL}
+  label="Partnership Inquiry Form"
+  disabledLabel="Partnership Form Coming Soon"
+  disabledHint="The partnership inquiry form isn't live yet — check back soon."
+  external
+  class={className}
+/>
