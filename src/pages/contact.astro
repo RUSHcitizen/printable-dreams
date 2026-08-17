@@ -1,29 +1,38 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import Section from "../components/Section.astro";
 import RequestFormButton from "../components/RequestFormButton.astro";
 import { CONTACT_EMAIL } from "../config/site";
 ---
 
-<BaseLayout title="Contact">
-  <div class="mx-auto max-w-2xl px-4 py-16 sm:px-6">
-    <h1 class="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">Contact</h1>
-    <p class="mt-4 text-slate-600">
-      For general questions, reach us by email:
-    </p>
-    <p class="mt-2">
-      <a href={`mailto:${CONTACT_EMAIL}`} class="text-lg font-semibold text-teal-700 underline hover:text-teal-800">
-        {CONTACT_EMAIL}
-      </a>
-    </p>
+<BaseLayout title="Contact" description="Contact Printable Dreams by email.">
+  <Section background="brand">
+    <h1 class="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">Contact</h1>
+    <p class="mt-4 max-w-prose text-lg text-slate-700">For general questions, reach us by email.</p>
+  </Section>
 
-    <div class="mt-10 border-t border-slate-200 pt-8">
-      <h2 class="text-xl font-semibold text-slate-900">Requesting a service?</h2>
-      <p class="mt-2 text-slate-600">
-        Kids and parents requesting or using a Printable Dreams service will use a dedicated form.
+  <Section background="white">
+    <div class="max-w-2xl">
+      <p class="text-sm font-semibold uppercase tracking-wide text-brand-700">Email</p>
+      <p class="mt-2">
+        <a
+          href={`mailto:${CONTACT_EMAIL}`}
+          class="text-lg font-semibold text-brand-700 underline hover:text-brand-800"
+        >
+          {CONTACT_EMAIL}
+        </a>
       </p>
-      <div class="mt-4">
-        <RequestFormButton />
+
+      <div class="mt-10 border-t border-slate-200 pt-8">
+        <h2 class="text-xl font-semibold text-slate-900">Requesting a service?</h2>
+        <p class="mt-2 max-w-prose text-slate-600">
+          Kids and parents requesting or using a Printable Dreams service — including submitting a drawing — will
+          use a dedicated form.
+        </p>
+        <div class="mt-4">
+          <RequestFormButton />
+        </div>
       </div>
     </div>
-  </div>
+  </Section>
 </BaseLayout>

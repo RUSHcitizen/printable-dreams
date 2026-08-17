@@ -7,17 +7,20 @@ import ImagePlaceholder from "../components/ImagePlaceholder.astro";
 import { TAGLINE } from "../config/site";
 ---
 
-<BaseLayout title="About">
+<BaseLayout
+  title="About"
+  description="Learn about Printable Dreams' mission: turning kids' drawings into real, 3D-printed keepsakes."
+>
   <!-- Intro -->
   <Section background="brand">
     <h1 class="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">About Printable Dreams</h1>
-    <p class="mt-4 max-w-2xl text-lg text-slate-700">{TAGLINE}</p>
+    <p class="mt-4 max-w-prose text-lg text-slate-700">{TAGLINE}</p>
   </Section>
 
   <!-- Mission -->
   <Section background="white">
     <SectionHeading eyebrow="Mission" title="What We're Working Toward" />
-    <div class="mt-6 max-w-3xl space-y-4 text-slate-700">
+    <div class="mt-6 max-w-prose space-y-4 text-slate-700">
       <p>
         We started this organization with one simple idea: that a child's imagination is powerful, and that
         bringing it to life can change the way they see themselves and the world around them. For kids who are
@@ -47,7 +50,7 @@ import { TAGLINE } from "../config/site";
   <!-- Who we serve -->
   <Section background="white">
     <SectionHeading eyebrow="Who We Serve" title="Kids" />
-    <div class="mt-6 max-w-3xl rounded-lg border border-slate-200 bg-white p-6">
+    <div class="mt-6 max-w-prose rounded-lg border border-slate-200 bg-white p-6">
       <p class="text-slate-700">
         Printable Dreams serves kids — especially kids who are struggling, whether from hardship, loss, or simply
         a difficult season of life.
@@ -58,7 +61,7 @@ import { TAGLINE } from "../config/site";
   <!-- How 3D printing fits in -->
   <Section background="muted">
     <SectionHeading eyebrow="Our Approach" title="How 3D Printing Fits Into Our Mission" />
-    <p class="mt-6 max-w-3xl text-slate-700">
+    <p class="mt-6 max-w-prose text-slate-700">
       A child draws something that means something to them — it can be anything: a superhero, an animal, a
       dream, a memory. They submit it through our website, and our team gets to work: we take that drawing,
       design it, and 3D print it into a real, physical keepsake, then ship it straight to their door. 3D
@@ -69,7 +72,7 @@ import { TAGLINE } from "../config/site";
   <!-- Future goals -->
   <Section background="white">
     <SectionHeading eyebrow="Looking Ahead" title="Future Goals" />
-    <PlaceholderBlock label="Placeholder — pending real content" class="mt-6 max-w-3xl">
+    <PlaceholderBlock label="Placeholder — pending real content" class="mt-6 max-w-prose">
       <p>Printable Dreams' future goals will go here once they're provided.</p>
     </PlaceholderBlock>
   </Section>

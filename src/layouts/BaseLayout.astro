@@ -5,7 +5,7 @@
 import "../styles/global.css";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
-import { SITE_TITLE, SITE_DESCRIPTION } from "../config/site";
+import { SITE_TITLE, SITE_DESCRIPTION, PRODUCTION_URL, CONTACT_EMAIL } from "../config/site";
 
 interface Props {
   title: string;
@@ -14,6 +14,23 @@ interface Props {
 
 const { title, description = SITE_DESCRIPTION } = Astro.props;
 const pageTitle = title === SITE_TITLE ? title : `${title} · ${SITE_TITLE}`;
+
+// Only emit a canonical URL / absolute OG URL once a real production
+// domain is known (PRODUCTION_URL in site.ts). A canonical pointing at a
+// placeholder domain would be worse than none at all.
+const canonicalURL = PRODUCTION_URL ? new URL(Astro.url.pathname, PRODUCTION_URL).href : null;
+
+// Organization structured data, built only from confirmed facts in
+// site.ts. Fields we don't have (logo, founding date, social profiles)
+// are simply omitted rather than invented.
+const organizationSchema = {
+  "@context": "https://schema.org",
+  "@type": "NGO",
+  name: SITE_TITLE,
+  description: SITE_DESCRIPTION,
+  email: CONTACT_EMAIL,
+  ...(PRODUCTION_URL ? { url: PRODUCTION_URL } : {}),
+};
 ---
 
 <!doctype html>
@@ -25,9 +42,19 @@ const pageTitle = title === SITE_TITLE ? title : `${title} · ${SITE_TITLE}`;
     <meta name="description" content={description} />
     <title>{pageTitle}</title>
 
+    {canonicalURL && <link rel="canonical" href={canonicalURL} />}
+
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={SITE_TITLE} />
+    {canonicalURL && <meta property="og:url" content={canonicalURL} />}
+
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+
+    <script type="application/ld+json" is:inline set:html={JSON.stringify(organizationSchema)} />
 
     <meta name="generator" content={Astro.generator} />
   </head>

@@ -43,6 +43,21 @@ export const SERVICE_REQUEST_FORM_URL: string | null = null;
  */
 export const DONATION_URL: string | null = null;
 
+/**
+ * The production domain the site will be deployed to (e.g.
+ * "https://printabledreams.org"), with no trailing slash. `null` until a
+ * domain is chosen.
+ *
+ * This one value drives every URL-dependent SEO feature: canonical links
+ * and absolute Open Graph URLs in BaseLayout.astro. To go live once a
+ * domain is registered:
+ *
+ * 1. Set PRODUCTION_URL below.
+ * 2. Add `site: "https://your-domain"` to astro.config.mjs and run
+ *    `npx astro add sitemap` (see README "Domain configuration").
+ */
+export const PRODUCTION_URL: string | null = null;
+
 export interface NavLink {
   label: string;
   href: string;
@@ -56,3 +71,13 @@ export const NAV_LINKS: NavLink[] = [
   { label: "Support", href: "/support/" },
   { label: "Contact", href: "/contact/" },
 ];
+
+export interface SocialLink {
+  label: string;
+  href: string;
+}
+
+// No confirmed social accounts yet. Add entries here once real profiles
+// exist — Footer already renders from this array and needs no other
+// changes to pick them up.
+export const SOCIAL_LINKS: SocialLink[] = [];

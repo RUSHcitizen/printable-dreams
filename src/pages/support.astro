@@ -7,10 +7,13 @@ import DonateButton from "../components/DonateButton.astro";
 import Button from "../components/Button.astro";
 ---
 
-<BaseLayout title="Support">
+<BaseLayout
+  title="Support"
+  description="Support Printable Dreams' work turning kids' drawings into 3D-printed keepsakes."
+>
   <Section background="brand">
     <h1 class="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">Support Printable Dreams</h1>
-    <PlaceholderBlock label="Placeholder — pending real content" class="mt-6 max-w-2xl">
+    <PlaceholderBlock label="Placeholder — pending real content" class="mt-6 max-w-prose">
       <p>An explanation of why support matters to Printable Dreams' work will go here once it's provided.</p>
     </PlaceholderBlock>
   </Section>
@@ -18,24 +21,21 @@ import Button from "../components/Button.astro";
   <!-- Donate -->
   <Section background="white">
     <SectionHeading eyebrow="Donate" title="Financial Support" />
-    <div class="mt-6 max-w-2xl rounded-lg border border-dashed border-slate-300 bg-slate-50 p-8">
-      <p class="text-sm font-semibold uppercase tracking-wide text-slate-400">
-        Placeholder — donation processor not yet set up
+    <PlaceholderBlock label="Placeholder — donation processor not yet set up" class="mt-6 max-w-2xl">
+      <p>
+        Printable Dreams doesn't have a donation processor connected yet. Once one is set up, the button below
+        will link to it directly.
       </p>
-      <p class="mt-2 text-slate-600">
-        Printable Dreams doesn't have a donation processor connected yet. Once one is set up, the button below will
-        link to it directly.
-      </p>
-      <div class="mt-6">
+      <div class="mt-6 not-italic">
         <DonateButton />
       </div>
-    </div>
+    </PlaceholderBlock>
   </Section>
 
   <!-- Non-monetary support -->
   <Section background="muted">
     <SectionHeading eyebrow="Other Ways to Help" title="Support Without Donating" />
-    <p class="mt-4 max-w-2xl text-slate-600">
+    <p class="mt-4 max-w-prose text-slate-600">
       Money isn't the only way to help. See other ways to get involved, including volunteering and spreading
       awareness.
     </p>

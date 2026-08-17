@@ -6,6 +6,8 @@ import SectionHeading from "../components/SectionHeading.astro";
 import ImagePlaceholder from "../components/ImagePlaceholder.astro";
 import RequestFormButton from "../components/RequestFormButton.astro";
 import Button from "../components/Button.astro";
+import ProjectCard from "../components/ProjectCard.astro";
+import EmptyState from "../components/EmptyState.astro";
 import { SITE_TITLE, TAGLINE, CONTACT_EMAIL } from "../config/site";
 
 const allProjects = await getCollection("projects", ({ data }) => !data.draft);
@@ -18,8 +20,8 @@ const featuredProjects = allProjects
   <!-- Hero -->
   <Section background="brand" class="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
     <div>
-      <h1 class="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">Printable Dreams</h1>
-      <p class="mt-4 text-lg text-slate-700">{TAGLINE}</p>
+      <h1 class="text-5xl font-bold leading-[1.05] tracking-tight text-slate-900 sm:text-6xl">Printable Dreams</h1>
+      <p class="mt-5 max-w-prose text-lg text-slate-700">{TAGLINE}</p>
       <div class="mt-8 flex flex-wrap gap-3">
         <RequestFormButton />
         <Button href="/about/" label="Learn About Our Mission" variant="secondary" />
@@ -34,7 +36,7 @@ const featuredProjects = allProjects
   <!-- Mission / organization introduction -->
   <Section background="white">
     <SectionHeading eyebrow="Our Mission" title="Why Printable Dreams Exists" />
-    <div class="mt-6 max-w-3xl space-y-4 text-slate-700">
+    <div class="mt-6 max-w-prose space-y-4 text-slate-700">
       <p>
         We started this organization with one simple idea: that a child's imagination is powerful, and that
         bringing it to life can change the way they see themselves and the world around them.
@@ -52,7 +54,7 @@ const featuredProjects = allProjects
   <Section background="muted" class="grid gap-8 sm:grid-cols-2">
     <div>
       <SectionHeading eyebrow="What We Do" title="Our Work" />
-      <p class="mt-6 text-slate-700">
+      <p class="mt-6 max-w-prose text-slate-700">
         A child draws something that means something to them — a superhero, an animal, a dream, a memory,
         anything. We take that drawing, design it, and 3D print it into a real, physical keepsake, then ship it
         straight to their door.
@@ -80,8 +82,8 @@ const featuredProjects = allProjects
           { step: "3", text: "Our team designs it and 3D prints it into a real, physical keepsake." },
           { step: "4", text: "We ship it straight to their door." },
         ].map((item) => (
-          <li class="rounded-lg border border-slate-200 p-5">
-            <span class="text-sm font-bold text-teal-700">Step {item.step}</span>
+          <li class="rounded-lg border border-slate-200 p-5 transition-shadow hover:shadow-md">
+            <span class="text-sm font-bold text-brand-700">Step {item.step}</span>
             <p class="mt-2 text-sm text-slate-700">{item.text}</p>
           </li>
         ))
@@ -113,18 +115,11 @@ const featuredProjects = allProjects
     </div>
     {
       featuredProjects.length === 0 ? (
-        <div class="mt-8 rounded-lg border border-dashed border-slate-300 bg-slate-50 p-10 text-center">
-          <p class="text-slate-500">No projects have been published yet. Check back soon.</p>
-        </div>
+        <EmptyState message="No projects have been published yet. Check back soon." class="mt-8" />
       ) : (
         <ul class="mt-8 grid gap-6 sm:grid-cols-3">
           {featuredProjects.map((project) => (
-            <li class="rounded-lg border border-slate-200 p-6 transition-shadow hover:shadow-md">
-              <a href={`/projects/${project.id}/`} class="font-semibold text-teal-700 hover:underline">
-                {project.data.title}
-              </a>
-              <p class="mt-2 text-sm text-slate-600">{project.data.problem}</p>
-            </li>
+            <ProjectCard project={project} />
           ))}
         </ul>
       )
