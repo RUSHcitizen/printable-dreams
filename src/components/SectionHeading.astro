@@ -10,7 +10,18 @@ const { eyebrow, title, description, align = "left" } = Astro.props;
 ---
 
 <div class={align === "center" ? "mx-auto max-w-2xl text-center" : "max-w-2xl"}>
-  {eyebrow && <p class="text-sm font-semibold uppercase tracking-wide text-brand-700">{eyebrow}</p>}
-  <h2 class="mt-2 text-2xl font-bold leading-tight tracking-tight text-slate-900 sm:text-3xl">{title}</h2>
+  {
+    eyebrow && (
+      <p
+        class={`flex items-center gap-2 text-sm font-semibold uppercase tracking-wide text-brand-700 ${align === "center" ? "justify-center" : ""}`}
+      >
+        <span class="h-1.5 w-1.5 rounded-full bg-accent-500" aria-hidden="true" />
+        {eyebrow}
+      </p>
+    )
+  }
+  <h2 class="mt-3 font-display text-3xl font-semibold leading-tight tracking-tight text-slate-900 sm:text-4xl">
+    {title}
+  </h2>
   {description && <p class="mt-3 max-w-prose text-slate-600">{description}</p>}
 </div>

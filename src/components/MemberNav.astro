@@ -1,0 +1,37 @@
+---
+// Slim sub-navigation for the member platform (dashboard/groups/profile),
+// so those pages read as "part of the same site, one level in" rather than
+// a generic separate admin/SaaS shell. Reuses the same nav-link styling
+// language as the public Header instead of inventing a sidebar pattern.
+interface Props {
+  current: "dashboard" | "groups" | "profile";
+}
+
+const { current } = Astro.props;
+
+const links = [
+  { key: "dashboard", label: "Dashboard", href: "/dashboard" },
+  { key: "groups", label: "Groups", href: "/groups" },
+  { key: "profile", label: "Profile", href: "/profile" },
+] as const;
+---
+
+<div class="border-b border-slate-200 bg-sand-50">
+  <nav aria-label="Member" class="container-page">
+    <ul class="flex gap-6 overflow-x-auto">
+      {
+        links.map((link) => (
+          <li>
+            <a
+              href={link.href}
+              aria-current={current === link.key ? "page" : undefined}
+              class="flex min-h-11 items-center border-b-2 border-transparent text-sm font-medium whitespace-nowrap text-slate-600 hover:text-brand-700 aria-[current=page]:border-brand-700 aria-[current=page]:text-brand-700"
+            >
+              {link.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </nav>
+</div>

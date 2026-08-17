@@ -1,20 +1,40 @@
 ---
-// Visually marks a block of copy as pending real content: a dashed border
-// and muted, italic text so it reads as "not final" at a glance, without
-// looking broken. Used anywhere factual/organizational copy hasn't been
-// provided yet (mission statement, org story, etc.) — never fill this
-// pattern with invented claims.
+// Marks a block of copy as pending real content. Styled to read as "this
+// spot is reserved, on purpose" — a solid card with a small icon and an
+// explicit "Coming soon" tag — rather than a dashed, apologetic-looking
+// box. Used anywhere factual/organizational copy hasn't been provided yet
+// (mission statement, org story, etc.) — never fill this pattern with
+// invented claims.
 interface Props {
   label?: string;
   class?: string;
 }
 
-const { label = "Placeholder — pending real content", class: className = "" } = Astro.props;
+const { label = "Coming soon", class: className = "" } = Astro.props;
 ---
 
-<div class={`rounded-lg border border-dashed border-slate-300 bg-slate-50 p-6 ${className}`}>
-  <p class="text-xs font-semibold uppercase tracking-wide text-slate-400">{label}</p>
-  <div class="mt-2 italic text-slate-500">
-    <slot />
+<div class={`flex gap-4 rounded-xl border border-slate-200 bg-sand-50 p-6 ${className}`}>
+  <div class="flex h-9 w-9 flex-none items-center justify-center rounded-full bg-white shadow-card">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.5"
+      class="h-4 w-4 text-brand-700"
+      aria-hidden="true"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        d="M12 6v6l4 2M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+      ></path>
+    </svg>
+  </div>
+  <div>
+    <p class="text-xs font-semibold uppercase tracking-wide text-slate-500">{label}</p>
+    <div class="mt-1 text-slate-600">
+      <slot />
+    </div>
   </div>
 </div>

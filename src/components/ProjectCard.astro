@@ -1,6 +1,8 @@
 ---
 // Single project-card implementation shared by the Home preview and the
 // full Projects listing, so both stay visually consistent automatically.
+// Styled as a case study, not a generic teaser card: date, title, a short
+// description, and an explicit "View Project" link.
 import type { CollectionEntry } from "astro:content";
 import { Image } from "astro:assets";
 import ImagePlaceholder from "./ImagePlaceholder.astro";
@@ -14,7 +16,7 @@ const { project } = Astro.props;
 const { title, date, problem, cover, coverAlt } = project.data;
 ---
 
-<li class="overflow-hidden rounded-lg border border-slate-200 transition-shadow hover:shadow-md">
+<li class="group overflow-hidden rounded-xl border border-slate-200 bg-white shadow-card transition-shadow duration-300 shadow-card-hover">
   <a href={`/projects/${project.id}/`} class="focus-ring-inset block">
     {
       cover ? (
@@ -23,16 +25,20 @@ const { title, date, problem, cover, coverAlt } = project.data;
           alt={coverAlt ?? ""}
           width={480}
           height={360}
-          class="aspect-[4/3] w-full object-cover"
+          class="aspect-[4/3] w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
         />
       ) : (
-        <ImagePlaceholder label="No cover image yet" aspect="aspect-[4/3]" bare class="border-b border-slate-200" />
+        <ImagePlaceholder label="Project photo coming soon" aspect="aspect-[4/3]" bare />
       )
     }
-    <div class="p-5">
-      <p class="text-xs font-medium text-slate-500">{formatDate(date)}</p>
-      <h3 class="mt-1 font-semibold text-slate-900">{title}</h3>
+    <div class="p-6">
+      <p class="text-xs font-semibold uppercase tracking-wide text-slate-500">{formatDate(date)}</p>
+      <h3 class="mt-2 font-display text-xl font-semibold text-slate-900">{title}</h3>
       <p class="mt-2 line-clamp-2 text-sm text-slate-600">{problem}</p>
+      <p class="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-brand-700">
+        View Project
+        <span aria-hidden="true" class="transition-transform duration-300 group-hover:translate-x-0.5">→</span>
+      </p>
     </div>
   </a>
 </li>

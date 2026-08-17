@@ -3,21 +3,27 @@
 // an optional background tint so pages can alternate sections visually
 // without every page re-deriving the same spacing/width classes.
 interface Props {
-  background?: "white" | "muted" | "brand";
+  background?: "white" | "muted" | "sand" | "brand";
   class?: string;
+  // Opts this section into the gentle scroll-reveal defined in global.css.
+  // Pure CSS, degrades to "just visible" everywhere it isn't supported or
+  // the visitor prefers reduced motion — safe to leave off for anything
+  // above the fold (the hero should never be invisible-until-scrolled-to).
+  reveal?: boolean;
 }
 
-const { background = "white", class: className = "" } = Astro.props;
+const { background = "white", class: className = "", reveal = false } = Astro.props;
 
 const backgrounds: Record<string, string> = {
   white: "bg-white",
   muted: "bg-slate-50",
+  sand: "bg-sand-50",
   brand: "bg-brand-50",
 };
 ---
 
 <section class={backgrounds[background]}>
-  <div class={`container-page py-16 sm:py-20 ${className}`}>
+  <div class={`container-page py-16 sm:py-20 ${reveal ? "reveal" : ""} ${className}`}>
     <slot />
   </div>
 </section>

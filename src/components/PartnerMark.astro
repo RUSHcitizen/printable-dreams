@@ -1,0 +1,23 @@
+---
+// A typographic "mark" for a partner — used instead of a logo wall, since
+// no real partner logos have been provided. Deliberately restrained: name
+// set in the display typeface, and an optional one-line context (an
+// organization affiliation, for a named individual) — never a fabricated
+// title, role, or description beyond what's actually been confirmed.
+// Swap in a real <Image> here once real logos exist; every partner grid
+// on the site renders through this one component, so that's a one-place
+// change.
+interface Props {
+  name: string;
+  context?: string;
+}
+
+const { name, context } = Astro.props;
+---
+
+<div
+  class="flex h-full flex-col items-center justify-center gap-1.5 rounded-xl border border-slate-200 bg-white px-6 py-10 text-center transition-colors hover:border-brand-200"
+>
+  <p class="font-display text-xl font-semibold text-slate-900">{name}</p>
+  {context && <p class="text-xs font-medium uppercase tracking-wide text-slate-500">{context}</p>}
+</div>
