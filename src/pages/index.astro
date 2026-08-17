@@ -7,7 +7,9 @@ import ImagePlaceholder from "../components/ImagePlaceholder.astro";
 import Button from "../components/Button.astro";
 import ProjectCard from "../components/ProjectCard.astro";
 import EmptyState from "../components/EmptyState.astro";
-import { SITE_TITLE, TAGLINE, CONTACT_EMAIL } from "../config/site";
+import StepCard from "../components/StepCard.astro";
+import PartnerMark from "../components/PartnerMark.astro";
+import { SITE_TITLE, TAGLINE, CONTACT_EMAIL, PARTNERS } from "../config/site";
 
 const allProjects = await getCollection("projects", ({ data }) => !data.draft);
 const featuredProjects = allProjects
@@ -17,98 +19,90 @@ const featuredProjects = allProjects
 
 <BaseLayout title={SITE_TITLE}>
   <!-- Hero -->
-  <Section background="brand" class="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
+  <Section background="brand" class="grid items-center gap-12 lg:grid-cols-[1.1fr_1fr] lg:gap-16">
     <div>
-      <h1 class="text-5xl font-bold leading-[1.05] tracking-tight text-slate-900 sm:text-6xl">Printable Dreams</h1>
-      <p class="mt-5 max-w-prose text-lg text-slate-700">{TAGLINE}</p>
+      <p class="flex items-center gap-2 text-sm font-semibold uppercase tracking-wide text-brand-700">
+        <span class="h-1.5 w-1.5 rounded-full bg-accent-500" aria-hidden="true"></span>
+        A Nonprofit, Not a Template
+      </p>
+      <h1 class="mt-4 font-display text-5xl font-semibold leading-[1.05] tracking-tight text-slate-900 sm:text-6xl">
+        Printable Dreams
+      </h1>
+      <p class="mt-5 max-w-prose text-xl text-slate-700">{TAGLINE}</p>
+      <p class="mt-3 max-w-prose text-slate-600">
+        Printable Dreams serves kids — turning a child's own drawing into something real they can hold.
+      </p>
       <div class="mt-8 flex flex-wrap gap-3">
         <Button href="/request-a-print" label="Request a Print" variant="primary" />
-        <Button href="/about/" label="Learn About Our Mission" variant="secondary" />
+        <Button href="/partners/" label="Partner With Us" variant="secondary" />
       </div>
     </div>
     <ImagePlaceholder
-      label="Hero photo — e.g. a project in progress or in use. Recommended: landscape, at least 1200×900."
+      label="Hero photo — a finished 3D-printed keepsake, or a project in progress. Landscape, at least 1200×900."
       aspect="aspect-[4/3]"
     />
   </Section>
 
-  <!-- Mission / organization introduction -->
-  <Section background="white">
-    <SectionHeading eyebrow="Our Mission" title="Why Printable Dreams Exists" />
-    <div class="mt-6 max-w-prose space-y-4 text-slate-700">
-      <p>
-        We started this organization with one simple idea: that a child's imagination is powerful, and that
-        bringing it to life can change the way they see themselves and the world around them.
-      </p>
-      <p>
-        Because the moment a child opens that package and holds something they imagined in their own hands,
-        something shifts. They feel seen. They feel proud. They feel like their ideas are worth something —
-        because they are. Every creation we send is our way of saying: we see you, we believe in you, and you
-        matter.
-      </p>
-    </div>
-  </Section>
-
-  <!-- What we do / who we serve -->
-  <Section background="muted" class="grid gap-8 sm:grid-cols-2">
-    <div>
-      <SectionHeading eyebrow="What We Do" title="Our Work" />
-      <p class="mt-6 max-w-prose text-slate-700">
-        A child draws something that means something to them — a superhero, an animal, a dream, a memory,
-        anything. We take that drawing, design it, and 3D print it into a real, physical keepsake, then ship it
-        straight to their door.
-      </p>
-    </div>
-    <div>
-      <SectionHeading eyebrow="Who We Serve" title="Kids" />
-      <div class="mt-6 rounded-lg border border-slate-200 bg-white p-6">
-        <p class="text-slate-700">
-          Printable Dreams serves kids — especially kids who are struggling, whether from hardship, loss, or
-          simply a difficult season of life.
+  <!-- Mission -->
+  <Section background="white" reveal>
+    <div class="grid gap-10 lg:grid-cols-2 lg:gap-16">
+      <div>
+        <p class="flex items-center gap-2 text-sm font-semibold uppercase tracking-wide text-brand-700">
+          <span class="h-1.5 w-1.5 rounded-full bg-accent-500" aria-hidden="true"></span>
+          Our Mission
+        </p>
+        <p class="mt-4 font-display text-3xl font-medium italic leading-snug text-slate-900 sm:text-4xl">
+          "We see you. We believe in you. And you matter."
+        </p>
+      </div>
+      <div class="space-y-4 text-slate-700 lg:pt-12">
+        <p>
+          We started this organization with one simple idea: that a child's imagination is powerful, and that
+          bringing it to life can change the way they see themselves and the world around them.
+        </p>
+        <p>
+          Because the moment a child opens that package and holds something they imagined in their own hands,
+          something shifts. They feel seen. They feel proud. They feel like their ideas are worth something —
+          because they are.
         </p>
       </div>
     </div>
   </Section>
 
   <!-- How it works -->
-  <Section background="white">
-    <SectionHeading eyebrow="How It Works" title="Our Process" />
-    <ol class="mt-6 grid max-w-4xl gap-6 sm:grid-cols-2 lg:grid-cols-4">
-      {
-        [
-          { step: "1", text: "A child draws something that means something to them — anything at all." },
-          { step: "2", text: "It's submitted through our website." },
-          { step: "3", text: "Our team designs it and 3D prints it into a real, physical keepsake." },
-          { step: "4", text: "We ship it straight to their door." },
-        ].map((item) => (
-          <li class="rounded-lg border border-slate-200 p-5 transition-shadow hover:shadow-md">
-            <span class="text-sm font-bold text-brand-700">Step {item.step}</span>
-            <p class="mt-2 text-sm text-slate-700">{item.text}</p>
-          </li>
-        ))
-      }
+  <Section background="sand" reveal>
+    <SectionHeading eyebrow="How It Works" title="From Drawing to Keepsake" align="center" />
+    <ol class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      <StepCard number={1} title="Share the Drawing">
+        A child draws something that means something to them — a superhero, an animal, a dream, a memory,
+        anything at all.
+      </StepCard>
+      <StepCard number={2} title="Send It to Us">It's submitted through our website.</StepCard>
+      <StepCard number={3} title="We Bring It to Life">
+        Our team designs it and 3D prints it into a real, physical keepsake.
+      </StepCard>
+      <StepCard number={4} title="It Arrives">We ship it straight to their door.</StepCard>
     </ol>
   </Section>
 
-  <!-- Request-form CTA -->
-  <Section background="brand">
+  <!-- Who we serve -->
+  <Section background="brand" reveal>
     <div class="mx-auto max-w-2xl text-center">
-      <h2 class="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
-        Have a child's drawing to bring to life?
-      </h2>
-      <p class="mt-3 text-slate-700">
-        Kids and parents can submit a drawing through our request form — no account needed.
+      <p class="flex items-center justify-center gap-2 text-sm font-semibold uppercase tracking-wide text-brand-700">
+        <span class="h-1.5 w-1.5 rounded-full bg-accent-500" aria-hidden="true"></span>
+        Who We Serve
       </p>
-      <div class="mt-6 flex justify-center">
-        <Button href="/request-a-print" label="Request a Print" variant="primary" />
-      </div>
+      <p class="mt-4 font-display text-4xl font-semibold tracking-tight text-slate-900 sm:text-5xl">Kids.</p>
+      <p class="mt-4 text-lg text-slate-700">
+        Especially kids who are struggling — whether from hardship, loss, or simply a difficult season of life.
+      </p>
     </div>
   </Section>
 
   <!-- Projects preview -->
-  <Section background="white">
+  <Section background="white" reveal>
     <div class="flex flex-wrap items-end justify-between gap-4">
-      <SectionHeading eyebrow="Our Work" title="Projects" />
+      <SectionHeading eyebrow="Case Studies" title="Projects" />
       <Button href="/projects/" label="View All Projects" variant="secondary" />
     </div>
     {
@@ -124,22 +118,41 @@ const featuredProjects = allProjects
     }
   </Section>
 
-  <!-- Get involved -->
-  <Section background="muted">
-    <div class="grid items-center gap-8 lg:grid-cols-2">
+  <!-- Partnerships -->
+  <Section background="sand" reveal>
+    <div class="flex flex-wrap items-end justify-between gap-4">
       <SectionHeading
-        eyebrow="Join Us"
-        title="Get Involved"
-        description="There are ways to help Printable Dreams beyond requesting a service — details coming soon."
+        eyebrow="Partnerships"
+        title="Working Together"
+        description="Printable Dreams doesn't do this work alone."
       />
-      <div class="lg:text-right">
-        <Button href="/get-involved/" label="See How to Help" variant="secondary" />
-      </div>
+      <Button href="/partners/" label="Meet Our Partners" variant="secondary" />
+    </div>
+    <ul class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      {
+        PARTNERS.map((partner) => (
+          <li>
+            <PartnerMark name={partner.name} context={partner.context} />
+          </li>
+        ))
+      }
+    </ul>
+  </Section>
+
+  <!-- Get involved -->
+  <Section background="white" reveal>
+    <SectionHeading
+      eyebrow="Join Us"
+      title="Get Involved"
+      description="Volunteer, offer a 3D printer, or partner with us — create an account to join a group."
+    />
+    <div class="mt-8 flex justify-start">
+      <Button href="/get-involved/" label="See How to Help" variant="primary" />
     </div>
   </Section>
 
   <!-- Support -->
-  <Section background="brand">
+  <Section background="brand" reveal>
     <div class="grid items-center gap-8 lg:grid-cols-2">
       <SectionHeading
         eyebrow="Support Us"
@@ -147,21 +160,7 @@ const featuredProjects = allProjects
         description="A donation option is being set up. In the meantime, you can see what support will look like."
       />
       <div class="lg:text-right">
-        <Button href="/support/" label="Learn More" variant="primary" />
-      </div>
-    </div>
-  </Section>
-
-  <!-- Partner -->
-  <Section background="muted">
-    <div class="grid items-center gap-8 lg:grid-cols-2">
-      <SectionHeading
-        eyebrow="Partner With Us"
-        title="Partner With Printable Dreams"
-        description="Organizations interested in partnering with Printable Dreams can reach out through our partnership form."
-      />
-      <div class="lg:text-right">
-        <Button href="/partner" label="Learn More" variant="secondary" />
+        <Button href="/support/" label="Learn More" variant="secondary" />
       </div>
     </div>
   </Section>
@@ -169,7 +168,7 @@ const featuredProjects = allProjects
   <!-- Contact CTA -->
   <Section background="white">
     <div class="mx-auto max-w-2xl text-center">
-      <h2 class="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">Questions?</h2>
+      <h2 class="font-display text-3xl font-semibold tracking-tight text-slate-900 sm:text-4xl">Questions?</h2>
       <p class="mt-3 text-slate-600">Reach us by email, or visit the contact page for more.</p>
       <div class="mt-6 flex flex-wrap justify-center gap-3">
         <Button href={`mailto:${CONTACT_EMAIL}`} label={CONTACT_EMAIL} variant="primary" />

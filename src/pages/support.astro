@@ -12,32 +12,37 @@ import Button from "../components/Button.astro";
   description="Support Printable Dreams' work turning kids' drawings into 3D-printed keepsakes."
 >
   <Section background="brand">
-    <h1 class="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">Support Printable Dreams</h1>
-    <PlaceholderBlock label="Placeholder — pending real content" class="mt-6 max-w-prose">
+    <p class="flex items-center gap-2 text-sm font-semibold uppercase tracking-wide text-brand-700">
+      <span class="h-1.5 w-1.5 rounded-full bg-accent-500" aria-hidden="true"></span>
+      Support Us
+    </p>
+    <h1 class="mt-3 font-display text-5xl font-semibold tracking-tight text-slate-900 sm:text-6xl">
+      Support Printable Dreams
+    </h1>
+    <PlaceholderBlock label="Coming soon" class="mt-6 max-w-prose">
       <p>An explanation of why support matters to Printable Dreams' work will go here once it's provided.</p>
     </PlaceholderBlock>
   </Section>
 
   <!-- Donate -->
-  <Section background="white">
+  <Section background="white" reveal>
     <SectionHeading eyebrow="Donate" title="Financial Support" />
-    <PlaceholderBlock label="Placeholder — donation processor not yet set up" class="mt-6 max-w-2xl">
+    <PlaceholderBlock label="Donation processor coming soon" class="mt-6 max-w-2xl">
       <p>
         Printable Dreams doesn't have a donation processor connected yet. Once one is set up, the button below
         will link to it directly.
       </p>
-      <div class="mt-6 not-italic">
+      <div class="mt-6">
         <DonateButton />
       </div>
     </PlaceholderBlock>
   </Section>
 
   <!-- Non-monetary support -->
-  <Section background="muted">
+  <Section background="sand" reveal>
     <SectionHeading eyebrow="Other Ways to Help" title="Support Without Donating" />
     <p class="mt-4 max-w-prose text-slate-600">
-      Money isn't the only way to help. See other ways to get involved, including volunteering and spreading
-      awareness.
+      Money isn't the only way to help. Volunteer, offer a 3D printer, or partner with us instead.
     </p>
     <div class="mt-6">
       <Button href="/get-involved/" label="See How to Get Involved" variant="secondary" />
@@ -47,7 +52,9 @@ import Button from "../components/Button.astro";
   <!-- Contact -->
   <Section background="white">
     <div class="mx-auto max-w-2xl text-center">
-      <h2 class="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">Questions About Supporting Us?</h2>
+      <h2 class="font-display text-3xl font-semibold tracking-tight text-slate-900 sm:text-4xl">
+        Questions About Supporting Us?
+      </h2>
       <p class="mt-3 text-slate-600">Reach out and we'll be glad to help.</p>
       <div class="mt-6 flex justify-center">
         <Button href="/contact/" label="Contact Us" variant="primary" />

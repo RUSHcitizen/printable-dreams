@@ -21,8 +21,8 @@ const { Content } = await render(project);
 <BaseLayout title={title} description={problem}>
   <Section background="white">
     <article class="mx-auto max-w-3xl">
-      <p class="text-sm font-medium text-slate-500">{formatDate(date)}</p>
-      <h1 class="mt-1 text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">{title}</h1>
+      <p class="text-sm font-semibold uppercase tracking-wide text-slate-500">{formatDate(date)}</p>
+      <h1 class="mt-2 font-display text-4xl font-semibold tracking-tight text-slate-900 sm:text-5xl">{title}</h1>
 
       {
         cover && (
@@ -36,7 +36,7 @@ const { Content } = await render(project);
         )
       }
 
-      <dl class="mt-8 grid gap-6 border-y border-slate-200 py-6 sm:grid-cols-2">
+      <dl class="mt-8 grid gap-6 rounded-xl border border-slate-200 bg-sand-50 p-6 sm:grid-cols-2">
         <div>
           <dt class="text-sm font-semibold text-slate-900">The problem</dt>
           <dd class="mt-1 text-slate-600">{problem}</dd>

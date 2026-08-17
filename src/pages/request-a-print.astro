@@ -1,27 +1,47 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Section from "../components/Section.astro";
+import SectionHeading from "../components/SectionHeading.astro";
+import StepCard from "../components/StepCard.astro";
 import RequestFormButton from "../components/RequestFormButton.astro";
 ---
 
 <BaseLayout title="Request a Print" description="Request a 3D-printed keepsake made from a kid's drawing.">
   <Section background="brand">
-    <h1 class="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">Request a Print</h1>
-    <p class="mt-4 max-w-prose text-lg text-slate-700">
+    <p class="flex items-center gap-2 text-sm font-semibold uppercase tracking-wide text-brand-700">
+      <span class="h-1.5 w-1.5 rounded-full bg-accent-500" aria-hidden="true"></span>
+      For Kids &amp; Parents
+    </p>
+    <h1 class="mt-3 font-display text-5xl font-semibold tracking-tight text-slate-900 sm:text-6xl">
+      Request a Print
+    </h1>
+    <p class="mt-4 max-w-prose text-xl text-slate-700">
       A child draws something that means something to them, submits it through our request form, and we design
       and 3D print it into a real, physical keepsake — shipped straight to their door.
     </p>
+    <p class="mt-4 max-w-prose text-slate-600">
+      No Printable Dreams account is needed. The request form is a separate, public process for kids and
+      parents.
+    </p>
+    <div class="mt-8">
+      <RequestFormButton />
+    </div>
   </Section>
 
-  <Section background="white">
-    <div class="max-w-2xl">
-      <p class="text-slate-700">
-        This is for kids and parents who'd like something printed. No Printable Dreams account is needed — the
-        request form is a separate, public process.
-      </p>
-      <div class="mt-6">
-        <RequestFormButton />
-      </div>
+  <Section background="white" reveal>
+    <SectionHeading eyebrow="How It Works" title="From Drawing to Keepsake" align="center" />
+    <ol class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      <StepCard number={1} title="Share the Drawing">
+        A child draws something that means something to them — anything at all.
+      </StepCard>
+      <StepCard number={2} title="Send It to Us">It's submitted through our request form.</StepCard>
+      <StepCard number={3} title="We Bring It to Life">
+        Our team designs it and 3D prints it into a real, physical keepsake.
+      </StepCard>
+      <StepCard number={4} title="It Arrives">We ship it straight to their door.</StepCard>
+    </ol>
+    <div class="mt-10 flex justify-center">
+      <RequestFormButton />
     </div>
   </Section>
 </BaseLayout>

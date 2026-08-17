@@ -2,58 +2,79 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Section from "../components/Section.astro";
 import SectionHeading from "../components/SectionHeading.astro";
-import PlaceholderBlock from "../components/PlaceholderBlock.astro";
+import StepCard from "../components/StepCard.astro";
 import Button from "../components/Button.astro";
 
-interface Opportunity {
-  title: string;
-}
-
-// Tentative categories only — not confirmed active programs. Each renders
-// with its own placeholder body until real opportunities are confirmed.
-const opportunities: Opportunity[] = [
-  { title: "Volunteer" },
-  { title: "Support a Project" },
-  { title: "Spread the Word" },
+// The three real member-platform groups (see supabase/migrations —
+// descriptions match exactly, kept in sync by hand since this page is
+// public/static and can't query the groups table, which is
+// authenticated-only by RLS design).
+const categories = [
+  { name: "Volunteer", description: "People interested in helping Printable Dreams." },
+  { name: "Printer", description: "People who have 3D printers and want to help produce prints." },
+  { name: "Partner", description: "People or organizations interested in partnering with Printable Dreams." },
 ];
 ---
 
-<BaseLayout title="Get Involved" description="Ways to get involved with Printable Dreams — details coming soon.">
+<BaseLayout
+  title="Get Involved"
+  description="Volunteer, offer a 3D printer, or partner with Printable Dreams by joining the member platform."
+>
   <Section background="brand">
-    <h1 class="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">Get Involved</h1>
-    <p class="mt-4 max-w-prose text-lg text-slate-700">
-      There are ways to help Printable Dreams beyond requesting a service. The specific opportunities below are
-      placeholders pending confirmation.
+    <p class="flex items-center gap-2 text-sm font-semibold uppercase tracking-wide text-brand-700">
+      <span class="h-1.5 w-1.5 rounded-full bg-accent-500" aria-hidden="true"></span>
+      Get Involved
     </p>
+    <h1 class="mt-3 font-display text-5xl font-semibold tracking-tight text-slate-900 sm:text-6xl">
+      Join the Community
+    </h1>
+    <p class="mt-4 max-w-prose text-xl text-slate-700">
+      Printable Dreams is a real community, not just a website. Create an account and join a group to help.
+    </p>
+    <div class="mt-8">
+      <Button href="/signup" label="Join Printable Dreams" variant="primary" />
+    </div>
   </Section>
 
-  <Section background="white">
-    <SectionHeading title="Ways to Help" />
+  <!-- The three categories -->
+  <Section background="white" reveal>
+    <SectionHeading eyebrow="Ways to Help" title="Three Ways to Join" />
     <ul class="mt-8 grid gap-6 sm:grid-cols-3">
       {
-        opportunities.map((opportunity) => (
-          <li class="rounded-lg border border-slate-200 p-6 transition-shadow hover:shadow-md">
-            <div class="flex flex-wrap items-center gap-2">
-              <h3 class="font-semibold text-slate-900">{opportunity.title}</h3>
-              <span class="rounded-full bg-slate-100 px-2 py-0.5 text-xs font-medium text-slate-500">
-                Pending confirmation
-              </span>
-            </div>
-            <PlaceholderBlock label="Placeholder — details pending" class="mt-4">
-              <p>Details on how to {opportunity.title.toLowerCase()} will go here once confirmed.</p>
-            </PlaceholderBlock>
+        categories.map((category) => (
+          <li class="rounded-xl border border-slate-200 bg-white p-6 shadow-card transition-shadow duration-300 shadow-card-hover">
+            <p class="font-display text-xl font-semibold text-slate-900">{category.name}</p>
+            <p class="mt-2 text-sm text-slate-600">{category.description}</p>
           </li>
         ))
       }
     </ul>
   </Section>
 
-  <Section background="muted">
+  <!-- How joining works -->
+  <Section background="sand" reveal>
+    <SectionHeading eyebrow="How It Works" title="From Sign-Up to Community" align="center" />
+    <ol class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      <StepCard number={1} title="Create an Account">Sign up with your email and a display name.</StepCard>
+      <StepCard number={2} title="Explore Groups">See Volunteers, Printers, and Partners.</StepCard>
+      <StepCard number={3} title="Request to Join">Request the group — or groups — that fit you.</StepCard>
+      <StepCard number={4} title="We'll Follow Up">Your request is received, and Printable Dreams follows up.</StepCard>
+    </ol>
+    <div class="mt-10 flex justify-center">
+      <Button href="/signup" label="Join Printable Dreams" variant="primary" />
+    </div>
+  </Section>
+
+  <Section background="white">
     <div class="mx-auto max-w-2xl text-center">
-      <h2 class="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">Have another idea?</h2>
-      <p class="mt-3 text-slate-600">If you'd like to help in a way not listed here, reach out — we'd love to hear from you.</p>
+      <h2 class="font-display text-3xl font-semibold tracking-tight text-slate-900 sm:text-4xl">
+        Have another idea?
+      </h2>
+      <p class="mt-3 text-slate-600">
+        If you'd like to help in a way not listed here, reach out — we'd love to hear from you.
+      </p>
       <div class="mt-6 flex justify-center">
-        <Button href="/contact/" label="Contact Us" variant="primary" />
+        <Button href="/contact/" label="Contact Us" variant="secondary" />
       </div>
     </div>
   </Section>
