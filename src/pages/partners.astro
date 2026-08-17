@@ -1,0 +1,61 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Section from "../components/Section.astro";
+import SectionHeading from "../components/SectionHeading.astro";
+import PartnerMark from "../components/PartnerMark.astro";
+import PartnershipButton from "../components/PartnershipButton.astro";
+import { PARTNERS } from "../config/site";
+---
+
+<BaseLayout
+  title="Partners"
+  description="Organizations and community members who partner with Printable Dreams."
+>
+  <Section background="brand">
+    <p class="flex items-center gap-2 text-sm font-semibold uppercase tracking-wide text-brand-700">
+      <span class="h-1.5 w-1.5 rounded-full bg-accent-500" aria-hidden="true"></span>
+      Partners
+    </p>
+    <h1 class="mt-3 font-display text-4xl font-semibold tracking-tight text-slate-900 sm:text-5xl">
+      Working Together
+    </h1>
+    <p class="mt-4 max-w-prose text-lg text-slate-700">
+      Printable Dreams doesn't do this work alone. Below are the organizations and community members currently
+      partnering with us.
+    </p>
+  </Section>
+
+  <Section background="white">
+    <SectionHeading eyebrow="Why It Matters" title="Why Partnerships Matter" />
+    <p class="mt-6 max-w-prose text-slate-700">
+      Partners help Printable Dreams reach more kids and strengthen the work of turning a child's drawing into a
+      real keepsake. If you represent an organization or community group interested in working with us, we'd
+      love to hear from you.
+    </p>
+  </Section>
+
+  <Section background="sand">
+    <SectionHeading eyebrow="Current Partners" title="Our Partners" />
+    <ul class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      {
+        PARTNERS.map((partner) => (
+          <li>
+            <PartnerMark name={partner.name} context={partner.context} />
+          </li>
+        ))
+      }
+    </ul>
+  </Section>
+
+  <Section background="white">
+    <div class="mx-auto max-w-2xl text-center">
+      <h2 class="font-display text-3xl font-semibold tracking-tight text-slate-900 sm:text-4xl">
+        Want to work with Printable Dreams?
+      </h2>
+      <p class="mt-3 text-slate-600">Tell us about your organization through our partnership inquiry form.</p>
+      <div class="mt-6 flex justify-center">
+        <PartnershipButton />
+      </div>
+    </div>
+  </Section>
+</BaseLayout>

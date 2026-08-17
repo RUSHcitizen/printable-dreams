@@ -75,13 +75,40 @@ export interface NavLink {
   href: string;
 }
 
+// The primary nav — kept to 6 items so the header stays uncluttered even
+// with auth-state nav and the "Request a Print" CTA also present (see
+// Header.astro). Contact is intentionally not in this list: it's still a
+// real page, reachable from the footer (where the contact email already
+// lives on every page) and from Support/Get Involved — demoting it here
+// was a deliberate call to make room for Partners without growing the bar.
 export const NAV_LINKS: NavLink[] = [
   { label: "Home", href: "/" },
   { label: "About", href: "/about/" },
   { label: "Projects", href: "/projects/" },
+  { label: "Partners", href: "/partners/" },
   { label: "Get Involved", href: "/get-involved/" },
   { label: "Support", href: "/support/" },
-  { label: "Contact", href: "/contact/" },
+];
+
+export interface Partner {
+  name: string;
+  /**
+   * Optional one-line context — an organizational affiliation for a named
+   * individual. Only ever what's been explicitly confirmed; never an
+   * invented title or role.
+   */
+  context?: string;
+}
+
+/**
+ * Confirmed Printable Dreams partners. Do not alter names or add context
+ * beyond what's been explicitly provided — see README "Content accuracy".
+ */
+export const PARTNERS: Partner[] = [
+  { name: "Sammamish Rotary" },
+  { name: "BlueGrit Wellness" },
+  { name: "Todd Henderson", context: "Inglewood Middle School" },
+  { name: "Amy Lam", context: "Sammamish City Council" },
 ];
 
 export interface SocialLink {
