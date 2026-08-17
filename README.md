@@ -61,6 +61,11 @@ on any public page.
 - **`@tailwindcss/typography`** — styles the free-form Markdown body of a project's detail page.
 - **[Vitest](https://vitest.dev)** — unit tests for authorization/group logic and CTA rendering (see "Testing").
 - No client-side UI framework anywhere.
+- **Visual identity** (Phase 7): design tokens live in `src/styles/global.css`'s `@theme` block — `brand-*`
+  (deepened teal, the primary color), `sand-*` (warm off-white for alternating section backgrounds), `accent-*`
+  (a restrained warm amber used sparingly), and `--font-display` (Fraunces, a warm serif for headings — body
+  copy stays on the system sans stack). Change the org's look by editing values there, not by hunting through
+  components.
 
 ## Project structure
 
@@ -79,7 +84,7 @@ src/
 │   └── groups.ts                     # Group slugs + pure membership logic, unit-tested
 ├── pages/
 │   ├── index.astro, about.astro, ...   # Public, static
-│   ├── request-a-print.astro, partner.astro   # Public, static — the print-request and partnership CTAs
+│   ├── request-a-print.astro, partners.astro   # Public, static — the print-request and partnerships pages
 │   ├── signin.astro, signup.astro          # Auth, on-demand
 │   ├── signout.astro                          # Auth, on-demand (see "Why sign-out is a GET page")
 │   ├── auth/callback.astro                      # Email-confirmation landing page
@@ -157,6 +162,16 @@ Supabase Auth's own age-related terms: creating an account is subject to Supabas
 most identity providers) require the account holder to meet a minimum age — check Supabase's current terms before
 directing anyone under that age to sign up. This is exactly why the account system is scoped to adults
 (volunteers/printers/partners) and print requests go through the separate, no-account form instead.
+
+## Content accuracy
+
+The site's copy is held to one rule across every phase of this project: **only ship what's been explicitly
+confirmed.** Concretely, that means never inventing statistics, testimonials, partnership activities/funding,
+number of kids served, founding dates, awards, geographic reach, or titles for named individuals beyond what's
+been given. Where real content doesn't exist yet, `PlaceholderBlock` marks the gap visibly rather than being
+filled with something plausible-sounding — see `src/components/PlaceholderBlock.astro` and, for the current
+gaps, About's "Organization Story" and "Future Goals" sections. `PARTNERS` in `site.ts` is the one place partner
+facts live; don't add context/activities to an entry beyond what's explicitly provided.
 
 ## Database
 
@@ -248,7 +263,7 @@ provide the real one, rendered as a disabled "Coming Soon" state by the shared `
 | Constant | Used on | Real link goes to |
 |---|---|---|
 | `SERVICE_REQUEST_FORM_URL` | `/request-a-print` (`RequestFormButton`) | The kids/parents print-request form |
-| `PARTNERSHIP_FORM_URL` | `/partner` (`PartnershipButton`) | The partnership inquiry form |
+| `PARTNERSHIP_FORM_URL` | `/partners` (`PartnershipButton`) | The partnership inquiry form |
 | `DONATION_URL` | `/support` (`DonateButton`) | Your donation processor |
 
 To go live, edit one line in `src/config/site.ts`:
@@ -270,7 +285,8 @@ the public/publishable ones by design (real data access is enforced by RLS, not 
 |---|---|
 | `SITE_TITLE`, `TAGLINE`, `SITE_DESCRIPTION` | Organization name, hero tagline, default meta description |
 | `CONTACT_EMAIL` | The `mailto:` address in the header, footer, and Contact page |
-| `NAV_LINKS`, `SOCIAL_LINKS` | Site navigation; social row (empty until real profiles exist) |
+| `NAV_LINKS`, `SOCIAL_LINKS` | Site navigation (6 items — Contact is deliberately not in this list, see Header/Footer comments); social row (empty until real profiles exist) |
+| `PARTNERS` | Confirmed partner names/context, rendered by `/partners` and the Home preview via `PartnerMark` — never edit without explicit new facts (see "Content accuracy") |
 | `SERVICE_REQUEST_FORM_URL`, `PARTNERSHIP_FORM_URL`, `DONATION_URL` | See "Google Form configuration" |
 | `PRODUCTION_URL` | See "Domain configuration" |
 
