@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+
+# TODO: add "Sitemap: https://<real-domain>/sitemap-index.xml" once the
+# production domain is finalized and the @astrojs/sitemap integration is
+# added (planned for the deployment phase).
