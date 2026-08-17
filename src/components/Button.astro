@@ -1,0 +1,57 @@
+---
+// Shared button/link component. Two states, driven entirely by `href`:
+//
+// - `href` set    -> renders a real <a>.
+// - `href` null    -> renders a disabled, non-interactive <span> instead.
+//
+// This is the pattern behind both RequestFormButton and DonateButton: a
+// call-to-action that depends on a URL we don't have yet should never
+// render as a working-looking link to nowhere.
+interface Props {
+  href?: string | null;
+  label: string;
+  disabledLabel?: string;
+  disabledHint?: string;
+  variant?: "primary" | "secondary";
+  external?: boolean;
+  class?: string;
+}
+
+const {
+  href = null,
+  label,
+  disabledLabel = label,
+  disabledHint = "Not available yet — check back soon.",
+  variant = "primary",
+  external = false,
+  class: className = "",
+} = Astro.props;
+
+const base =
+  "inline-flex items-center justify-center rounded-md px-4 py-2 text-sm font-semibold transition-colors";
+
+const variants = {
+  primary: "bg-teal-700 text-white hover:bg-teal-800",
+  secondary: "border border-teal-700 text-teal-700 hover:bg-teal-50",
+};
+---
+
+{
+  href ? (
+    <a
+      href={href}
+      {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+      class={`${base} ${variants[variant]} ${className}`}
+    >
+      {label}
+    </a>
+  ) : (
+    <span
+      class={`${base} cursor-not-allowed bg-slate-200 text-slate-500 ${className}`}
+      aria-disabled="true"
+      title={disabledHint}
+    >
+      {disabledLabel}
+    </span>
+  )
+}

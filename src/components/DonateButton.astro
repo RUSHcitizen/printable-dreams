@@ -1,0 +1,23 @@
+---
+// Donation call-to-action for the Support page. Same disabled-until-real
+// pattern as RequestFormButton, driven by DONATION_URL in
+// src/config/site.ts.
+import Button from "./Button.astro";
+import { DONATION_URL } from "../config/site";
+
+interface Props {
+  class?: string;
+}
+
+const { class: className = "" } = Astro.props;
+---
+
+<Button
+  href={DONATION_URL}
+  label="Donate"
+  disabledLabel="Donations Not Yet Available"
+  disabledHint="A donation processor hasn't been set up yet — check back soon."
+  variant="primary"
+  external
+  class={className}
+/>

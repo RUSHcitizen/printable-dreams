@@ -1,0 +1,23 @@
+---
+// Consistent section wrapper: max-width container + vertical rhythm, with
+// an optional background tint so pages can alternate sections visually
+// without every page re-deriving the same spacing/width classes.
+interface Props {
+  background?: "white" | "muted" | "brand";
+  class?: string;
+}
+
+const { background = "white", class: className = "" } = Astro.props;
+
+const backgrounds: Record<string, string> = {
+  white: "bg-white",
+  muted: "bg-slate-50",
+  brand: "bg-teal-50",
+};
+---
+
+<section class={backgrounds[background]}>
+  <div class={`mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20 ${className}`}>
+    <slot />
+  </div>
+</section>

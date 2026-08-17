@@ -1,0 +1,33 @@
+---
+// Marks a spot where a real photo will go once provided, instead of
+// substituting stock photography. `label` should say what kind of image
+// belongs there so it's easy to fill in later.
+interface Props {
+  label: string;
+  aspect?: string; // Tailwind aspect-ratio utility class
+  class?: string;
+}
+
+const { label, aspect = "aspect-[4/3]", class: className = "" } = Astro.props;
+---
+
+<div
+  class={`flex ${aspect} w-full flex-col items-center justify-center gap-2 rounded-lg border border-dashed border-slate-300 bg-slate-50 p-6 text-center ${className}`}
+>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="1.5"
+    class="h-8 w-8 text-slate-400"
+    aria-hidden="true"
+  >
+    <path
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3 6.75h18M3 6.75A2.25 2.25 0 015.25 4.5h13.5A2.25 2.25 0 0121 6.75m-18 0v10.5A2.25 2.25 0 005.25 19.5h13.5A2.25 2.25 0 0021 17.25V6.75M9 9.75a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"
+    ></path>
+  </svg>
+  <p class="text-xs font-medium text-slate-500">{label}</p>
+</div>

@@ -29,6 +29,18 @@ export const CONTACT_EMAIL = "kumariaaatharv@gmail.com";
  */
 export const SERVICE_REQUEST_FORM_URL: string | null = null;
 
+/**
+ * Link to the real donation mechanism (payment processor page, e.g. a
+ * PayPal Giving Fund / Every.org / direct Stripe link).
+ *
+ * Same pattern as SERVICE_REQUEST_FORM_URL: `null` until a real processor
+ * is chosen. The Support page shows a disabled "coming soon" state instead
+ * of a fake donate button.
+ *
+ * To go live: replace `null` below with the real donation URL string.
+ */
+export const DONATION_URL: string | null = null;
+
 export interface NavLink {
   label: string;
   href: string;

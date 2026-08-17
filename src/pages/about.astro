@@ -1,10 +1,59 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import Section from "../components/Section.astro";
+import SectionHeading from "../components/SectionHeading.astro";
+import PlaceholderBlock from "../components/PlaceholderBlock.astro";
+import ImagePlaceholder from "../components/ImagePlaceholder.astro";
 ---
 
 <BaseLayout title="About">
-  <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6">
-    <h1 class="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">About</h1>
-    <p class="mt-4 max-w-2xl text-slate-600">Full mission and organization content coming in a later phase.</p>
-  </div>
+  <!-- Intro -->
+  <Section background="brand">
+    <h1 class="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">About Printable Dreams</h1>
+    <p class="mt-4 max-w-2xl text-lg text-slate-700">A nonprofit using 3D printing to help kids.</p>
+  </Section>
+
+  <!-- Mission -->
+  <Section background="white">
+    <SectionHeading eyebrow="Mission" title="What We're Working Toward" />
+    <PlaceholderBlock label="Placeholder — mission statement pending" class="mt-6 max-w-3xl">
+      <p>The full mission statement will go here once it's provided.</p>
+    </PlaceholderBlock>
+  </Section>
+
+  <!-- Organization story -->
+  <Section background="muted" class="grid gap-10 lg:grid-cols-2 lg:items-center">
+    <div>
+      <SectionHeading eyebrow="Our Story" title="How Printable Dreams Started" />
+      <PlaceholderBlock label="Placeholder — organization story pending" class="mt-6">
+        <p>The story of how Printable Dreams came to be will go here once it's provided.</p>
+      </PlaceholderBlock>
+    </div>
+    <ImagePlaceholder label="Photo — e.g. the founder, a workspace, or the team at work." aspect="aspect-[4/3]" />
+  </Section>
+
+  <!-- Who we serve -->
+  <Section background="white">
+    <SectionHeading eyebrow="Who We Serve" title="Kids" />
+    <div class="mt-6 max-w-3xl rounded-lg border border-slate-200 bg-white p-6">
+      <p class="text-slate-700">Printable Dreams serves kids.</p>
+      <p class="mt-2 text-sm text-slate-500 italic">More detail on who we serve is coming soon.</p>
+    </div>
+  </Section>
+
+  <!-- How 3D printing fits in -->
+  <Section background="muted">
+    <SectionHeading eyebrow="Our Approach" title="How 3D Printing Fits Into Our Mission" />
+    <PlaceholderBlock label="Placeholder — pending real content" class="mt-6 max-w-3xl">
+      <p>An explanation of how 3D printing supports Printable Dreams' mission will go here once it's provided.</p>
+    </PlaceholderBlock>
+  </Section>
+
+  <!-- Future goals -->
+  <Section background="white">
+    <SectionHeading eyebrow="Looking Ahead" title="Future Goals" />
+    <PlaceholderBlock label="Placeholder — pending real content" class="mt-6 max-w-3xl">
+      <p>Printable Dreams' future goals will go here once they're provided.</p>
+    </PlaceholderBlock>
+  </Section>
 </BaseLayout>

@@ -1,10 +1,57 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import Section from "../components/Section.astro";
+import SectionHeading from "../components/SectionHeading.astro";
+import PlaceholderBlock from "../components/PlaceholderBlock.astro";
+import DonateButton from "../components/DonateButton.astro";
+import Button from "../components/Button.astro";
 ---
 
 <BaseLayout title="Support">
-  <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6">
-    <h1 class="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">Support Printable Dreams</h1>
-    <p class="mt-4 max-w-2xl text-slate-600">Donation details coming soon once a payment processor is set up.</p>
-  </div>
+  <Section background="brand">
+    <h1 class="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">Support Printable Dreams</h1>
+    <PlaceholderBlock label="Placeholder — pending real content" class="mt-6 max-w-2xl">
+      <p>An explanation of why support matters to Printable Dreams' work will go here once it's provided.</p>
+    </PlaceholderBlock>
+  </Section>
+
+  <!-- Donate -->
+  <Section background="white">
+    <SectionHeading eyebrow="Donate" title="Financial Support" />
+    <div class="mt-6 max-w-2xl rounded-lg border border-dashed border-slate-300 bg-slate-50 p-8">
+      <p class="text-sm font-semibold uppercase tracking-wide text-slate-400">
+        Placeholder — donation processor not yet set up
+      </p>
+      <p class="mt-2 text-slate-600">
+        Printable Dreams doesn't have a donation processor connected yet. Once one is set up, the button below will
+        link to it directly.
+      </p>
+      <div class="mt-6">
+        <DonateButton />
+      </div>
+    </div>
+  </Section>
+
+  <!-- Non-monetary support -->
+  <Section background="muted">
+    <SectionHeading eyebrow="Other Ways to Help" title="Support Without Donating" />
+    <p class="mt-4 max-w-2xl text-slate-600">
+      Money isn't the only way to help. See other ways to get involved, including volunteering and spreading
+      awareness.
+    </p>
+    <div class="mt-6">
+      <Button href="/get-involved/" label="See How to Get Involved" variant="secondary" />
+    </div>
+  </Section>
+
+  <!-- Contact -->
+  <Section background="white">
+    <div class="mx-auto max-w-2xl text-center">
+      <h2 class="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">Questions About Supporting Us?</h2>
+      <p class="mt-3 text-slate-600">Reach out and we'll be glad to help.</p>
+      <div class="mt-6 flex justify-center">
+        <Button href="/contact/" label="Contact Us" variant="primary" />
+      </div>
+    </div>
+  </Section>
 </BaseLayout>
