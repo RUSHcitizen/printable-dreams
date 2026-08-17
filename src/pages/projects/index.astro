@@ -1,29 +1,37 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import Section from "../../components/Section.astro";
+import ProjectCard from "../../components/ProjectCard.astro";
+import EmptyState from "../../components/EmptyState.astro";
 import { getCollection } from "astro:content";
 
-const projects = await getCollection("projects", ({ data }) => !data.draft);
+const projects = (await getCollection("projects", ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+);
 ---
 
-<BaseLayout title="Projects">
-  <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6">
-    <h1 class="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">Projects</h1>
+<BaseLayout
+  title="Projects"
+  description="Real projects where a child's drawing became a 3D-printed keepsake."
+>
+  <Section background="brand">
+    <h1 class="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">Projects</h1>
+    <p class="mt-4 max-w-prose text-lg text-slate-700">
+      A look at drawings we've brought to life. New projects are added as they're completed.
+    </p>
+  </Section>
+
+  <Section background="white">
     {
       projects.length === 0 ? (
-        <p class="mt-4 max-w-2xl text-slate-600">
-          No projects published yet. Real projects will appear here as they're added.
-        </p>
+        <EmptyState message="No projects have been published yet. Check back soon." />
       ) : (
-        <ul class="mt-8 grid gap-8 sm:grid-cols-2">
+        <ul class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
           {projects.map((project) => (
-            <li>
-              <a href={`/projects/${project.id}/`} class="text-lg font-semibold text-teal-700 hover:underline">
-                {project.data.title}
-              </a>
-            </li>
+            <ProjectCard project={project} />
           ))}
         </ul>
       )
     }
-  </div>
+  </Section>
 </BaseLayout>
