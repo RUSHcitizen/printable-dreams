@@ -1,0 +1,29 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import RequestFormButton from "../components/RequestFormButton.astro";
+import { CONTACT_EMAIL } from "../config/site";
+---
+
+<BaseLayout title="Contact">
+  <div class="mx-auto max-w-2xl px-4 py-16 sm:px-6">
+    <h1 class="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">Contact</h1>
+    <p class="mt-4 text-slate-600">
+      For general questions, reach us by email:
+    </p>
+    <p class="mt-2">
+      <a href={`mailto:${CONTACT_EMAIL}`} class="text-lg font-semibold text-teal-700 underline hover:text-teal-800">
+        {CONTACT_EMAIL}
+      </a>
+    </p>
+
+    <div class="mt-10 border-t border-slate-200 pt-8">
+      <h2 class="text-xl font-semibold text-slate-900">Requesting a service?</h2>
+      <p class="mt-2 text-slate-600">
+        Kids and parents requesting or using a Printable Dreams service will use a dedicated form.
+      </p>
+      <div class="mt-4">
+        <RequestFormButton />
+      </div>
+    </div>
+  </div>
+</BaseLayout>

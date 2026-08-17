@@ -1,0 +1,29 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+
+const projects = await getCollection("projects", ({ data }) => !data.draft);
+---
+
+<BaseLayout title="Projects">
+  <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6">
+    <h1 class="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">Projects</h1>
+    {
+      projects.length === 0 ? (
+        <p class="mt-4 max-w-2xl text-slate-600">
+          No projects published yet. Real projects will appear here as they're added.
+        </p>
+      ) : (
+        <ul class="mt-8 grid gap-8 sm:grid-cols-2">
+          {projects.map((project) => (
+            <li>
+              <a href={`/projects/${project.id}/`} class="text-lg font-semibold text-teal-700 hover:underline">
+                {project.data.title}
+              </a>
+            </li>
+          ))}
+        </ul>
+      )
+    }
+  </div>
+</BaseLayout>

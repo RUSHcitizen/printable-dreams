@@ -1,0 +1,38 @@
+---
+// Renders the "Request Services" call-to-action used in the header and on
+// the Get Involved / Support pages. Whether it's a real link or a disabled
+// placeholder is driven entirely by SERVICE_REQUEST_FORM_URL in
+// src/config/site.ts — nothing here needs to change once the real form URL
+// is added.
+import { SERVICE_REQUEST_FORM_URL } from "../config/site";
+
+interface Props {
+  class?: string;
+}
+
+const { class: className = "" } = Astro.props;
+
+const baseClasses =
+  "inline-flex items-center justify-center rounded-md px-4 py-2 text-sm font-semibold transition-colors";
+---
+
+{
+  SERVICE_REQUEST_FORM_URL ? (
+    <a
+      href={SERVICE_REQUEST_FORM_URL}
+      target="_blank"
+      rel="noopener noreferrer"
+      class={`${baseClasses} bg-teal-700 text-white hover:bg-teal-800 ${className}`}
+    >
+      Request Services
+    </a>
+  ) : (
+    <span
+      class={`${baseClasses} cursor-not-allowed bg-slate-200 text-slate-500 ${className}`}
+      aria-disabled="true"
+      title="The request form isn't live yet — check back soon."
+    >
+      Request Form Coming Soon
+    </span>
+  )
+}
