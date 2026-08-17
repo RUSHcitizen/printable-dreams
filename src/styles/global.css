@@ -2,12 +2,19 @@
 @plugin "@tailwindcss/typography";
 
 /*
- * Design tokens.
+ * Design tokens — Printable Dreams' visual identity, not stock Tailwind.
  *
- * `brand-*` is Tailwind's teal scale, renamed. Every component in this
- * project uses `brand-*` utilities instead of `teal-*` directly, so the
- * organization's accent color can be changed sitewide by editing only the
- * hex values below — no hunting through components.
+ * `brand-*` is a deepened teal — the primary color, used with intent
+ * (CTAs, links, active nav state), not decoration. `sand-*` is a warm
+ * off-white used for alternating section backgrounds instead of a cold
+ * gray, which does a lot of the work in making the site feel human rather
+ * than templated. `accent-*` (a warm amber) is used sparingly — eyebrow
+ * accents, the partners section — never as a second competing CTA color.
+ *
+ * `--font-display` (Fraunces, a warm variable serif) is for headings only;
+ * body copy stays on the fast system sans stack. This is the one
+ * deliberate network request on every page — see BaseLayout.astro for the
+ * preconnect/font-display:swap setup that keeps it from blocking render.
  */
 @theme {
   --color-brand-50: #f0fdfa;
@@ -19,7 +26,22 @@
   --color-brand-600: #0d9488;
   --color-brand-700: #0f766e;
   --color-brand-800: #115e59;
-  --color-brand-900: #134e4a;
+  --color-brand-900: #0f3d3a;
+
+  --color-sand-50: #fbf7f0;
+  --color-sand-100: #f5ede0;
+  --color-sand-200: #eadfc9;
+  --color-sand-300: #dcc9a3;
+
+  --color-accent-50: #fdf3e7;
+  --color-accent-400: #f2a65a;
+  --color-accent-500: #ea8c3a;
+  --color-accent-600: #d97425;
+
+  --font-display: "Fraunces", ui-serif, Georgia, "Times New Roman", serif;
+
+  --shadow-card: 0 1px 2px rgba(15, 61, 58, 0.04), 0 8px 24px -12px rgba(15, 61, 58, 0.18);
+  --shadow-card-hover: 0 2px 4px rgba(15, 61, 58, 0.06), 0 16px 32px -12px rgba(15, 61, 58, 0.24);
 }
 
 :root {
@@ -72,7 +94,17 @@ body {
   }
 }
 
-/* Small entrance animation for the mobile nav panel. */
+/* Soft, brand-tinted elevation — used instead of Tailwind's default gray
+   shadow scale so hover states feel like part of the same identity. */
+.shadow-card {
+  box-shadow: var(--shadow-card);
+}
+
+.shadow-card-hover:hover {
+  box-shadow: var(--shadow-card-hover);
+}
+
+/* Small entrance animation for the mobile nav / account menu panel. */
 @keyframes dropdown-in {
   from {
     opacity: 0;
@@ -86,6 +118,32 @@ body {
 
 .mobile-menu-panel {
   animation: dropdown-in 120ms ease-out;
+}
+
+/* Gentle section reveal on scroll — pure CSS, no JavaScript. Only applies
+   where the browser supports scroll-driven animations (`@supports` guards
+   it) and the visitor hasn't asked for reduced motion; everything is fully
+   visible with no animation in any other case, so this can never hide
+   content. */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .reveal {
+      animation: reveal-in linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 25%;
+    }
+
+    @keyframes reveal-in {
+      from {
+        opacity: 0;
+        transform: translateY(16px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  }
 }
 
 /* Respect the visitor's OS-level motion preference. */
