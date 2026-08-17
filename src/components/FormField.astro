@@ -1,0 +1,31 @@
+---
+// A labeled text input, used by every form in the member platform
+// (sign in, sign up, profile). Keeps label association, focus styling, and
+// spacing consistent in one place instead of four near-identical blocks.
+interface Props {
+  label: string;
+  name: string;
+  type?: "text" | "email" | "password";
+  required?: boolean;
+  autocomplete?: string;
+  minlength?: number;
+  value?: string;
+}
+
+const { label, name, type = "text", required = true, autocomplete, minlength, value } = Astro.props;
+const id = `field-${name}`;
+---
+
+<div>
+  <label for={id} class="block text-sm font-medium text-slate-700">{label}</label>
+  <input
+    id={id}
+    name={name}
+    type={type}
+    required={required}
+    autocomplete={autocomplete}
+    minlength={minlength}
+    value={value}
+    class="mt-1 block w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 shadow-sm focus:border-brand-700"
+  />
+</div>

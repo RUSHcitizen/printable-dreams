@@ -1,0 +1,70 @@
+---
+export const prerender = false;
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Section from "../components/Section.astro";
+import FormField from "../components/FormField.astro";
+import SubmitButton from "../components/SubmitButton.astro";
+import { actions } from "astro:actions";
+import { getAuth } from "../lib/auth";
+
+const { user } = await getAuth(Astro);
+if (user) {
+  return Astro.redirect("/dashboard");
+}
+
+const result = Astro.getActionResult(actions.signUp);
+if (result && !result.error && !result.data.confirmEmail) {
+  return Astro.redirect("/dashboard");
+}
+---
+
+<BaseLayout title="Join Printable Dreams" description="Create a Printable Dreams member account.">
+  <Section background="brand">
+    <h1 class="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">Join Printable Dreams</h1>
+    <p class="mt-4 max-w-prose text-lg text-slate-700">
+      Create an account to join a group — volunteering, printing, or partnering.
+    </p>
+    <p class="mt-2 max-w-prose text-sm text-slate-600">
+      An account isn't needed to request a print — see
+      <a href="/request-a-print" class="font-semibold text-brand-700 underline hover:text-brand-800">
+        Request a Print
+      </a>
+      instead.
+    </p>
+  </Section>
+
+  <Section background="white">
+    <div class="max-w-sm">
+      {
+        result?.error && (
+          <p class="mb-4 rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700" role="alert">
+            {result.error.message}
+          </p>
+        )
+      }
+      {
+        result && !result.error && result.data.confirmEmail && (
+          <p class="mb-4 rounded-md border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-700" role="status">
+            Check your email to confirm your account before signing in.
+          </p>
+        )
+      }
+      <form method="POST" action={actions.signUp} class="space-y-4">
+        <FormField label="Display name" name="displayName" autocomplete="nickname" />
+        <FormField label="Email" name="email" type="email" autocomplete="email" />
+        <FormField
+          label="Password"
+          name="password"
+          type="password"
+          autocomplete="new-password"
+          minlength={8}
+        />
+        <SubmitButton label="Create Account" class="w-full" />
+      </form>
+      <p class="mt-4 text-sm text-slate-600">
+        Already have an account?
+        <a href="/signin" class="font-semibold text-brand-700 underline hover:text-brand-800">Sign in</a>
+      </p>
+    </div>
+  </Section>
+</BaseLayout>

@@ -6,13 +6,16 @@
 //
 // This is the pattern behind both RequestFormButton and DonateButton: a
 // call-to-action that depends on a URL we don't have yet should never
-// render as a working-looking link to nowhere.
+// render as a working-looking link to nowhere. Visual classes come from
+// lib/buttonStyles so this and SubmitButton.astro can never drift.
+import { buttonBase, buttonVariants, type ButtonVariant } from "../lib/buttonStyles";
+
 interface Props {
   href?: string | null;
   label: string;
   disabledLabel?: string;
   disabledHint?: string;
-  variant?: "primary" | "secondary";
+  variant?: ButtonVariant;
   external?: boolean;
   class?: string;
 }
@@ -26,14 +29,6 @@ const {
   external = false,
   class: className = "",
 } = Astro.props;
-
-const base =
-  "inline-flex min-h-11 items-center justify-center rounded-md px-5 py-2.5 text-sm font-semibold transition-colors";
-
-const variants = {
-  primary: "bg-brand-700 text-white hover:bg-brand-800",
-  secondary: "border border-brand-700 text-brand-700 hover:bg-brand-50",
-};
 ---
 
 {
@@ -41,13 +36,13 @@ const variants = {
     <a
       href={href}
       {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-      class={`${base} ${variants[variant]} ${className}`}
+      class={`${buttonBase} ${buttonVariants[variant]} ${className}`}
     >
       {label}
     </a>
   ) : (
     <span
-      class={`${base} cursor-not-allowed bg-slate-200 text-slate-500 ${className}`}
+      class={`${buttonBase} cursor-not-allowed bg-slate-200 text-slate-500 ${className}`}
       aria-disabled="true"
       title={disabledHint}
     >

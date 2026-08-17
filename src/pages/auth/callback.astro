@@ -1,0 +1,16 @@
+---
+// Landing page for Supabase's email-confirmation link
+// (see the `emailRedirectTo` set in the signUp action). Exchanges the PKCE
+// `code` in the URL for a real session, then sends the now-signed-in user
+// on to their dashboard.
+export const prerender = false;
+import { createClient } from "../../lib/supabase";
+
+const code = Astro.url.searchParams.get("code");
+if (code) {
+  const supabase = createClient({ request: Astro.request, cookies: Astro.cookies });
+  await supabase.auth.exchangeCodeForSession(code);
+}
+
+return Astro.redirect("/dashboard");
+---

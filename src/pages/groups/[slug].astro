@@ -1,0 +1,91 @@
+---
+// Not statically generated (no getStaticPaths) — this page requires a
+// signed-in session on every request, so it's rendered on demand and reads
+// Astro.params.slug directly.
+export const prerender = false;
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Section from "../../components/Section.astro";
+import SubmitButton from "../../components/SubmitButton.astro";
+import { actions } from "astro:actions";
+import { getAuth } from "../../lib/auth";
+import { resolveProtectedAccess } from "../../lib/authorization";
+import { isGroupSlug } from "../../lib/groups";
+
+const { user, supabase } = await getAuth(Astro);
+const access = resolveProtectedAccess(user, Astro.url.pathname);
+if (!access.allowed) {
+  return Astro.redirect(access.redirectTo);
+}
+
+const slug = Astro.params.slug ?? "";
+if (!isGroupSlug(slug)) {
+  return Astro.redirect("/groups");
+}
+
+const { data: group } = await supabase
+  .from("groups")
+  .select("id, slug, name, description")
+  .eq("slug", slug)
+  .single();
+if (!group) {
+  return Astro.redirect("/groups");
+}
+
+const { data: membership } = await supabase
+  .from("group_memberships")
+  .select("status")
+  .eq("user_id", user!.id)
+  .eq("group_id", group.id)
+  .maybeSingle();
+
+const joinResult = Astro.getActionResult(actions.joinGroup);
+const leaveResult = Astro.getActionResult(actions.leaveGroup);
+---
+
+<BaseLayout title={group.name} description={group.description}>
+  <Section background="brand">
+    <h1 class="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">{group.name}</h1>
+    <p class="mt-4 max-w-prose text-lg text-slate-700">{group.description}</p>
+  </Section>
+
+  <Section background="white">
+    {
+      joinResult?.error && (
+        <p class="mb-4 rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700" role="alert">
+          {joinResult.error.message}
+        </p>
+      )
+    }
+    {
+      leaveResult?.error && (
+        <p class="mb-4 rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700" role="alert">
+          {leaveResult.error.message}
+        </p>
+      )
+    }
+
+    {
+      membership ? (
+        <div class="max-w-md rounded-lg border border-slate-200 p-6">
+          <p class="text-sm text-slate-600">
+            Your status: <span class="font-semibold text-slate-900">{membership.status}</span>
+          </p>
+          {membership.status === "pending" && (
+            <p class="mt-2 text-sm italic text-slate-500">
+              Your request has been received. Printable Dreams will follow up.
+            </p>
+          )}
+          <form method="POST" action={actions.leaveGroup} class="mt-4">
+            <input type="hidden" name="groupSlug" value={group.slug} />
+            <SubmitButton label="Leave Group" variant="secondary" />
+          </form>
+        </div>
+      ) : (
+        <form method="POST" action={actions.joinGroup} class="max-w-md">
+          <input type="hidden" name="groupSlug" value={group.slug} />
+          <SubmitButton label={`Request to Join ${group.name}`} />
+        </form>
+      )
+    }
+  </Section>
+</BaseLayout>

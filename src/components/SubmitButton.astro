@@ -1,0 +1,21 @@
+---
+// A real <button type="submit"> styled identically to Button.astro's link
+// variant, for use inside <form>s (sign in, sign up, profile, join/leave
+// group). Deliberately a separate component from Button — Button's
+// "no-href" state means "disabled placeholder CTA", a different concept
+// from "submit this form", and conflating them would make Button harder to
+// reason about.
+import { buttonBase, buttonVariants, type ButtonVariant } from "../lib/buttonStyles";
+
+interface Props {
+  label: string;
+  variant?: ButtonVariant;
+  class?: string;
+}
+
+const { label, variant = "primary", class: className = "" } = Astro.props;
+---
+
+<button type="submit" class={`${buttonBase} ${buttonVariants[variant]} ${className}`}>
+  {label}
+</button>

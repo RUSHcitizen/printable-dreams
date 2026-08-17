@@ -1,0 +1,59 @@
+---
+export const prerender = false;
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Section from "../components/Section.astro";
+import FormField from "../components/FormField.astro";
+import SubmitButton from "../components/SubmitButton.astro";
+import { actions } from "astro:actions";
+import { getAuth } from "../lib/auth";
+import { resolveProtectedAccess } from "../lib/authorization";
+
+const { user, supabase } = await getAuth(Astro);
+const access = resolveProtectedAccess(user, Astro.url.pathname);
+if (!access.allowed) {
+  return Astro.redirect(access.redirectTo);
+}
+
+const result = Astro.getActionResult(actions.updateProfile);
+const { data: profile } = await supabase.from("profiles").select("display_name").eq("id", user!.id).single();
+---
+
+<BaseLayout title="Profile" description="Manage your Printable Dreams profile.">
+  <Section background="brand">
+    <h1 class="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">Profile</h1>
+  </Section>
+
+  <Section background="white">
+    <div class="max-w-sm">
+      {
+        result?.error && (
+          <p class="mb-4 rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700" role="alert">
+            {result.error.message}
+          </p>
+        )
+      }
+      {
+        result && !result.error && (
+          <p class="mb-4 rounded-md border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-700" role="status">
+            Profile updated.
+          </p>
+        )
+      }
+
+      <form method="POST" action={actions.updateProfile} class="space-y-4">
+        <FormField label="Display name" name="displayName" value={profile?.display_name ?? ""} />
+        <SubmitButton label="Save Changes" class="w-full" />
+      </form>
+
+      <div class="mt-8 border-t border-slate-200 pt-6">
+        <p class="text-sm font-medium text-slate-700">Email</p>
+        <p class="mt-1 text-sm text-slate-600">{user!.email}</p>
+        <p class="mt-2 text-xs italic text-slate-500">To change your email, contact us.</p>
+      </div>
+
+      <div class="mt-8 border-t border-slate-200 pt-6">
+        <a href="/signout" class="text-sm font-semibold text-brand-700 hover:underline">Sign Out</a>
+      </div>
+    </div>
+  </Section>
+</BaseLayout>

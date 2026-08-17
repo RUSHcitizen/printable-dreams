@@ -1,0 +1,49 @@
+---
+export const prerender = false;
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Section from "../components/Section.astro";
+import FormField from "../components/FormField.astro";
+import SubmitButton from "../components/SubmitButton.astro";
+import { actions } from "astro:actions";
+import { getAuth } from "../lib/auth";
+
+const { user } = await getAuth(Astro);
+if (user) {
+  return Astro.redirect("/dashboard");
+}
+
+const result = Astro.getActionResult(actions.signIn);
+if (result && !result.error) {
+  return Astro.redirect("/dashboard");
+}
+---
+
+<BaseLayout title="Sign In" description="Sign in to your Printable Dreams account.">
+  <Section background="brand">
+    <h1 class="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">Sign In</h1>
+    <p class="mt-4 max-w-prose text-lg text-slate-700">Sign in to your Printable Dreams account.</p>
+  </Section>
+
+  <Section background="white">
+    <div class="max-w-sm">
+      {
+        result?.error && (
+          <p class="mb-4 rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700" role="alert">
+            {result.error.message}
+          </p>
+        )
+      }
+      <form method="POST" action={actions.signIn} class="space-y-4">
+        <FormField label="Email" name="email" type="email" autocomplete="email" />
+        <FormField label="Password" name="password" type="password" autocomplete="current-password" />
+        <SubmitButton label="Sign In" class="w-full" />
+      </form>
+      <p class="mt-4 text-sm text-slate-600">
+        Don't have an account?
+        <a href="/signup" class="font-semibold text-brand-700 underline hover:text-brand-800">
+          Join Printable Dreams
+        </a>
+      </p>
+    </div>
+  </Section>
+</BaseLayout>

@@ -1,0 +1,16 @@
+---
+// Sign-out is a plain GET page/link rather than a POST form action. That's
+// a deliberate trade-off: it's linked from the Header, which is included on
+// every page — including fully static public ones — and a form posting to
+// an Astro Action would force every page containing it to be rendered
+// on-demand (see README "Architecture"). A GET-triggered sign-out is a
+// common, low-severity pattern: the worst a forged request can do is log
+// the visitor out, not access or change anything.
+export const prerender = false;
+import { createClient } from "../lib/supabase";
+
+const supabase = createClient({ request: Astro.request, cookies: Astro.cookies });
+await supabase.auth.signOut();
+
+return Astro.redirect("/");
+---
