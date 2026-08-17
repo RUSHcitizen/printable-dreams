@@ -6,14 +6,18 @@ interface Props {
   label: string;
   aspect?: string; // Tailwind aspect-ratio utility class
   class?: string;
+  // Omit the border/radius/background — for use inside a container (e.g. a
+  // card) that already provides its own, to avoid double borders/corners.
+  bare?: boolean;
 }
 
-const { label, aspect = "aspect-[4/3]", class: className = "" } = Astro.props;
+const { label, aspect = "aspect-[4/3]", class: className = "", bare = false } = Astro.props;
+
+const base = `flex ${aspect} w-full flex-col items-center justify-center gap-2 bg-slate-50 p-6 text-center`;
+const frame = bare ? base : `${base} rounded-lg border border-dashed border-slate-300`;
 ---
 
-<div
-  class={`flex ${aspect} w-full flex-col items-center justify-center gap-2 rounded-lg border border-dashed border-slate-300 bg-slate-50 p-6 text-center ${className}`}
->
+<div class={`${frame} ${className}`}>
   <svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 24 24"

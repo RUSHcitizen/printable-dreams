@@ -1,17 +1,15 @@
 ---
-import { SITE_TITLE, CONTACT_EMAIL, NAV_LINKS } from "../config/site";
+import { SITE_TITLE, TAGLINE, CONTACT_EMAIL, NAV_LINKS, SOCIAL_LINKS } from "../config/site";
 
 const year = new Date().getFullYear();
 ---
 
 <footer class="border-t border-slate-200 bg-slate-50">
-  <div class="mx-auto max-w-6xl px-4 py-10 sm:px-6">
+  <div class="container-page py-10">
     <div class="flex flex-col gap-8 sm:flex-row sm:justify-between">
       <div class="max-w-sm">
         <p class="text-base font-semibold text-slate-900">{SITE_TITLE}</p>
-        <p class="mt-2 text-sm text-slate-600">
-          A nonprofit using 3D printing to help kids. Full mission statement coming soon.
-        </p>
+        <p class="mt-2 text-sm text-slate-600">{TAGLINE}</p>
       </div>
 
       <nav aria-label="Footer">
@@ -19,7 +17,7 @@ const year = new Date().getFullYear();
           {
             NAV_LINKS.map((link) => (
               <li>
-                <a href={link.href} class="text-slate-600 hover:text-teal-700">
+                <a href={link.href} class="text-slate-600 hover:text-brand-700">
                   {link.label}
                 </a>
               </li>
@@ -31,15 +29,27 @@ const year = new Date().getFullYear();
       <div>
         <p class="text-sm font-semibold text-slate-900">Contact</p>
         <p class="mt-2 text-sm">
-          <a href={`mailto:${CONTACT_EMAIL}`} class="text-teal-700 underline hover:text-teal-800">
+          <a href={`mailto:${CONTACT_EMAIL}`} class="text-brand-700 underline hover:text-brand-800">
             {CONTACT_EMAIL}
           </a>
         </p>
+
+        {
+          SOCIAL_LINKS.length > 0 && (
+            <ul class="mt-4 flex gap-4 text-sm">
+              {SOCIAL_LINKS.map((link) => (
+                <li>
+                  <a href={link.href} class="text-slate-600 hover:text-brand-700">
+                    {link.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          )
+        }
       </div>
     </div>
 
-    <p class="mt-8 border-t border-slate-200 pt-6 text-xs text-slate-500">
-      &copy; {year} {SITE_TITLE}
-    </p>
+    <p class="mt-8 border-t border-slate-200 pt-6 text-xs text-slate-500">&copy; {year} {SITE_TITLE}</p>
   </div>
 </footer>

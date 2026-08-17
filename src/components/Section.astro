@@ -12,12 +12,12 @@ const { background = "white", class: className = "" } = Astro.props;
 const backgrounds: Record<string, string> = {
   white: "bg-white",
   muted: "bg-slate-50",
-  brand: "bg-teal-50",
+  brand: "bg-brand-50",
 };
 ---
 
 <section class={backgrounds[background]}>
-  <div class={`mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20 ${className}`}>
+  <div class={`container-page py-16 sm:py-20 ${className}`}>
     <slot />
   </div>
 </section>

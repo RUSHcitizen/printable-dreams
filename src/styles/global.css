@@ -1,13 +1,45 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+/*
+ * Design tokens.
+ *
+ * `brand-*` is Tailwind's teal scale, renamed. Every component in this
+ * project uses `brand-*` utilities instead of `teal-*` directly, so the
+ * organization's accent color can be changed sitewide by editing only the
+ * hex values below — no hunting through components.
+ */
+@theme {
+  --color-brand-50: #f0fdfa;
+  --color-brand-100: #ccfbf1;
+  --color-brand-200: #99f6e4;
+  --color-brand-300: #5eead4;
+  --color-brand-400: #2dd4bf;
+  --color-brand-500: #14b8a6;
+  --color-brand-600: #0d9488;
+  --color-brand-700: #0f766e;
+  --color-brand-800: #115e59;
+  --color-brand-900: #134e4a;
+}
 
 :root {
   color-scheme: light;
 }
 
+body {
+  background-color: white;
+}
+
 /* Always show a visible focus ring — never suppress this. */
 :focus-visible {
-  outline: 2px solid #0f766e;
+  outline: 2px solid var(--color-brand-700);
   outline-offset: 2px;
+}
+
+/* For focusable elements inside an `overflow-hidden` container (e.g. cards),
+   an outset ring gets clipped at the container edge. Pull it inward instead. */
+.focus-ring-inset:focus-visible {
+  outline-offset: -3px;
 }
 
 /* Skip-to-content link: off-screen until keyboard-focused. */
@@ -17,11 +49,53 @@
   left: -9999px;
   z-index: 50;
   border-radius: 0 0 0.375rem 0;
-  background: #0f766e;
+  background: var(--color-brand-700);
   padding: 0.5rem 1rem;
   color: white;
 }
 
 .skip-link:focus {
   left: 0;
+}
+
+/* Shared page-width container, used by the header, footer, and Section
+   component so the max-width/padding rhythm lives in exactly one place. */
+.container-page {
+  margin-inline: auto;
+  max-width: 72rem; /* matches Tailwind's max-w-6xl */
+  padding-inline: 1rem;
+}
+
+@media (min-width: 640px) {
+  .container-page {
+    padding-inline: 1.5rem;
+  }
+}
+
+/* Small entrance animation for the mobile nav panel. */
+@keyframes dropdown-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.mobile-menu-panel {
+  animation: dropdown-in 120ms ease-out;
+}
+
+/* Respect the visitor's OS-level motion preference. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
