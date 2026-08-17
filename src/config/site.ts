@@ -9,11 +9,13 @@
 
 export const SITE_TITLE = "Printable Dreams";
 
-// TODO(content): Replace with the real one-line mission summary once it's
-// provided (Phase 4). Used as the default <meta name="description"> and
-// Open Graph description for pages that don't set their own.
-export const SITE_DESCRIPTION_PLACEHOLDER =
-  "Printable Dreams is a nonprofit that uses 3D printing to help kids. Full mission statement coming soon.";
+// Short tagline used in page heroes (Home, About).
+export const TAGLINE = "We turn kids' drawings into real, 3D-printed keepsakes.";
+
+// Default <meta name="description"> and Open Graph description for pages
+// that don't set their own.
+export const SITE_DESCRIPTION =
+  "Printable Dreams turns kids' drawings into real, 3D-printed keepsakes — helping kids feel seen, proud, and know their ideas matter.";
 
 export const CONTACT_EMAIL = "kumariaaatharv@gmail.com";
 
