@@ -6,6 +6,7 @@ export const prerender = false;
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Section from "../../components/Section.astro";
 import SubmitButton from "../../components/SubmitButton.astro";
+import MemberNav from "../../components/MemberNav.astro";
 import { actions } from "astro:actions";
 import { getAuth } from "../../lib/auth";
 import { resolveProtectedAccess } from "../../lib/authorization";
@@ -40,11 +41,25 @@ const { data: membership } = await supabase
 
 const joinResult = Astro.getActionResult(actions.joinGroup);
 const leaveResult = Astro.getActionResult(actions.leaveGroup);
+
+const statusStyles: Record<string, string> = {
+  pending: "bg-accent-50 text-accent-600",
+  active: "bg-brand-50 text-brand-700",
+  rejected: "bg-slate-100 text-slate-600",
+};
 ---
 
 <BaseLayout title={group.name} description={group.description}>
+  <MemberNav current="groups" />
+
   <Section background="brand">
-    <h1 class="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">{group.name}</h1>
+    <p class="flex items-center gap-2 text-sm font-semibold uppercase tracking-wide text-brand-700">
+      <span class="h-1.5 w-1.5 rounded-full bg-accent-500" aria-hidden="true"></span>
+      Group
+    </p>
+    <h1 class="mt-3 font-display text-4xl font-semibold tracking-tight text-slate-900 sm:text-5xl">
+      {group.name}
+    </h1>
     <p class="mt-4 max-w-prose text-lg text-slate-700">{group.description}</p>
   </Section>
 
@@ -66,16 +81,19 @@ const leaveResult = Astro.getActionResult(actions.leaveGroup);
 
     {
       membership ? (
-        <div class="max-w-md rounded-lg border border-slate-200 p-6">
-          <p class="text-sm text-slate-600">
-            Your status: <span class="font-semibold text-slate-900">{membership.status}</span>
+        <div class="max-w-md rounded-xl border border-slate-200 bg-white p-6 shadow-card">
+          <p class="text-sm text-slate-600">Your status</p>
+          <p
+            class={`mt-1 inline-block rounded-full px-2.5 py-0.5 text-xs font-semibold uppercase tracking-wide ${statusStyles[membership.status] ?? statusStyles.pending}`}
+          >
+            {membership.status}
           </p>
           {membership.status === "pending" && (
-            <p class="mt-2 text-sm italic text-slate-500">
+            <p class="mt-3 text-sm text-slate-500">
               Your request has been received. Printable Dreams will follow up.
             </p>
           )}
-          <form method="POST" action={actions.leaveGroup} class="mt-4">
+          <form method="POST" action={actions.leaveGroup} class="mt-5">
             <input type="hidden" name="groupSlug" value={group.slug} />
             <SubmitButton label="Leave Group" variant="secondary" />
           </form>

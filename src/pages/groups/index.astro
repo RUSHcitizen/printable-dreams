@@ -2,6 +2,7 @@
 export const prerender = false;
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Section from "../../components/Section.astro";
+import MemberNav from "../../components/MemberNav.astro";
 import { getAuth } from "../../lib/auth";
 import { resolveProtectedAccess } from "../../lib/authorization";
 
@@ -17,11 +18,25 @@ const [{ data: groups }, { data: memberships }] = await Promise.all([
 ]);
 
 const statusByGroupId = new Map((memberships ?? []).map((m) => [m.group_id, m.status]));
+
+const statusStyles: Record<string, string> = {
+  pending: "bg-accent-50 text-accent-600",
+  active: "bg-brand-50 text-brand-700",
+  rejected: "bg-slate-100 text-slate-600",
+};
 ---
 
 <BaseLayout title="Groups" description="Groups you can join to help Printable Dreams.">
+  <MemberNav current="groups" />
+
   <Section background="brand">
-    <h1 class="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">Groups</h1>
+    <p class="flex items-center gap-2 text-sm font-semibold uppercase tracking-wide text-brand-700">
+      <span class="h-1.5 w-1.5 rounded-full bg-accent-500" aria-hidden="true"></span>
+      Groups
+    </p>
+    <h1 class="mt-3 font-display text-4xl font-semibold tracking-tight text-slate-900 sm:text-5xl">
+      Find Your Group
+    </h1>
     <p class="mt-4 max-w-prose text-lg text-slate-700">
       A group is a way to tell Printable Dreams how you'd like to help. Request to join one below — a member of
       Printable Dreams will follow up.
@@ -32,16 +47,21 @@ const statusByGroupId = new Map((memberships ?? []).map((m) => [m.group_id, m.st
     <ul class="grid gap-6 sm:grid-cols-3">
       {
         (groups ?? []).map((g) => (
-          <li class="rounded-lg border border-slate-200 p-6">
-            <p class="font-semibold text-slate-900">{g.name}</p>
+          <li class="rounded-xl border border-slate-200 bg-white p-6 shadow-card transition-shadow duration-300 shadow-card-hover">
+            <p class="font-display text-xl font-semibold text-slate-900">{g.name}</p>
             <p class="mt-2 text-sm text-slate-600">{g.description}</p>
             {statusByGroupId.has(g.id) && (
-              <p class="mt-3 text-xs font-medium uppercase tracking-wide text-brand-700">
+              <p
+                class={`mt-3 inline-block rounded-full px-2.5 py-0.5 text-xs font-semibold uppercase tracking-wide ${statusStyles[statusByGroupId.get(g.id) ?? "pending"]}`}
+              >
                 {statusByGroupId.get(g.id)}
               </p>
             )}
-            <a href={`/groups/${g.slug}`} class="mt-3 inline-block text-sm font-semibold text-brand-700 hover:underline">
-              {statusByGroupId.has(g.id) ? "View →" : "Learn more →"}
+            <a
+              href={`/groups/${g.slug}`}
+              class="mt-3 flex items-center gap-1 text-sm font-semibold text-brand-700 hover:underline"
+            >
+              {statusByGroupId.has(g.id) ? "View" : "Learn more"} <span aria-hidden="true">→</span>
             </a>
           </li>
         ))
