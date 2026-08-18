@@ -19,9 +19,29 @@ export default defineConfig({
   // pages renderable at all when deployed to Cloudflare.
   adapter: cloudflare(),
 
+  // /partner (singular) was the route name briefly used during
+  // development before it was renamed to /partners — the site has never
+  // been deployed to the production domain, so there's no real inbound
+  // traffic to it, but the redirect is here in case anything (a bookmark,
+  // a preview link) still points at the old path.
+  redirects: {
+    '/partner': '/partners',
+  },
+
   vite: {
     plugins: [tailwindcss()]
   },
 
-  integrations: [sitemap()]
+  integrations: [
+    sitemap({
+      // Keep the sitemap to genuinely public, indexable pages. Signed-in-only
+      // pages (dashboard/profile/groups) and non-content routes (signout,
+      // the OAuth callback) have nothing for a search engine to index and
+      // would just 302 a crawler to /signin anyway.
+      filter: (page) =>
+        !['/dashboard/', '/profile/', '/groups/', '/signout/', '/auth/callback/'].some((path) =>
+          page.endsWith(path),
+        ),
+    }),
+  ]
 });
