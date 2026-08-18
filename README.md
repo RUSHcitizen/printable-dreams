@@ -338,14 +338,35 @@ only in a server-only environment variable, used only from a page/action that it
 
 ## Cloudflare deployment
 
+This project deploys as a **Cloudflare Worker with static assets** (`@astrojs/cloudflare`'s default mode) —
+**not** Cloudflare Pages. Cloudflare has been consolidating Pages functionality into Workers, and the adapter
+here targets Workers directly, so all dashboard steps (custom domains, variables) happen under **Workers &
+Pages → printable-dreams**, using the Worker's **Custom Domains** tab — not the separate Pages product.
+
 ```bash
 npx astro build
 npx wrangler deploy
 ```
 
-`wrangler.jsonc` configures the Worker (`nodejs_compat` compatibility flag, the `ASSETS` binding for static
-files). You'll also need, in the Cloudflare dashboard (or via `wrangler secret put`), the same two environment
-variables as local dev (`PUBLIC_SUPABASE_URL`, `PUBLIC_SUPABASE_PUBLISHABLE_KEY`).
+The first time, `npx wrangler login` opens a browser to authorize the CLI against a Cloudflare account — this
+has to be run by whoever has (or is setting up) the Cloudflare account for Printable Dreams. `wrangler.jsonc`
+configures the Worker itself (`nodejs_compat` compatibility flag, the `ASSETS` binding for static files); no
+project needs to be manually created in the dashboard first — `wrangler deploy` creates it.
+
+**Environment variables — important nuance:** `PUBLIC_SUPABASE_URL` and `PUBLIC_SUPABASE_PUBLISHABLE_KEY` are
+read via `import.meta.env` (`src/lib/supabase.ts`), which Vite/Astro inlines **at `astro build` time**, not at
+Worker runtime. That means:
+
+- If you build locally (as the two commands above do) with a real `.env` present, the values are already baked
+  into `dist/` before `wrangler deploy` ever runs — **no dashboard configuration is needed for these two
+  variables** in that flow. Setting them as Cloudflare dashboard "Variables and Secrets" would have **no effect**
+  on `import.meta.env` reads and shouldn't be relied on here.
+- The dashboard/`wrangler secret put` path only matters if a *future* server-only secret is read via
+  `context.locals.runtime.env` instead (e.g. a Supabase service-role key, if one is ever added) — not for the
+  current two `PUBLIC_` variables.
+- If deployment ever moves to Cloudflare's own Git-connected build pipeline (push-to-deploy) instead of running
+  `astro build` locally, then `PUBLIC_SUPABASE_URL`/`PUBLIC_SUPABASE_PUBLISHABLE_KEY` **do** need to be set as
+  that pipeline's build-time variables, since that's where `astro build` would actually run.
 
 Two Cloudflare features get auto-enabled by the adapter and don't need any setup from you: a `SESSION` KV
 namespace (Astro's own session API — unused by this project, since Supabase manages sessions independently; Wrangler
@@ -353,10 +374,78 @@ auto-provisions it on deploy) and Cloudflare Images processing. Both are harmles
 
 ### Domain configuration
 
-Live: `PRODUCTION_URL` in `src/config/site.ts` and `site` in `astro.config.mjs` are both set to
-`https://printabledreams.org`, `@astrojs/sitemap` is installed and registered, and `public/robots.txt` points at
-`https://printabledreams.org/sitemap-index.xml`. Together these drive canonical `<link>` tags, absolute Open
-Graph URLs, and the generated sitemap. If the domain ever changes, update all three in the same commit.
+`PRODUCTION_URL` in `src/config/site.ts` and `site` in `astro.config.mjs` are both set to
+`https://printabledreams.org`, `@astrojs/sitemap` is installed and registered (with a `filter` excluding the
+signed-in-only routes — dashboard/profile/groups/signout/auth-callback — from the sitemap), and
+`public/robots.txt` points at `https://printabledreams.org/sitemap-index.xml`. Together these drive canonical
+`<link>` tags, absolute Open Graph URLs, and the generated sitemap. If the domain ever changes, update all three
+in the same commit. A redirect from the old development-time route name `/partner` to `/partners` is configured
+in `astro.config.mjs` (`redirects`) and ships as a real 301 via the generated `_redirects` file.
+
+**This repo-side configuration is necessary but not sufficient** — pointing the live `printabledreams.org`
+domain at this Worker also requires DNS/registrar changes outside this repository. See "Migrating
+printabledreams.org from Wix to Cloudflare" below for the exact steps and what to preserve.
+
+## Migrating printabledreams.org from Wix to Cloudflare
+
+The domain currently resolves to the old Wix site. Moving it to this Worker requires changes at the domain's
+DNS/registrar level that **cannot be made from this repository** — they have to be performed by whoever
+controls the domain (registrar login) and the Cloudflare account.
+
+**Before touching anything:** log into the current DNS provider (wherever the domain's nameservers currently
+point — this may be the registrar itself, or Wix DNS if the domain was fully delegated to Wix) and export or
+screenshot every existing DNS record. This is the safety net for email and any other service using the domain.
+Pay special attention to:
+
+- **MX records** — these route incoming email. Do not delete.
+- **TXT records** — SPF (`v=spf1 ...`), DKIM (often named like `selector._domainkey`), DMARC (`_dmarc`), and any
+  domain-ownership verification TXT records for other services (Google Workspace/Search Console, Microsoft 365,
+  Facebook, etc.). Do not delete.
+- **Any other CNAME/A records** for subdomains not related to the website (e.g. `mail.`, `autodiscover.`,
+  `autoconfig.`, a blog, etc.). Do not delete.
+
+**What actually needs to change** is only the record(s) that make `printabledreams.org` (and optionally `www`)
+resolve to the Wix site — typically an `A`/`ALIAS` record on the root domain and a `CNAME` on `www` pointing at
+Wix's servers. Everything else on the domain should be preserved.
+
+### The steps (in order)
+
+1. **Deploy the Worker first**, so there's something real to point the domain at before any DNS changes:
+   `npx astro build && npx wrangler deploy`. Confirm it works at the `*.workers.dev` URL Wrangler prints.
+2. **Add `printabledreams.org` as a site/zone in the Cloudflare dashboard**, if it isn't already. Cloudflare will
+   scan the domain's current DNS records and propose an import — review that list against the export from the
+   step above before continuing, and add anything Cloudflare's scan missed.
+3. **Change the domain's nameservers at the registrar** to the two nameservers Cloudflare assigns for this zone
+   (shown in the dashboard after step 2, under DNS → "Cloudflare nameservers" — e.g. names like
+   `xxxx.ns.cloudflare.com`; the exact values are assigned per-zone and can only be read from the Cloudflare
+   dashboard once the zone exists, never guessed). **Yes, nameservers need to change** — Workers Custom Domains
+   require the zone to be active on Cloudflare, which requires full nameserver delegation, not just a CNAME
+   pointed at Cloudflare. This is also exactly why step 2's DNS import matters: once nameservers switch,
+   Cloudflare's copy of the DNS records is what the internet sees, including MX/TXT/email records.
+4. **After the zone shows "Active" in Cloudflare** (can take anywhere from minutes to ~24 hours for nameserver
+   changes to propagate), go to **Workers & Pages → printable-dreams → Settings → Domains & Routes → Custom
+   Domains → Add**, and enter `printabledreams.org` (add `www.printabledreams.org` as a second Custom Domain the
+   same way, if both should work). Cloudflare creates and manages the necessary DNS record for the Custom Domain
+   automatically — this is not a record you create by hand in the DNS tab.
+   - This project does **not** use Cloudflare Pages, so there's no separate "add domain to Pages" step, and no
+     manual TXT/CNAME domain-ownership verification record is needed for this path — nameserver delegation in
+     step 3 is itself the ownership proof Cloudflare requires.
+5. **Verify the new site** at `https://printabledreams.org` — check every route (see "Testing"/manual QA list),
+   and specifically confirm canonical/Open Graph tags and the sitemap show `printabledreams.org` (they will,
+   automatically, since `PRODUCTION_URL`/`site` are already set — see "Domain configuration" above).
+6. **Verify email still works** — send and receive a real test email through whatever address(es) use this
+   domain, now that Cloudflare is authoritative for DNS. This is the point of preserving the MX/TXT records in
+   step 2.
+7. **Only after both 5 and 6 are confirmed working**, the Wix site can safely be taken down/cancelled. Keep the
+   original nameserver values noted from before step 3 for a few days as a rollback path in case anything
+   unexpected comes up — reverting nameservers to Wix's is the fastest way to undo the cutover if needed.
+
+### What Cloudflare will tell you that isn't written here
+
+The exact Cloudflare nameservers, the exact imported DNS record list, and the exact Custom Domain verification
+status are all specific to this Cloudflare account and only appear once the zone is actually added in step 2 —
+they're not invented or guessed here. Whoever performs step 2 should record those exact values (e.g. by
+screenshotting the DNS → Records page before and after) as part of doing the migration.
 
 ## Adding a project
 
