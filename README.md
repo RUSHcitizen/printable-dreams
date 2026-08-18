@@ -34,8 +34,8 @@ keepsakes. The site has two layers: a fully static public website, and a small a
 **Public pages stay static.** Astro's default `output: "static"` means every page is prerendered to plain HTML at
 build time unless it explicitly opts out with `export const prerender = false`. Only the auth/member pages
 (`/signin`, `/signup`, `/dashboard`, `/profile`, `/groups`, `/groups/[slug]`, `/auth/callback`, `/signout`,
-`/api/session`) do that — everything else (Home, About, Projects, Get Involved, Support, Contact, Request a
-Print, Partner) is still zero-JS static HTML, served directly from Cloudflare's asset store without touching the
+`/api/session`) do that — everything else (Home, About, Projects, Partners, Get Involved, Support, Contact,
+Request a Print) is still zero-JS static HTML, served directly from Cloudflare's asset store without touching the
 Worker at all.
 
 **The one deliberate exception to "no client JS on public pages":** the Header needs to show different nav links
@@ -167,11 +167,23 @@ directing anyone under that age to sign up. This is exactly why the account syst
 
 The site's copy is held to one rule across every phase of this project: **only ship what's been explicitly
 confirmed.** Concretely, that means never inventing statistics, testimonials, partnership activities/funding,
-number of kids served, founding dates, awards, geographic reach, or titles for named individuals beyond what's
-been given. Where real content doesn't exist yet, `PlaceholderBlock` marks the gap visibly rather than being
-filled with something plausible-sounding — see `src/components/PlaceholderBlock.astro` and, for the current
-gaps, About's "Organization Story" and "Future Goals" sections. `PARTNERS` in `site.ts` is the one place partner
-facts live; don't add context/activities to an entry beyond what's explicitly provided.
+number of kids served, founding dates, awards, geographic reach, medical diagnoses/claims, or titles for named
+individuals beyond what's been given. Where real content doesn't exist yet, `PlaceholderBlock` marks the gap
+visibly rather than being filled with something plausible-sounding — see `src/components/PlaceholderBlock.astro`
+and, for the current gap, About's "Future Goals" section. `PARTNERS` in `site.ts` is the one place partner facts
+live; don't add context/activities to an entry beyond what's explicitly provided.
+
+The founder story (About, Home) is drawn directly from a speech given by Printable Dreams' founder, Atharv
+Kumaria — see git history for Phase 8 for the source text. Two distinctions worth preserving when editing that
+copy:
+
+- **Outreach vs. partners.** Seattle Children's Hospital and the American Heart Association have been *contacted*
+  about potential partnerships — they are not partners, and must never be listed alongside `PARTNERS` or
+  described as partnering with Printable Dreams.
+- **Personal health information.** The founder has shared that he has a heart condition, to explain why the
+  mission is personally meaningful. Don't add diagnosis detail, medical claims, or framing that suggests
+  Printable Dreams provides medical treatment — the story is about creativity and emotional resilience, not
+  medicine.
 
 ## Database
 
@@ -257,23 +269,24 @@ exactly this: a future policy could grant coordinators extra permissions on that
 
 ## Google Form configuration
 
-Three external forms, all following the identical pattern — a `null` URL in `src/config/site.ts` until you
-provide the real one, rendered as a disabled "Coming Soon" state by the shared `Button` component until then:
+Three external forms/links, all following the identical pattern in `src/config/site.ts`: a `string` URL renders
+the CTA as a real, working external link; `null` renders a disabled "Coming Soon" state instead (via the shared
+`Button` component) rather than a fake or broken link.
 
-| Constant | Used on | Real link goes to |
+| Constant | Used on | Status |
 |---|---|---|
-| `SERVICE_REQUEST_FORM_URL` | `/request-a-print` (`RequestFormButton`) | The kids/parents print-request form |
-| `PARTNERSHIP_FORM_URL` | `/partners` (`PartnershipButton`) | The partnership inquiry form |
-| `DONATION_URL` | `/support` (`DonateButton`) | Your donation processor |
+| `SERVICE_REQUEST_FORM_URL` | `/request-a-print` (`RequestFormButton`) | Live — real Google Form |
+| `PARTNERSHIP_FORM_URL` | `/partners` (`PartnershipButton`) | Live — real Google Form |
+| `DONATION_URL` | `/support` (`DonateButton`) | `null` — no donation processor chosen yet |
 
-To go live, edit one line in `src/config/site.ts`:
+To go live with a donation processor, set `DONATION_URL` the same way the other two are set:
 
 ```ts
-export const SERVICE_REQUEST_FORM_URL: string | null = "https://forms.gle/your-real-form";
+export const DONATION_URL: string | null = "https://your-processor.example/donate";
 ```
 
-That single edit turns every CTA using it into a real, working external link — nothing else needs to change.
-None of these forms are embedded on the site; they always open as external links.
+That single edit turns the Donate CTA into a real, working external link — nothing else needs to change. None of
+these forms/links are embedded on the site; they always open as external links.
 
 ## Site configuration
 
@@ -285,10 +298,11 @@ the public/publishable ones by design (real data access is enforced by RLS, not 
 |---|---|
 | `SITE_TITLE`, `TAGLINE`, `SITE_DESCRIPTION` | Organization name, hero tagline, default meta description |
 | `CONTACT_EMAIL` | The `mailto:` address in the header, footer, and Contact page |
+| `FOUNDER_NAME` | The founder's name, used in the About/Home founder story and Organization structured data |
 | `NAV_LINKS`, `SOCIAL_LINKS` | Site navigation (6 items — Contact is deliberately not in this list, see Header/Footer comments); social row (empty until real profiles exist) |
 | `PARTNERS` | Confirmed partner names/context, rendered by `/partners` and the Home preview via `PartnerMark` — never edit without explicit new facts (see "Content accuracy") |
 | `SERVICE_REQUEST_FORM_URL`, `PARTNERSHIP_FORM_URL`, `DONATION_URL` | See "Google Form configuration" |
-| `PRODUCTION_URL` | See "Domain configuration" |
+| `PRODUCTION_URL` | The live production domain — see "Domain configuration" |
 
 ## Environment variables
 
@@ -339,11 +353,10 @@ auto-provisions it on deploy) and Cloudflare Images processing. Both are harmles
 
 ### Domain configuration
 
-Once a domain is chosen, two edits turn on canonical URLs, absolute Open Graph URLs, and the sitemap:
-
-1. In `src/config/site.ts`, set `PRODUCTION_URL` to the real domain (no trailing slash).
-2. In `astro.config.mjs`, add the matching `site` option, then run `npx astro add sitemap`. Finally, add the
-   `Sitemap:` line to `public/robots.txt`.
+Live: `PRODUCTION_URL` in `src/config/site.ts` and `site` in `astro.config.mjs` are both set to
+`https://printabledreams.org`, `@astrojs/sitemap` is installed and registered, and `public/robots.txt` points at
+`https://printabledreams.org/sitemap-index.xml`. Together these drive canonical `<link>` tags, absolute Open
+Graph URLs, and the generated sitemap. If the domain ever changes, update all three in the same commit.
 
 ## Adding a project
 
@@ -363,8 +376,8 @@ would require a live Supabase project and browser automation this environment do
 - `test/groups.test.ts` — the fixed group list, slug validation, and the duplicate-membership guard.
 - `test/cta-buttons.test.ts` — using Astro's Container API to render real components: a `null` URL renders a
   disabled, non-link CTA; a real URL renders a working external link with `target="_blank" rel="noopener
-  noreferrer"`; and the three actual configured buttons (`RequestFormButton`, `DonateButton`, `PartnershipButton`)
-  currently render disabled, matching the real site (all three URLs are `null` today).
+  noreferrer"`; and the three actual configured buttons match the real site as configured today
+  (`RequestFormButton`/`PartnershipButton` live, `DonateButton` disabled since `DONATION_URL` is still `null`).
 
 What this suite does **not** cover: a real HTTP round-trip against a live Supabase project (sign up, sign in,
 session persistence, RLS behavior end-to-end). That requires real infrastructure this sandbox doesn't have
