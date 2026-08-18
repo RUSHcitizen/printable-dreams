@@ -9,7 +9,7 @@ import ProjectCard from "../components/ProjectCard.astro";
 import EmptyState from "../components/EmptyState.astro";
 import StepCard from "../components/StepCard.astro";
 import PartnerMark from "../components/PartnerMark.astro";
-import { SITE_TITLE, TAGLINE, CONTACT_EMAIL, PARTNERS } from "../config/site";
+import { SITE_TITLE, CONTACT_EMAIL, PARTNERS } from "../config/site";
 
 const allProjects = await getCollection("projects", ({ data }) => !data.draft);
 const featuredProjects = allProjects
@@ -23,15 +23,16 @@ const featuredProjects = allProjects
     <div>
       <p class="flex items-center gap-2 text-sm font-semibold uppercase tracking-wide text-brand-700">
         <span class="h-1.5 w-1.5 rounded-full bg-accent-500" aria-hidden="true"></span>
-        A Nonprofit, Not a Template
+        Founded in Sammamish
       </p>
       <h1 class="mt-4 font-display text-5xl font-semibold leading-[1.05] tracking-tight text-slate-900 sm:text-6xl">
-        Printable Dreams
+        A drawing can become something real.
       </h1>
-      <p class="mt-5 max-w-prose text-xl text-slate-700">{TAGLINE}</p>
-      <p class="mt-3 max-w-prose text-slate-600">
-        Printable Dreams serves kids — turning a child's own drawing into something real they can hold.
+      <p class="mt-5 max-w-prose text-xl text-slate-700">
+        A kid can have an idea, draw it on paper, and think, "I wish this could be real." Printable Dreams turns
+        that drawing into an actual 3D-printed keepsake they can hold in their hands.
       </p>
+      <p class="mt-3 font-display text-2xl italic text-brand-700">Let's make it real.</p>
       <div class="mt-8 flex flex-wrap gap-3">
         <Button href="/request-a-print" label="Request a Print" variant="primary" />
         <Button href="/partners/" label="Partner With Us" variant="secondary" />
@@ -57,13 +58,14 @@ const featuredProjects = allProjects
       </div>
       <div class="space-y-4 text-slate-700 lg:pt-12">
         <p>
-          We started this organization with one simple idea: that a child's imagination is powerful, and that
-          bringing it to life can change the way they see themselves and the world around them.
+          Every print is made specifically for one child — no two are ever the same. A kid can draw a dragon, a
+          rocket, a garden creature, or anything else their imagination comes up with, and we work to make that
+          idea real.
         </p>
         <p>
-          Because the moment a child opens that package and holds something they imagined in their own hands,
-          something shifts. They feel seen. They feel proud. They feel like their ideas are worth something —
-          because they are.
+          It's more than a 3D print. It's a physical reminder that their imagination has value — for kids going
+          through difficult medical situations especially, something that belongs to them, that they imagined,
+          created, and can hold in their hands.
         </p>
       </div>
     </div>
@@ -94,8 +96,30 @@ const featuredProjects = allProjects
       </p>
       <p class="mt-4 font-display text-4xl font-semibold tracking-tight text-slate-900 sm:text-5xl">Kids.</p>
       <p class="mt-4 text-lg text-slate-700">
-        Especially kids who are struggling — whether from hardship, loss, or simply a difficult season of life.
+        Especially kids who are going through difficult medical situations.
       </p>
+    </div>
+  </Section>
+
+  <!-- From the founder -->
+  <Section background="white" reveal class="grid gap-10 lg:grid-cols-[1fr_1.2fr] lg:items-center">
+    <ImagePlaceholder label="Photo of Atharv, Printable Dreams' founder. Portrait or candid, not posed." aspect="aspect-[4/5]" />
+    <div>
+      <p class="flex items-center gap-2 text-sm font-semibold uppercase tracking-wide text-brand-700">
+        <span class="h-1.5 w-1.5 rounded-full bg-accent-500" aria-hidden="true"></span>
+        From the Founder
+      </p>
+      <p class="mt-4 font-display text-2xl font-medium italic leading-snug text-slate-900 sm:text-3xl">
+        "I know what it feels like to be a kid going through something difficult."
+      </p>
+      <p class="mt-4 max-w-prose text-slate-700">
+        Atharv Kumaria founded Printable Dreams at 13 years old, right here in Sammamish. He has a heart
+        condition himself, and started Printable Dreams because he knows how much a small moment of creativity
+        and joy can mean during a hard time.
+      </p>
+      <div class="mt-6">
+        <Button href="/about/" label="Read the Full Story" variant="secondary" />
+      </div>
     </div>
   </Section>
 
@@ -144,7 +168,7 @@ const featuredProjects = allProjects
     <SectionHeading
       eyebrow="Join Us"
       title="Get Involved"
-      description="Volunteer, offer a 3D printer, or partner with us — create an account to join a group."
+      description="Printable Dreams is growing beyond Sammamish, and that takes help. Volunteer, offer a 3D printer, or partner with us."
     />
     <div class="mt-8 flex justify-start">
       <Button href="/get-involved/" label="See How to Help" variant="primary" />
