@@ -4,55 +4,72 @@ import Section from "../components/Section.astro";
 import SectionHeading from "../components/SectionHeading.astro";
 import PlaceholderBlock from "../components/PlaceholderBlock.astro";
 import ImagePlaceholder from "../components/ImagePlaceholder.astro";
-import { TAGLINE } from "../config/site";
 ---
 
 <BaseLayout
   title="About"
-  description="Learn about Printable Dreams' mission: turning kids' drawings into real, 3D-printed keepsakes."
+  description="Meet Atharv, the 13-year-old founder of Printable Dreams, and the story behind turning kids' drawings into real, 3D-printed keepsakes."
 >
   <!-- Intro -->
   <Section background="brand">
     <p class="flex items-center gap-2 text-sm font-semibold uppercase tracking-wide text-brand-700">
       <span class="h-1.5 w-1.5 rounded-full bg-accent-500" aria-hidden="true"></span>
-      About Us
+      Meet the Founder
     </p>
     <h1 class="mt-3 font-display text-5xl font-semibold tracking-tight text-slate-900 sm:text-6xl">
-      Printable Dreams
+      Hi, I'm Atharv.
     </h1>
-    <p class="mt-4 max-w-prose text-xl text-slate-700">{TAGLINE}</p>
+    <p class="mt-4 max-w-prose text-xl text-slate-700">
+      I'm 13 years old, I live right here in Sammamish, and I founded Printable Dreams — a nonprofit that turns
+      kids' drawings into real, 3D-printed keepsakes.
+    </p>
   </Section>
 
-  <!-- Mission -->
-  <Section background="white" reveal>
+  <!-- What we do -->
+  <Section background="white" reveal class="grid gap-10 lg:grid-cols-2 lg:items-center">
+    <div>
+      <SectionHeading eyebrow="What I'm Building" title="From Drawing to Keepsake" />
+      <p class="mt-6 max-w-prose text-slate-700">
+        Kids send me their drawings, and I turn those drawings into real 3D-printed objects they can actually
+        hold in their hands. A kid can draw a dragon, a rocket, a garden creature — anything their imagination
+        comes up with — and I work to make that idea real.
+      </p>
+      <p class="mt-4 max-w-prose text-slate-700">
+        Every print is made specifically for that child. No two are ever the same.
+      </p>
+    </div>
+    <ImagePlaceholder label="A 3D printer at work, or a finished keepsake." aspect="aspect-[4/3]" />
+  </Section>
+
+  <!-- Why I started this -->
+  <Section background="brand" reveal>
     <div class="grid gap-10 lg:grid-cols-2 lg:gap-16">
       <div>
         <p class="flex items-center gap-2 text-sm font-semibold uppercase tracking-wide text-brand-700">
           <span class="h-1.5 w-1.5 rounded-full bg-accent-500" aria-hidden="true"></span>
-          Mission
+          Why I Started This
         </p>
         <p class="mt-4 font-display text-3xl font-medium italic leading-snug text-slate-900 sm:text-4xl">
-          "A child's imagination is powerful."
+          "I know what it feels like to be a kid going through something difficult."
         </p>
       </div>
       <div class="space-y-4 text-slate-700 lg:pt-12">
         <p>
-          We started this organization with one simple idea: that bringing a child's imagination to life can
-          change the way they see themselves and the world around them. For kids who are struggling — whether
-          from hardship, loss, or simply a difficult season of life — that reminder can mean everything.
+          I have a heart condition myself, and I know firsthand how scary and out of your control things can
+          feel when you're a kid. I also know how much a small moment of creativity, excitement, or joy can mean
+          during a difficult time.
         </p>
         <p>
-          Because the moment a child opens that package and holds something they imagined in their own hands,
-          something shifts. They feel seen. They feel proud. They feel like their ideas are worth something —
-          because they are. Every creation we send is our way of saying: we see you, we believe in you, and you
-          matter.
+          That's really the heart of Printable Dreams: giving kids who are going through difficult medical
+          situations something that belongs to them — something they imagined, created, and can hold in their
+          hands.
         </p>
       </div>
     </div>
   </Section>
 
   <!-- Who we serve -->
-  <Section background="brand" reveal>
+  <Section background="white" reveal>
     <div class="mx-auto max-w-2xl text-center">
       <p class="flex items-center justify-center gap-2 text-sm font-semibold uppercase tracking-wide text-brand-700">
         <span class="h-1.5 w-1.5 rounded-full bg-accent-500" aria-hidden="true"></span>
@@ -60,35 +77,62 @@ import { TAGLINE } from "../config/site";
       </p>
       <p class="mt-4 font-display text-4xl font-semibold tracking-tight text-slate-900 sm:text-5xl">Kids.</p>
       <p class="mt-4 text-lg text-slate-700">
-        Especially kids who are struggling — whether from hardship, loss, or simply a difficult season of life.
+        Especially kids who are going through difficult medical situations.
       </p>
     </div>
   </Section>
 
-  <!-- How 3D printing fits in -->
-  <Section background="white" reveal class="grid gap-10 lg:grid-cols-2 lg:items-center">
+  <!-- Starting in Sammamish -->
+  <Section background="sand" reveal class="grid gap-10 lg:grid-cols-2 lg:items-center">
     <div>
-      <SectionHeading eyebrow="Our Approach" title="How 3D Printing Fits Into Our Mission" />
+      <SectionHeading eyebrow="Starting Local" title="Starting Right Here in Sammamish" />
       <p class="mt-6 max-w-prose text-slate-700">
-        A child draws something that means something to them — it can be anything: a superhero, an animal, a
-        dream, a memory. They submit it through our website, and our team gets to work: we take that drawing,
-        design it, and 3D print it into a real, physical keepsake, then ship it straight to their door. 3D
-        printing is what makes it possible to turn a child's own drawing into something they can actually hold.
+        I'm a student at a local school, and my engineering teacher has given me access to the school's 3D
+        printers. I've also purchased my own filament so I can start producing prints myself.
+      </p>
+      <p class="mt-4 max-w-prose text-slate-700">
+        I've reached out to organizations including Seattle Children's Hospital and the American Heart
+        Association about potential partnerships, and I'm working to grow Printable Dreams so it can eventually
+        reach more kids across our region.
       </p>
     </div>
-    <ImagePlaceholder label="A 3D printer at work, or a finished keepsake." aspect="aspect-[4/3]" />
+    <ImagePlaceholder label="Atharv working at a 3D printer, or the school makerspace." aspect="aspect-[4/3]" />
   </Section>
 
-  <!-- Organization story -->
-  <Section background="sand" reveal>
-    <SectionHeading eyebrow="Our Story" title="How Printable Dreams Started" />
-    <PlaceholderBlock label="Coming soon" class="mt-6 max-w-prose">
-      <p>The story of how Printable Dreams came to be will go here once it's provided.</p>
-    </PlaceholderBlock>
+  <!-- The $300 story -->
+  <Section background="brand" reveal>
+    <div class="grid items-center gap-10 lg:grid-cols-[auto_1fr] lg:gap-16">
+      <div class="text-center lg:text-left">
+        <p class="font-display text-7xl font-semibold tracking-tight text-brand-800 sm:text-8xl">$300</p>
+        <p class="mt-2 text-sm font-semibold uppercase tracking-wide text-brand-700">How It Started</p>
+      </div>
+      <div class="space-y-4 text-slate-700">
+        <p>
+          Last summer, I spent a full day helping an elderly vendor at the Redmond Farmers Market sell her
+          products. I stayed with her the entire day and earned $300. That's what I'm using to help fund
+          Printable Dreams.
+        </p>
+        <p>
+          I wanted to start this project with money I had earned myself, because I wanted to be able to say that
+          I didn't just have an idea — I actually worked to make it happen. It's not the whole picture of how
+          Printable Dreams runs, but it's what got it started.
+        </p>
+      </div>
+    </div>
+  </Section>
+
+  <!-- Free for families -->
+  <Section background="white" reveal>
+    <SectionHeading
+      eyebrow="No Cost to Families"
+      title="Completely Free"
+      description="Printable Dreams is completely free for the kids and families who receive our prints. This isn't about making money. It's about making a difference."
+      align="center"
+    />
   </Section>
 
   <!-- Future goals -->
-  <Section background="white" reveal>
+  <Section background="sand" reveal>
     <SectionHeading eyebrow="Looking Ahead" title="Future Goals" />
     <PlaceholderBlock label="Coming soon" class="mt-6 max-w-prose">
       <p>Printable Dreams' future goals will go here once they're provided.</p>
