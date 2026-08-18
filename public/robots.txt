@@ -1,6 +1,4 @@
 User-agent: *
 Allow: /
 
-# TODO: add "Sitemap: https://<real-domain>/sitemap-index.xml" once the
-# production domain is finalized — see README "Domain configuration" for
-# the exact two steps (PRODUCTION_URL + @astrojs/sitemap).
+Sitemap: https://printabledreams.org/sitemap-index.xml
