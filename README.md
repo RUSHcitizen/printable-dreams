@@ -392,6 +392,12 @@ The domain currently resolves to the old Wix site. Moving it to this Worker requ
 DNS/registrar level that **cannot be made from this repository** — they have to be performed by whoever
 controls the domain (registrar login) and the Cloudflare account.
 
+> **Do not cancel or modify the Wix site or subscription.** This migration only changes where the domain's DNS
+> points — it is not a Wix offboarding. The Wix contract, the Wix site itself, and its billing stay exactly as
+> they are; only `printabledreams.org` stops resolving to it once the DNS/nameserver steps below are complete.
+> Wix remains reachable at its own `*.wixsite.com`/editor URL the entire time, before, during, and after this
+> migration — nothing about the Wix account is touched by any step here.
+
 **Before touching anything:** log into the current DNS provider (wherever the domain's nameservers currently
 point — this may be the registrar itself, or Wix DNS if the domain was fully delegated to Wix) and export or
 screenshot every existing DNS record. This is the safety net for email and any other service using the domain.
@@ -436,9 +442,12 @@ Wix's servers. Everything else on the domain should be preserved.
 6. **Verify email still works** — send and receive a real test email through whatever address(es) use this
    domain, now that Cloudflare is authoritative for DNS. This is the point of preserving the MX/TXT records in
    step 2.
-7. **Only after both 5 and 6 are confirmed working**, the Wix site can safely be taken down/cancelled. Keep the
-   original nameserver values noted from before step 3 for a few days as a rollback path in case anything
-   unexpected comes up — reverting nameservers to Wix's is the fastest way to undo the cutover if needed.
+7. **Only after both 5 and 6 are confirmed working**, the cutover is done — `printabledreams.org` now points at
+   this site instead of Wix. There is no Wix-side step here: **do not cancel or modify the Wix site or
+   subscription**; it simply stops being the thing the domain points at. Keep the original nameserver values
+   noted from before step 3 for a few days as a rollback path in case anything unexpected comes up — reverting
+   nameservers to Wix's is the fastest way to undo the cutover if needed, and having Wix fully intact makes that
+   revert trivial.
 
 ### What Cloudflare will tell you that isn't written here
 
