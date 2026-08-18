@@ -20,16 +20,22 @@ export const SITE_DESCRIPTION =
 export const CONTACT_EMAIL = "kumariaaatharv@gmail.com";
 
 /**
- * Link to the form (e.g. a Google Form) that kids and parents will use to
- * request/use Printable Dreams services.
- *
- * Intentionally `null` until a real URL is supplied. Components that render
- * a "Request Services" button check this value and show a disabled
- * "coming soon" state instead of a fake or broken link.
- *
- * To go live: replace `null` below with the real form URL string.
+ * The founder's name, as introduced in the founder speech — used in the
+ * founder story (About, Home) and in the Organization structured data. Not
+ * a title beyond what's been confirmed; just the name.
  */
-export const SERVICE_REQUEST_FORM_URL: string | null = null;
+export const FOUNDER_NAME = "Atharv Kumaria";
+
+/**
+ * Link to the real Google Form that kids and parents use to request a
+ * print.
+ *
+ * To take this offline again in the future, set it back to `null` —
+ * components that render a "Request Services" button check this value and
+ * show a disabled "coming soon" state instead of a fake or broken link.
+ */
+export const SERVICE_REQUEST_FORM_URL: string | null =
+  "https://docs.google.com/forms/d/e/1FAIpQLSczgQDpnlUzg-by4bg3k-OQIpNIl9gFc0JdAqtmtXGCJLQaOQ/viewform?usp=dialog";
 
 /**
  * Link to the real donation mechanism (payment processor page, e.g. a
@@ -44,31 +50,21 @@ export const SERVICE_REQUEST_FORM_URL: string | null = null;
 export const DONATION_URL: string | null = null;
 
 /**
- * Link to the partnership inquiry form (e.g. a Google Form) for
- * organizations/people interested in partnering with Printable Dreams.
+ * Link to the real Google Form for organizations/people interested in
+ * partnering with Printable Dreams.
  *
- * Same pattern as SERVICE_REQUEST_FORM_URL and DONATION_URL: `null` until a
- * real URL is supplied. PartnershipButton shows a disabled "coming soon"
- * state instead of a fake or broken link.
- *
- * To go live: replace `null` below with the real form URL string.
+ * Same pattern as SERVICE_REQUEST_FORM_URL: set back to `null` to have
+ * PartnershipButton show a disabled "coming soon" state instead.
  */
-export const PARTNERSHIP_FORM_URL: string | null = null;
+export const PARTNERSHIP_FORM_URL: string | null =
+  "https://docs.google.com/forms/d/e/1FAIpQLSe03bOrPysO55mT__WccVaQJfV_y3iRbFodxC-NCS4sAOTQ-A/viewform?usp=dialog";
 
 /**
- * The production domain the site will be deployed to (e.g.
- * "https://printabledreams.org"), with no trailing slash. `null` until a
- * domain is chosen.
- *
- * This one value drives every URL-dependent SEO feature: canonical links
- * and absolute Open Graph URLs in BaseLayout.astro. To go live once a
- * domain is registered:
- *
- * 1. Set PRODUCTION_URL below.
- * 2. Add `site: "https://your-domain"` to astro.config.mjs and run
- *    `npx astro add sitemap` (see README "Domain configuration").
+ * The production domain the site is deployed to, no trailing slash. Drives
+ * canonical links, absolute Open Graph URLs, and the sitemap (see
+ * astro.config.mjs `site` and README "Domain configuration").
  */
-export const PRODUCTION_URL: string | null = null;
+export const PRODUCTION_URL: string | null = "https://printabledreams.org";
 
 export interface NavLink {
   label: string;

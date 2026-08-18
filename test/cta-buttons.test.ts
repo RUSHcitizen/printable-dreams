@@ -4,6 +4,7 @@ import Button from "../src/components/Button.astro";
 import RequestFormButton from "../src/components/RequestFormButton.astro";
 import DonateButton from "../src/components/DonateButton.astro";
 import PartnershipButton from "../src/components/PartnershipButton.astro";
+import { SERVICE_REQUEST_FORM_URL, PARTNERSHIP_FORM_URL } from "../src/config/site";
 
 describe("Button (the mechanism behind every disabled-until-configured CTA)", () => {
   it("renders a disabled, non-link element when href is null", async () => {
@@ -29,27 +30,30 @@ describe("Button (the mechanism behind every disabled-until-configured CTA)", ()
 });
 
 // These three exercise the real, currently-deployed components as configured
-// today (site.ts has all three URLs set to `null`) — proving the actual site
-// currently shows the correct disabled state, not just the generic mechanism.
-describe("Configured CTAs currently render disabled (their URLs are null)", () => {
-  it("RequestFormButton", async () => {
+// today — proving the actual site shows the correct state (live link or
+// disabled placeholder) per current site.ts values, not just the generic
+// mechanism.
+describe("Configured CTAs render as currently configured in site.ts", () => {
+  it("RequestFormButton is a live link (SERVICE_REQUEST_FORM_URL is set)", async () => {
+    expect(SERVICE_REQUEST_FORM_URL).not.toBeNull();
     const container = await AstroContainer.create();
     const html = await container.renderToString(RequestFormButton, { props: {} });
-    expect(html).toContain('aria-disabled="true"');
-    expect(html).toContain("Request Form Coming Soon");
+    expect(html).toContain(`href="${SERVICE_REQUEST_FORM_URL}"`);
+    expect(html).not.toContain("aria-disabled");
   });
 
-  it("DonateButton", async () => {
+  it("DonateButton renders disabled (DONATION_URL is null)", async () => {
     const container = await AstroContainer.create();
     const html = await container.renderToString(DonateButton, { props: {} });
     expect(html).toContain('aria-disabled="true"');
     expect(html).toContain("Donations Not Yet Available");
   });
 
-  it("PartnershipButton", async () => {
+  it("PartnershipButton is a live link (PARTNERSHIP_FORM_URL is set)", async () => {
+    expect(PARTNERSHIP_FORM_URL).not.toBeNull();
     const container = await AstroContainer.create();
     const html = await container.renderToString(PartnershipButton, { props: {} });
-    expect(html).toContain('aria-disabled="true"');
-    expect(html).toContain("Partnership Form Coming Soon");
+    expect(html).toContain(`href="${PARTNERSHIP_FORM_URL}"`);
+    expect(html).not.toContain("aria-disabled");
   });
 });
