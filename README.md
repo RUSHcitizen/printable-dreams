@@ -74,6 +74,9 @@ src/
 ├── actions/
 │   ├── index.ts            # Server-side mutations: signUp, signIn, updateProfile, joinGroup, leaveGroup
 │   └── schemas.ts            # Their Zod input schemas (kept separate so tests can inspect them)
+├── assets/site/              # General site photos (hero, About) imported directly and optimized by
+│   │                            astro:assets — not tied to one project, so not part of the content
+│   │                            collection. Project-specific photos still live in content/projects/.
 ├── components/              # Header, Footer, Button, SubmitButton, Section, ProjectCard, ...
 ├── layouts/
 │   └── BaseLayout.astro       # <head> metadata, header, footer
