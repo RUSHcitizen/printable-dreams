@@ -1,9 +1,11 @@
 ---
+import { Image } from "astro:assets";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Section from "../components/Section.astro";
 import SectionHeading from "../components/SectionHeading.astro";
 import PlaceholderBlock from "../components/PlaceholderBlock.astro";
 import ImagePlaceholder from "../components/ImagePlaceholder.astro";
+import finishedKeepsake from "../assets/site/finished-keepsake-tin.png";
 ---
 
 <BaseLayout
@@ -38,7 +40,13 @@ import ImagePlaceholder from "../components/ImagePlaceholder.astro";
         Every print is made specifically for that child. No two are ever the same.
       </p>
     </div>
-    <ImagePlaceholder label="A 3D printer at work, or a finished keepsake." aspect="aspect-[4/3]" />
+    <Image
+      src={finishedKeepsake}
+      alt="A finished white 3D-printed articulated animal keepsake resting on top of a small tin."
+      width={720}
+      height={540}
+      class="aspect-[4/3] w-full rounded-xl object-cover shadow-card"
+    />
   </Section>
 
   <!-- Why I started this -->

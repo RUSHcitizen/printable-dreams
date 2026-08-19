@@ -25,7 +25,7 @@ const projects = (await getCollection("projects", ({ data }) => !data.draft)).so
     </p>
   </Section>
 
-  <Section background="white">
+  <Section background="white" reveal>
     {
       projects.length === 0 ? (
         <EmptyState message="No projects have been published yet. Check back soon." />
