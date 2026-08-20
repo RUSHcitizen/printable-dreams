@@ -171,10 +171,12 @@ directing anyone under that age to sign up. This is exactly why the account syst
 The site's copy is held to one rule across every phase of this project: **only ship what's been explicitly
 confirmed.** Concretely, that means never inventing statistics, testimonials, partnership activities/funding,
 number of kids served, founding dates, awards, geographic reach, medical diagnoses/claims, or titles for named
-individuals beyond what's been given. Where real content doesn't exist yet, `PlaceholderBlock` marks the gap
-visibly rather than being filled with something plausible-sounding — see `src/components/PlaceholderBlock.astro`
-and, for the current gap, About's "Future Goals" section. `PARTNERS` in `site.ts` is the one place partner facts
-live; don't add context/activities to an entry beyond what's explicitly provided.
+individuals beyond what's been given. Where real content doesn't exist yet, the section is **left out entirely**
+rather than filled with something plausible-sounding or shipped as a visible "coming soon" gap. (Earlier phases
+used `ImagePlaceholder`/`PlaceholderBlock` components to mark those gaps on the page; both were removed in
+favour of simply omitting the section until real content arrives.) Two gaps are currently open on purpose: a
+photo of Atharv beside the founder quote (Home) and a "Future Goals" section (About). `PARTNERS` in `site.ts`
+is the one place partner facts live; don't add context/activities to an entry beyond what's explicitly provided.
 
 The founder story (About, Home) is drawn directly from a speech given by Printable Dreams' founder, Atharv
 Kumaria — see git history for Phase 8 for the source text. Two distinctions worth preserving when editing that

@@ -2,7 +2,6 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Section from "../components/Section.astro";
 import SectionHeading from "../components/SectionHeading.astro";
-import PlaceholderBlock from "../components/PlaceholderBlock.astro";
 import DonateButton from "../components/DonateButton.astro";
 import Button from "../components/Button.astro";
 ---
@@ -33,15 +32,15 @@ import Button from "../components/Button.astro";
   <!-- Donate -->
   <Section background="white" reveal>
     <SectionHeading eyebrow="Donate" title="Financial Support" />
-    <PlaceholderBlock label="Donation processor coming soon" class="mt-6 max-w-2xl">
-      <p>
+    <div class="mt-4 max-w-2xl">
+      <p class="text-slate-600">
         Printable Dreams doesn't have a donation processor connected yet. Once one is set up, the button below
         will link to it directly.
       </p>
       <div class="mt-6">
         <DonateButton />
       </div>
-    </PlaceholderBlock>
+    </div>
   </Section>
 
   <!-- Non-monetary support -->

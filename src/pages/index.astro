@@ -5,7 +5,6 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import PrintIntro from "../components/PrintIntro.astro";
 import Section from "../components/Section.astro";
 import SectionHeading from "../components/SectionHeading.astro";
-import ImagePlaceholder from "../components/ImagePlaceholder.astro";
 import Button from "../components/Button.astro";
 import ProjectCard from "../components/ProjectCard.astro";
 import EmptyState from "../components/EmptyState.astro";
@@ -114,10 +113,11 @@ const featuredProjects = allProjects
     </div>
   </Section>
 
-  <!-- From the founder -->
-  <Section background="white" reveal class="grid gap-10 lg:grid-cols-[1fr_1.2fr] lg:items-center">
-    <ImagePlaceholder label="Photo of Atharv, Printable Dreams' founder. Portrait or candid, not posed." aspect="aspect-[4/5]" />
-    <div>
+  <!-- From the founder. A photo of Atharv goes beside this copy once one
+       has been provided — until then the quote stands on its own rather
+       than next to a reserved-but-empty image slot. -->
+  <Section background="white" reveal>
+    <div class="max-w-3xl">
       <p class="flex items-center gap-2 text-sm font-semibold uppercase tracking-wide text-brand-700">
         <span class="h-1.5 w-1.5 rounded-full bg-accent-500" aria-hidden="true"></span>
         From the Founder

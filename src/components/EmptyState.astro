@@ -1,8 +1,9 @@
 ---
 // Consistent "nothing here yet" state, used wherever a content collection
-// might legitimately be empty (e.g. no projects published yet). Distinct
-// from PlaceholderBlock, which marks *missing copy on a page that exists*
-// rather than an empty list.
+// might legitimately be empty (e.g. no projects published yet). This is
+// about an empty *list*, not missing copy: where real content hasn't been
+// provided, the section is left out entirely rather than shipped as a
+// visible "coming soon" gap.
 interface Props {
   message: string;
   class?: string;
