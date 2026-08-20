@@ -2,6 +2,7 @@
 import { getCollection } from "astro:content";
 import { Image } from "astro:assets";
 import BaseLayout from "../layouts/BaseLayout.astro";
+import PrintIntro from "../components/PrintIntro.astro";
 import Section from "../components/Section.astro";
 import SectionHeading from "../components/SectionHeading.astro";
 import ImagePlaceholder from "../components/ImagePlaceholder.astro";
@@ -20,6 +21,11 @@ const featuredProjects = allProjects
 ---
 
 <BaseLayout title={SITE_TITLE}>
+  <!-- Scroll-driven intro: a drawing gets printed as you scroll. Sits
+       ahead of the hero and collapses to a static illustration band where
+       scroll-driven animation isn't available (see PrintIntro.astro). -->
+  <PrintIntro />
+
   <!-- Hero -->
   <Section background="brand" class="grid items-center gap-12 lg:grid-cols-[1.1fr_1fr] lg:gap-16">
     <div>
@@ -40,13 +46,15 @@ const featuredProjects = allProjects
         <Button href="/partners/" label="Partner With Us" variant="secondary" />
       </div>
     </div>
-    <Image
-      src={heroKeepsake}
-      alt="A white 3D-printed articulated animal keepsake resting on a sunlit windowsill."
-      width={960}
-      height={720}
-      class="aspect-[4/3] w-full rounded-xl object-cover shadow-card"
-    />
+    <div class="aspect-[4/3] w-full overflow-hidden rounded-xl shadow-card">
+      <Image
+        src={heroKeepsake}
+        alt="A white 3D-printed articulated animal keepsake resting on a sunlit windowsill."
+        width={960}
+        height={720}
+        class="drift h-full w-full object-cover"
+      />
+    </div>
   </Section>
 
   <!-- Mission -->
@@ -160,7 +168,7 @@ const featuredProjects = allProjects
     <ul class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
       {
         PARTNERS.map((partner) => (
-          <li>
+          <li class="reveal-item">
             <PartnerMark name={partner.name} context={partner.context} />
           </li>
         ))

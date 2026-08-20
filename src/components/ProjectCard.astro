@@ -16,7 +16,7 @@ const { project } = Astro.props;
 const { title, date, problem, cover, coverAlt } = project.data;
 ---
 
-<li class="group overflow-hidden rounded-xl border border-slate-200 bg-white shadow-card transition-shadow duration-300 shadow-card-hover">
+<li class="reveal-item group overflow-hidden rounded-xl border border-slate-200 bg-white shadow-card transition-shadow duration-300 shadow-card-hover">
   <a href={`/projects/${project.id}/`} class="focus-ring-inset block">
     {
       cover ? (

@@ -39,7 +39,7 @@ import { PARTNERS } from "../config/site";
     <ul class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
       {
         PARTNERS.map((partner) => (
-          <li>
+          <li class="reveal-item">
             <PartnerMark name={partner.name} context={partner.context} />
           </li>
         ))

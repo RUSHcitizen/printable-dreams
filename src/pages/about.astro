@@ -40,13 +40,15 @@ import finishedKeepsake from "../assets/site/finished-keepsake-tin.png";
         Every print is made specifically for that child. No two are ever the same.
       </p>
     </div>
-    <Image
-      src={finishedKeepsake}
-      alt="A finished white 3D-printed articulated animal keepsake resting on top of a small tin."
-      width={720}
-      height={540}
-      class="aspect-[4/3] w-full rounded-xl object-cover shadow-card"
-    />
+    <div class="aspect-[4/3] w-full overflow-hidden rounded-xl shadow-card">
+      <Image
+        src={finishedKeepsake}
+        alt="A finished white 3D-printed articulated animal keepsake resting on top of a small tin."
+        width={720}
+        height={540}
+        class="drift h-full w-full object-cover"
+      />
+    </div>
   </Section>
 
   <!-- Why I started this -->
