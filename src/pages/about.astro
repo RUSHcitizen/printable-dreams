@@ -3,8 +3,6 @@ import { Image } from "astro:assets";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Section from "../components/Section.astro";
 import SectionHeading from "../components/SectionHeading.astro";
-import PlaceholderBlock from "../components/PlaceholderBlock.astro";
-import ImagePlaceholder from "../components/ImagePlaceholder.astro";
 import finishedKeepsake from "../assets/site/finished-keepsake-tin.png";
 ---
 
@@ -93,8 +91,8 @@ import finishedKeepsake from "../assets/site/finished-keepsake-tin.png";
   </Section>
 
   <!-- Starting in Sammamish -->
-  <Section background="sand" reveal class="grid gap-10 lg:grid-cols-2 lg:items-center">
-    <div>
+  <Section background="sand" reveal>
+    <div class="max-w-3xl">
       <SectionHeading eyebrow="Starting Local" title="Starting Right Here in Sammamish" />
       <p class="mt-6 max-w-prose text-slate-700">
         I'm a student at a local school, and my engineering teacher has given me access to the school's 3D
@@ -106,7 +104,6 @@ import finishedKeepsake from "../assets/site/finished-keepsake-tin.png";
         reach more kids across our region.
       </p>
     </div>
-    <ImagePlaceholder label="Atharv working at a 3D printer, or the school makerspace." aspect="aspect-[4/3]" />
   </Section>
 
   <!-- The $300 story -->
@@ -141,11 +138,7 @@ import finishedKeepsake from "../assets/site/finished-keepsake-tin.png";
     />
   </Section>
 
-  <!-- Future goals -->
-  <Section background="sand" reveal>
-    <SectionHeading eyebrow="Looking Ahead" title="Future Goals" />
-    <PlaceholderBlock label="Coming soon" class="mt-6 max-w-prose">
-      <p>Printable Dreams' future goals will go here once they're provided.</p>
-    </PlaceholderBlock>
-  </Section>
+  <!-- A "Future Goals" section belongs here once real goals have been
+       provided. Left out entirely rather than shipped as an empty
+       "coming soon" card. -->
 </BaseLayout>
