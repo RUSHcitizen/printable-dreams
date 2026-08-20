@@ -17,6 +17,10 @@ export const TAGLINE = "We turn kids' drawings into real, 3D-printed keepsakes."
 export const SITE_DESCRIPTION =
   "Printable Dreams turns kids' drawings into real, 3D-printed keepsakes — helping kids feel seen, proud, and know their ideas matter.";
 
+// Legal status line shown in the footer and reflected in the Organization
+// structured data (BaseLayout). Confirmed by Printable Dreams.
+export const NONPROFIT_STATUS = "Printable Dreams is a registered 501(c)(3) nonprofit organization.";
+
 export const CONTACT_EMAIL = "kumariaaatharv@gmail.com";
 
 /**

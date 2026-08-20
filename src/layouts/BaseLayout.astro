@@ -30,6 +30,7 @@ const organizationSchema = {
   description: SITE_DESCRIPTION,
   email: CONTACT_EMAIL,
   founder: { "@type": "Person", name: FOUNDER_NAME },
+  nonprofitStatus: "Nonprofit501c3",
   ...(PRODUCTION_URL ? { url: PRODUCTION_URL } : {}),
 };
 ---
@@ -75,6 +76,9 @@ const organizationSchema = {
   </head>
   <body class="flex min-h-screen flex-col bg-white text-slate-900">
     <a href="#main-content" class="skip-link">Skip to main content</a>
+    <!-- Reading-progress bar. Pure CSS (scroll-driven), hidden entirely on
+         browsers without support and for reduced-motion visitors. -->
+    <div class="scroll-progress" aria-hidden="true"></div>
     <Header />
     <main id="main-content" class="flex-1">
       <slot />
