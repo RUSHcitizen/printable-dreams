@@ -9,7 +9,7 @@ interface Props {
 const { eyebrow, title, description, align = "left" } = Astro.props;
 ---
 
-<div class={align === "center" ? "mx-auto max-w-2xl text-center" : "max-w-2xl"}>
+<div class={`reveal-seq ${align === "center" ? "mx-auto max-w-2xl text-center" : "max-w-2xl"}`}>
   {
     eyebrow && (
       <p

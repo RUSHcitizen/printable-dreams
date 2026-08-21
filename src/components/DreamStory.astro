@@ -110,9 +110,9 @@ const BANDS = Array.from({ length: 10 }, (_, i) => ({
 
               <!-- Print material: brand teal with the fine horizontal
                    banding a real FDM part has. -->
-              <pattern id="ds-material" width="240" height="5" patternUnits="userSpaceOnUse">
-                <rect width="240" height="5" fill="var(--color-brand-500)"></rect>
-                <rect width="240" height="1" y="4" fill="var(--color-brand-800)" opacity="0.34"></rect>
+              <pattern id="ds-material" width="240" height="6" patternUnits="userSpaceOnUse">
+                <rect width="240" height="6" fill="var(--color-brand-500)"></rect>
+                <rect width="240" height="1" y="5" fill="var(--color-brand-800)" opacity="0.2"></rect>
               </pattern>
 
               {
@@ -145,7 +145,7 @@ const BANDS = Array.from({ length: 10 }, (_, i) => ({
               <use
                 href="#ds-bot"
                 fill="none"
-                stroke="var(--color-brand-600)"
+                stroke="var(--color-brand-800)"
                 stroke-width="2.5"
                 vector-effect="non-scaling-stroke"></use>
             </svg>
@@ -163,7 +163,7 @@ const BANDS = Array.from({ length: 10 }, (_, i) => ({
                 {
                   BANDS.map((band) => (
                     <g class="ds-band" style={`--i:${band.i}`} clip-path={`url(#ds-band-${band.i})`}>
-                      <use href="#ds-bot" fill="url(#ds-material)" stroke="var(--color-brand-700)" stroke-width="2" />
+                      <use href="#ds-bot" fill="url(#ds-material)" />
                     </g>
                   ))
                 }
@@ -396,7 +396,7 @@ const BANDS = Array.from({ length: 10 }, (_, i) => ({
   }
 
   .ds-bot-extrude {
-    transform: translate(1.6%, 1.4%);
+    transform: translate(1.2%, 1%);
   }
 
   /* Edge definition over the printed material — subtle in the still. */
@@ -434,7 +434,7 @@ const BANDS = Array.from({ length: 10 }, (_, i) => ({
   @media (prefers-reduced-motion: no-preference) {
     @supports (animation-timeline: view()) {
       .ds {
-        height: 460vh;
+        height: 400vh;
         view-timeline-name: --dream;
       }
 
@@ -867,19 +867,19 @@ const BANDS = Array.from({ length: 10 }, (_, i) => ({
         }
         52%,
         60% {
-          transform: translate(1.8%, 1.6%);
+          transform: translate(1.2%, 1%);
           opacity: 1;
         }
         /* Out of the way while the model is opened up, so daylight shows
            between the layers instead of a solid body behind them. */
         66%,
         70% {
-          transform: translate(1.8%, 1.6%);
+          transform: translate(1.2%, 1%);
           opacity: 0;
         }
         76%,
         100% {
-          transform: translate(1.8%, 1.6%);
+          transform: translate(1.2%, 1%);
           opacity: 1;
         }
       }
@@ -905,16 +905,26 @@ const BANDS = Array.from({ length: 10 }, (_, i) => ({
           opacity: 1;
         }
         54%,
-        72% {
-          opacity: 0.3;
+        60% {
+          opacity: 0.55;
         }
-        78%,
+        /* The outline is one whole silhouette, so it can't follow the bands
+           when they separate — it steps aside instead of hanging in the air
+           around an exploded model. */
+        64%,
+        70% {
+          opacity: 0.1;
+        }
+        76% {
+          opacity: 0.55;
+        }
+        79%,
         90% {
           opacity: 0.45;
         }
         97%,
         100% {
-          opacity: 0.22;
+          opacity: 0.55;
         }
       }
 

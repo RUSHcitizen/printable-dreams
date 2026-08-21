@@ -3,7 +3,7 @@
 // (real <button type="submit"> for forms). One definition so a link-style
 // CTA and a form's submit button are never visually inconsistent.
 export const buttonBase =
-  "inline-flex min-h-11 items-center justify-center rounded-md px-5 py-2.5 text-sm font-semibold transition-colors";
+  "btn-motion inline-flex min-h-11 items-center justify-center rounded-md px-5 py-2.5 text-sm font-semibold";
 
 export const buttonVariants = {
   primary: "bg-brand-700 text-white hover:bg-brand-800",

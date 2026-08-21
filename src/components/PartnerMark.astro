@@ -1,23 +1,62 @@
 ---
-// A typographic "mark" for a partner — used instead of a logo wall, since
-// no real partner logos have been provided. Deliberately restrained: name
-// set in the display typeface, and an optional one-line context (an
-// organization affiliation, for a named individual) — never a fabricated
+// One partner in the partner grids (Home and Partners both render through
+// this, so they can't drift apart).
+//
+// Logos are picked up by filename rather than being listed in config: drop
+// a file into src/assets/partners/ named after the partner's slug and it
+// appears here automatically, with no code change. See the README in that
+// directory for the naming rule.
+//
+// A partner with no logo file falls back to the typographic mark — the
+// name in the display face plus an optional one-line context (an
+// organization affiliation, for a named individual). Never a fabricated
 // title, role, or description beyond what's actually been confirmed.
-// Swap in a real <Image> here once real logos exist; every partner grid
-// on the site renders through this one component, so that's a one-place
-// change.
+import { Image } from "astro:assets";
+
+const logoModules = import.meta.glob("../assets/partners/*.{png,jpg,jpeg,webp,avif}", {
+  eager: true,
+}) as Record<string, { default: ImageMetadata }>;
+
+const logos = new Map(
+  Object.entries(logoModules).map(([path, module]) => [
+    path.split("/").pop()!.replace(/\.[^.]+$/, ""),
+    module.default,
+  ]),
+);
+
 interface Props {
   name: string;
   context?: string;
 }
 
 const { name, context } = Astro.props;
+
+const slug = name
+  .toLowerCase()
+  .replace(/[^a-z0-9]+/g, "-")
+  .replace(/^-+|-+$/g, "");
+
+const logo = logos.get(slug);
 ---
 
 <div
-  class="flex h-full flex-col items-center justify-center gap-1.5 rounded-xl border border-slate-200 bg-white px-6 py-10 text-center transition-colors hover:border-brand-200"
+  class="lift group flex h-full flex-col items-center justify-center gap-4 rounded-xl border border-slate-200 bg-white px-6 py-8 text-center hover:border-brand-200 hover:shadow-card"
 >
-  <p class="font-display text-xl font-semibold text-slate-900">{name}</p>
-  {context && <p class="text-xs font-medium uppercase tracking-wide text-slate-500">{context}</p>}
+  {
+    logo && (
+      <Image
+        src={logo}
+        /* The partner's name is already right below as real text — giving
+           the logo the same name as alt text would just make a screen
+           reader say it twice. */
+        alt=""
+        width={360}
+        class="h-16 w-auto max-w-full object-contain transition-transform duration-300 group-hover:scale-[1.04]"
+      />
+    )
+  }
+  <div>
+    <p class="font-display text-xl font-semibold text-slate-900">{name}</p>
+    {context && <p class="mt-1 text-xs font-medium uppercase tracking-wide text-slate-500">{context}</p>}
+  </div>
 </div>

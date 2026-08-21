@@ -36,7 +36,7 @@ const { Content } = await render(project);
         )
       }
 
-      <dl class="mt-8 grid gap-6 rounded-xl border border-slate-200 bg-sand-50 p-6 sm:grid-cols-2">
+      <dl class="reveal mt-8 grid gap-6 rounded-xl border border-slate-200 bg-sand-50 p-6 sm:grid-cols-2">
         <div>
           <dt class="text-sm font-semibold text-slate-900">The problem</dt>
           <dd class="mt-1 text-slate-600">{problem}</dd>
@@ -47,7 +47,7 @@ const { Content } = await render(project);
         </div>
       </dl>
 
-      <div class="prose prose-slate mt-8 max-w-none">
+      <div class="reveal prose prose-slate mt-8 max-w-none">
         <Content />
       </div>
 
@@ -55,7 +55,7 @@ const { Content } = await render(project);
         gallery.length > 0 && (
           <ul class="mt-10 grid gap-4 sm:grid-cols-2">
             {gallery.map((item) => (
-              <li>
+              <li class="reveal-item">
                 <Image
                   src={item.src}
                   alt={item.alt}
