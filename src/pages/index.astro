@@ -2,7 +2,7 @@
 import { getCollection } from "astro:content";
 import { Image } from "astro:assets";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import PrintIntro from "../components/PrintIntro.astro";
+import DreamStory from "../components/DreamStory.astro";
 import Section from "../components/Section.astro";
 import SectionHeading from "../components/SectionHeading.astro";
 import Button from "../components/Button.astro";
@@ -20,10 +20,11 @@ const featuredProjects = allProjects
 ---
 
 <BaseLayout title={SITE_TITLE}>
-  <!-- Scroll-driven intro: a drawing gets printed as you scroll. Sits
-       ahead of the hero and collapses to a static illustration band where
-       scroll-driven animation isn't available (see PrintIntro.astro). -->
-  <PrintIntro />
+  <!-- "How a dream gets made": the child's drawing becoming a real object,
+       as one continuous scroll-driven transformation. Sits ahead of the
+       hero and collapses to a finished still where scroll-driven animation
+       isn't available (see DreamStory.astro). -->
+  <DreamStory />
 
   <!-- Hero -->
   <Section background="brand" class="grid items-center gap-12 lg:grid-cols-[1.1fr_1fr] lg:gap-16">
