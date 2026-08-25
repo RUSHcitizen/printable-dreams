@@ -2,47 +2,56 @@
 // "How a dream gets made" — the first thing a visitor sees, and the section
 // that has to make them understand Printable Dreams without reading a word.
 //
-// It is deliberately ONE continuous transformation rather than a set of
-// steps, because the story only lands if the object never breaks identity:
+// It is one continuous transformation rather than a set of steps, because
+// the story only lands if the object never breaks identity:
 //
-//   a child's drawing → lines lift off the page → a model is built →
-//   the model is sliced → it prints layer by layer → it's real, standing
-//   beside the drawing it came from
+//   a kid at a desk draws a robot → the pencil lines lift off the page →
+//   a model is built and measured → it's sliced into layers → a real
+//   printer builds it back up on its bed → it's standing on the same desk,
+//   next to the drawing it came from
 //
-// Two rules drove the structure:
+// Three rules drove the structure:
 //
 // 1. THE DRAWING NEVER DISAPPEARS. The paper is a single element for the
-//    whole story. It fills the frame while it's being drawn, shrinks into
-//    a reference card in the corner while the model is built, and comes
-//    back to full size beside the finished robot at the end. It is never
-//    faded out and re-faded in — it is always the same sheet of paper, so
-//    the visitor can't lose the thread back to the child who drew it.
+//    whole story. It lies on the desk while the kid draws, fills the frame
+//    as the camera pushes in, shrinks into a reference card while the model
+//    is built, and comes back to the desk beside the finished robot. It is
+//    never faded out and re-created, so the thread back to the child who
+//    drew it can't be lost.
 //
 // 2. THE ROBOT IS ONE OBJECT. `.ds-bot` is a single geometry that is drawn
-//    as a wireframe, filled as a model, split into layers, and printed.
+//    as a wireframe, filled as a model, split into ten layers, and printed.
 //    Its silhouette lives in one <symbol> that every stage <use>s, so the
 //    printed robot is provably the same shape as the model, and the model
 //    is proportioned to the drawing.
 //
-// The child's drawing is hand-authored to look like a child's drawing —
-// wobbly closed curves rather than rects, uneven eyes, a crooked antenna
-// with a star on it, a heart on the chest, a flourish star in the corner.
-// It draws on stroke-by-stroke in the order a kid actually draws: head,
-// body, arms, legs, face, details, then one last flourish.
+// 3. THE DESK BOOKENDS IT. The same desk that the kid draws at is where the
+//    finished robot ends up. Opening and closing on the same place is what
+//    turns a process diagram into a story.
+//
+// The child's drawing is hand-authored to look like a child's — wobbly
+// closed curves rather than rects, uneven eyes, a crooked antenna with a
+// star on it, a heart on the chest, a flourish star in the corner. It draws
+// on stroke by stroke in the order a kid actually draws, with the pencil
+// hopping to each group as it goes.
 //
 // TECHNOLOGY — deliberately the same as the rest of the site (see the
 // `.reveal` system in global.css): pure CSS scroll-driven animation on one
 // named `view-timeline`. No JavaScript, no scroll listener, no rAF loop,
 // nothing to hydrate. This is not just cheaper — it's the only way to get
-// the behaviour asked for: scroll position *is* the animation timeline, so
-// stopping halfway through a transformation holds it at exactly that
-// frame, and scrubbing backwards runs it backwards. Everything animated
-// here is `transform`, `opacity` or `clip-path`, so it stays on the
-// compositor and the rest of the page keeps scrolling at full rate.
+// the behaviour this needs: scroll position *is* the animation timeline, so
+// stopping halfway through a transformation holds it at exactly that frame,
+// and scrubbing backwards runs it backwards. Everything animated here is
+// `transform`, `opacity` or `clip-path`, so it stays on the compositor and
+// the rest of the page keeps scrolling at full rate.
 //
 // Note the longhand `animation-*` properties everywhere: the `animation`
 // shorthand resets `animation-timeline`/`animation-duration`, which quietly
 // breaks scroll-driven timing. Don't collapse them.
+//
+// The shared <defs> is hidden with position/size, NOT `display: none` — a
+// <pattern> inside a display:none subtree is never built as a paint server,
+// so the print material silently fails to paint.
 //
 // FALLBACK — the tall height, the sticky pin, and every animation live
 // inside a `prefers-reduced-motion: no-preference` + `@supports` guard.
@@ -66,12 +75,9 @@ const SKETCH = {
 
 // The ten print layers, bottom-most first. Each is a clip band over the
 // same silhouette: contiguous at rest (so they read as one solid model),
-// spread apart for the slicing beat, and revealed bottom-up by the print
-// head. `--i` drives how far each one travels when the model is sliced.
-const BANDS = Array.from({ length: 10 }, (_, i) => ({
-  i,
-  y: 260 - 24.6 * (i + 1),
-}));
+// spread apart for the slicing beat, and revealed bottom-up by the printer.
+// `--i` drives how far each one travels when the model is sliced.
+const BANDS = Array.from({ length: 10 }, (_, i) => ({ i, y: 260 - 24.6 * (i + 1) }));
 ---
 
 <section class="ds" aria-label="How a dream gets made">
@@ -125,20 +131,85 @@ const BANDS = Array.from({ length: 10 }, (_, i) => ({
             </defs>
           </svg>
 
-          <!-- The modelling workspace, behind everything. -->
+          <!--
+            The desk. A kid, drawn as a silhouette rather than a face —
+            this is any kid, not a particular one — leaning over the desk
+            the whole story opens and closes on.
+          -->
+          <div class="ds-desk">
+            <svg viewBox="0 0 240 272">
+              <!-- chair -->
+              <rect x="16" y="200" width="16" height="68" rx="7" fill="var(--color-sand-300)"></rect>
+              <!-- kid -->
+              <g fill="var(--color-brand-900)">
+                <circle cx="64" cy="152" r="25"></circle>
+                <path d="M46 252C42 219 48 197 60 189C72 181 87 185 93 197C99 209 99 227 101 252Z"></path>
+                <path d="M92 201C108 203 125 215 137 229L129 238C117 226 103 216 88 214Z"></path>
+                <circle cx="137" cy="232" r="9"></circle>
+              </g>
+              <!-- desk, running off the right edge -->
+              <rect x="18" y="252" width="250" height="7" rx="3" fill="var(--color-sand-200)"></rect>
+              <rect x="18" y="257" width="250" height="8" rx="3" fill="var(--color-sand-300)"></rect>
+            </svg>
+          </div>
+
+          <!-- The modelling workspace, behind the object. -->
           <div class="ds-work">
             <div class="ds-grid"></div>
             <div class="ds-guide ds-guide--v"></div>
             <div class="ds-guide ds-guide--h"></div>
           </div>
 
-          <!-- The print bed. -->
-          <div class="ds-bed"></div>
+          <!--
+            The printer. Frame, bed and filament spool are static; the
+            gantry is a separate track so it can ride the top of the
+            material as the part grows under it.
+          -->
+          <div class="ds-printer">
+            <svg viewBox="0 0 240 272">
+              <g fill="var(--color-brand-900)">
+                <rect x="10" y="18" width="220" height="12" rx="4"></rect>
+                <rect x="16" y="26" width="12" height="222" rx="4"></rect>
+                <rect x="212" y="26" width="12" height="222" rx="4"></rect>
+                <rect x="16" y="244" width="208" height="16" rx="4"></rect>
+              </g>
+              <!-- print bed -->
+              <rect x="50" y="234" width="140" height="10" rx="3" fill="var(--color-sand-300)"></rect>
+              <rect x="50" y="234" width="140" height="3" rx="1.5" fill="var(--color-sand-100)"></rect>
+              <!-- filament, spool to feeder -->
+              <path
+                d="M48 34C48 52 84 44 104 30"
+                fill="none"
+                stroke="var(--color-accent-500)"
+                stroke-width="2.5"
+                stroke-linecap="round"></path>
+              <g class="ds-spool">
+                <circle cx="48" cy="14" r="18" fill="var(--color-accent-500)"></circle>
+                <circle
+                  cx="48"
+                  cy="14"
+                  r="11"
+                  fill="none"
+                  stroke="var(--color-accent-600)"
+                  stroke-width="2.5"
+                  stroke-dasharray="7 5"></circle>
+                <circle cx="48" cy="14" r="5" fill="var(--color-brand-900)"></circle>
+              </g>
+            </svg>
+          </div>
+
+          <!-- The gantry rides the top of the printed material. -->
+          <div class="ds-gantry-track">
+            <div class="ds-gantry">
+              <span class="ds-beam"></span>
+              <span class="ds-carriage"></span>
+            </div>
+          </div>
 
           <!--
             The robot. One object through the whole story: extruded depth
             behind, wireframe edges, printed material in ten bands, and the
-            face that only exists once there's material to carry it.
+            face, which prints along with everything else.
           -->
           <div class="ds-bot">
             <svg class="ds-bot-wire" viewBox="0 0 240 272">
@@ -152,7 +223,7 @@ const BANDS = Array.from({ length: 10 }, (_, i) => ({
 
             <div class="ds-bot-fill">
               <!-- Depth, inside the clipped group so it is revealed by the
-                   print head along with the material. Outside it, the dark
+                   printer along with the material. Outside it, the dark
                    silhouette would give the whole robot away before the
                    first layer had gone down. -->
               <svg class="ds-bot-extrude" viewBox="0 0 240 272">
@@ -184,15 +255,12 @@ const BANDS = Array.from({ length: 10 }, (_, i) => ({
                   fill="var(--color-accent-500)"></path>
               </svg>
             </div>
-
-            <div class="ds-head"><span class="ds-nozzle"></span></div>
           </div>
 
           <!--
-            The child's drawing. The same sheet of paper for the whole
-            story — full frame while it's drawn, a reference card in the
-            corner while the model is built, back at full size beside the
-            finished robot at the end. Never faded out and re-created.
+            The child's drawing, and the pencil drawing it. The pencil sits
+            inside the paper so it travels with it, and hops to each group
+            of strokes as that group goes down.
           -->
           <div class="ds-paper">
             <div class="ds-paper-grain"></div>
@@ -201,7 +269,6 @@ const BANDS = Array.from({ length: 10 }, (_, i) => ({
                 stroke="var(--color-slate-500, #64748b)"
                 stroke-width="3.2"
                 stroke-linejoin="round"
-                stroke-linecap="round"
               >
                 <path class="ds-ink ds-ink--1" d={SKETCH.head} pathLength="1"></path>
                 <path class="ds-ink ds-ink--2" d={SKETCH.body} pathLength="1"></path>
@@ -212,6 +279,19 @@ const BANDS = Array.from({ length: 10 }, (_, i) => ({
                 <path class="ds-ink ds-ink--7" d={SKETCH.flourish} pathLength="1"></path>
               </g>
             </svg>
+
+            <div class="ds-pencil-track">
+              <div class="ds-pencil">
+                <svg class="ds-pencil-art" viewBox="0 0 40 152">
+                  <rect x="12" y="2" width="16" height="13" rx="5" fill="#e79b8f"></rect>
+                  <rect x="12" y="13" width="16" height="8" fill="var(--color-slate-400, #94a3b8)"></rect>
+                  <rect x="12" y="20" width="16" height="110" fill="var(--color-accent-500)"></rect>
+                  <rect x="12" y="20" width="5" height="110" fill="var(--color-accent-400)"></rect>
+                  <path d="M12 130L28 130L20 152Z" fill="var(--color-sand-200)"></path>
+                  <path d="M17 141L23 141L20 152Z" fill="var(--color-slate-700, #334155)"></path>
+                </svg>
+              </div>
+            </div>
           </div>
 
           <span class="ds-arrow" aria-hidden="true"></span>
@@ -287,20 +367,22 @@ const BANDS = Array.from({ length: 10 }, (_, i) => ({
     justify-content: center;
     border-radius: 9999px;
     background-color: var(--color-brand-700);
-    font-size: 0.8rem;
+    font-size: 0.875rem;
     color: white;
   }
 
   /* Only meaningful while the story can actually be scrubbed. */
   .ds-hint,
   .ds-work,
-  .ds-bed,
-  .ds-head {
+  .ds-desk,
+  .ds-printer,
+  .ds-gantry-track,
+  .ds-pencil-track {
     display: none;
   }
 
   /* Shared geometry. NOT `display: none` — a <pattern> inside a display:none
-     subtree never gets built as a paint server, so the print material would
+     subtree is never built as a paint server, so the print material would
      silently fail to paint and the dark extrusion would show through
      instead. Take it out of flow rather than out of the render tree. */
   .ds-defs {
@@ -386,8 +468,7 @@ const BANDS = Array.from({ length: 10 }, (_, i) => ({
 
   .ds-bot > svg,
   .ds-bot-fill,
-  .ds-bot-fill > svg,
-  .ds-bot-fill > div {
+  .ds-bot-fill > svg {
     position: absolute;
     inset: 0;
     width: 100%;
@@ -399,9 +480,8 @@ const BANDS = Array.from({ length: 10 }, (_, i) => ({
     transform: translate(1.2%, 1%);
   }
 
-  /* Edge definition over the printed material — subtle in the still. */
   .ds-bot-wire {
-    opacity: 0.25;
+    opacity: 0.55;
     z-index: 2;
   }
 
@@ -414,27 +494,40 @@ const BANDS = Array.from({ length: 10 }, (_, i) => ({
     z-index: 1;
   }
 
+  .ds-desk > svg,
+  .ds-printer > svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+
   /*
    * ---------------------------------------------------------------------
    * ENHANCED — the story. One `view-timeline` on the tall section; every
    * moving part reads its progress off that single timeline, so the camera,
-   * the paper, the robot and the captions cannot drift out of sync.
+   * the desk, the paper, the robot, the printer and the captions cannot
+   * drift out of sync.
    *
    * The scroll map, in `contain` progress:
    *
-   *    0–28   the child draws
-   *   26–40   camera pushes in; the lines lift off the page and become
-   *           edges; the paper retreats to a reference card
-   *   38–58   the model is built, measured, and turned
-   *   56–74   the model is sliced into layers, then closed back up
-   *   74–92   it prints, bottom-up, on the bed
-   *   86–100  camera pulls back; the drawing returns beside the real thing
+   *    0–28   a kid at a desk draws a robot, the pencil hopping from the
+   *           head to the body to the arms to the legs to the face
+   *   20–40   the camera pushes in, the desk falls away, the drawing fills
+   *           the frame, and clean edges rise out of the pencil lines
+   *   40–52   the paper retreats to a reference card; the model is built
+   *   52–64   it is measured and turned
+   *   64–76   it is sliced into layers, then closed back up
+   *   74–95   a printer arrives and builds it back, layer by layer, the
+   *           gantry riding the top of the material
+   *   94–100  the camera pulls back to the same desk, where the finished
+   *           robot now stands next to the drawing it came from
    * ---------------------------------------------------------------------
    */
   @media (prefers-reduced-motion: no-preference) {
     @supports (animation-timeline: view()) {
       .ds {
-        height: 400vh;
+        height: 700vh;
         view-timeline-name: --dream;
       }
 
@@ -454,10 +547,10 @@ const BANDS = Array.from({ length: 10 }, (_, i) => ({
 
       .ds-viewport {
         position: relative;
-        width: min(26rem, 82vw);
+        width: min(27rem, 84vw);
         /* Tuned so the frame stays large on a phone without pushing the
            captions off the top of a short viewport. */
-        max-height: 52svh;
+        max-height: 54svh;
         aspect-ratio: 240 / 272;
         margin-inline: auto;
       }
@@ -476,30 +569,31 @@ const BANDS = Array.from({ length: 10 }, (_, i) => ({
         animation-range: contain 0% contain 100%;
       }
 
-      /* Slow pushes and one drop to the printer's level — each move has a
-         reason: get closer to the drawing, settle into the workspace, come
-         down to the bed, pull back to see both objects together. */
+      /* Every move has a reason: pull in from the desk to the drawing,
+         settle into the workspace, drop to the printer's level, then pull
+         back out to the desk to see what the kid ended up with. */
       @keyframes ds-camera {
         0%,
-        22% {
-          transform: scale(1) translateY(0);
+        16% {
+          transform: scale(0.86) translateY(0);
         }
+        30%,
         38% {
-          transform: scale(1.16) translateY(1.5%);
+          transform: scale(1.12) translateY(1%);
         }
-        50%,
-        58% {
-          transform: scale(1.04) translateY(0);
+        46%,
+        60% {
+          transform: scale(1.02) translateY(0);
         }
-        68% {
-          transform: scale(0.95) translateY(-1.5%);
+        70% {
+          transform: scale(0.94) translateY(-1.5%);
         }
-        78%,
-        88% {
-          transform: scale(1.07) translateY(3.5%);
+        82%,
+        92% {
+          transform: scale(1) translateY(2%);
         }
         100% {
-          transform: scale(0.92) translateY(0);
+          transform: scale(0.86) translateY(0);
         }
       }
 
@@ -529,10 +623,10 @@ const BANDS = Array.from({ length: 10 }, (_, i) => ({
 
       @keyframes ds-step-1 {
         0%,
-        30% {
+        32% {
           opacity: 1;
         }
-        40%,
+        42%,
         100% {
           opacity: 0.28;
         }
@@ -540,11 +634,11 @@ const BANDS = Array.from({ length: 10 }, (_, i) => ({
 
       @keyframes ds-step-2 {
         0%,
-        30% {
+        32% {
           opacity: 0.28;
         }
-        40%,
-        70% {
+        42%,
+        72% {
           opacity: 1;
         }
         80%,
@@ -555,7 +649,7 @@ const BANDS = Array.from({ length: 10 }, (_, i) => ({
 
       @keyframes ds-step-3 {
         0%,
-        70% {
+        72% {
           opacity: 0.28;
         }
         80%,
@@ -593,21 +687,49 @@ const BANDS = Array.from({ length: 10 }, (_, i) => ({
         0% {
           opacity: 1;
         }
-        9%,
+        7%,
         100% {
           opacity: 0;
         }
       }
 
+      /* --- the desk ---------------------------------------------------
+         Opens the story and closes it. Same furniture both times, which is
+         the whole point of bringing it back. */
+      .ds-desk {
+        display: block;
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        animation-name: ds-desk;
+        animation-timing-function: linear;
+        animation-fill-mode: both;
+        animation-timeline: --dream;
+        animation-range: contain 0% contain 100%;
+      }
+
+      @keyframes ds-desk {
+        0%,
+        20% {
+          opacity: 1;
+        }
+        30%,
+        90% {
+          opacity: 0;
+        }
+        97%,
+        100% {
+          opacity: 1;
+        }
+      }
+
       /* --- the paper --------------------------------------------------
-         One element, three positions: the frame, the reference card, and
-         finally beside the finished robot. It is never removed — the whole
-         point is that you can always see where the object came from. */
+         One element, four positions: on the desk, filling the frame, a
+         reference card in the corner, then back on the desk beside the
+         finished robot. It is never removed — the whole point is that you
+         can always see where the object came from. */
       .ds-paper {
-        /* Where the drawing comes to rest at the end, next to the finished
-           robot. Overridden on narrow screens (see the phone block below),
-           where there isn't room to set the two side by side. */
-        --paper-end: translate(-33%, 6%) scale(0.44) rotate(-2.6deg);
+        --paper-end: translate(6%, 23%) scale(0.34) rotate(-4deg);
         position: absolute;
         inset: 0;
         z-index: 4;
@@ -623,7 +745,11 @@ const BANDS = Array.from({ length: 10 }, (_, i) => ({
 
       @keyframes ds-paper {
         0%,
-        38% {
+        18% {
+          transform: translate(26%, 21%) scale(0.44) rotate(-3deg);
+        }
+        30%,
+        40% {
           transform: translate(0, 0) scale(1) rotate(-1.6deg);
         }
         50%,
@@ -635,8 +761,8 @@ const BANDS = Array.from({ length: 10 }, (_, i) => ({
         }
       }
 
-      /* The sketch, drawn on stroke by stroke, in the order a kid draws:
-         head, body, arms, legs, face, details, then one last flourish. */
+      /* The sketch draws itself on, in the order a kid draws: head, body,
+         arms, legs, face, details, then one last flourish. */
       .ds-ink {
         stroke-dashoffset: 1;
         animation-name: ds-draw;
@@ -646,25 +772,25 @@ const BANDS = Array.from({ length: 10 }, (_, i) => ({
       }
 
       .ds-ink--1 {
-        animation-range: contain 2% contain 8%;
+        animation-range: contain 4% contain 8%;
       }
       .ds-ink--2 {
-        animation-range: contain 7% contain 12%;
+        animation-range: contain 7.5% contain 11.5%;
       }
       .ds-ink--3 {
-        animation-range: contain 11% contain 16%;
+        animation-range: contain 11% contain 15%;
       }
       .ds-ink--4 {
-        animation-range: contain 15% contain 19%;
+        animation-range: contain 14.5% contain 18%;
       }
       .ds-ink--5 {
-        animation-range: contain 18% contain 22%;
+        animation-range: contain 17.5% contain 21%;
       }
       .ds-ink--6 {
-        animation-range: contain 21% contain 25%;
+        animation-range: contain 20.5% contain 24%;
       }
       .ds-ink--7 {
-        animation-range: contain 24% contain 28%;
+        animation-range: contain 23.5% contain 27%;
       }
 
       @keyframes ds-draw {
@@ -673,6 +799,98 @@ const BANDS = Array.from({ length: 10 }, (_, i) => ({
         }
         to {
           stroke-dashoffset: 0;
+        }
+      }
+
+      /* --- the pencil -------------------------------------------------
+         `.ds-pencil` is the full size of the drawing area with the pencil
+         art anchored at its top-left corner, so translating it by a
+         percentage moves the pencil TIP to that point of the paper. The
+         waypoints below are the centres of each group of strokes, in the
+         order they're drawn. */
+      .ds-pencil-track {
+        display: block;
+        position: absolute;
+        inset: 7%;
+        pointer-events: none;
+      }
+
+      .ds-pencil {
+        position: absolute;
+        inset: 0;
+        opacity: 0;
+        animation-name: ds-pencil-move, ds-pencil-fade;
+        animation-timing-function: linear, linear;
+        animation-fill-mode: both, both;
+        animation-timeline: --dream, --dream;
+        animation-range: contain 0% contain 100%, contain 0% contain 100%;
+      }
+
+      .ds-pencil-art {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 12%;
+        height: auto;
+        aspect-ratio: 40 / 152;
+        overflow: visible;
+        /* Put the graphite tip on the anchor point, then lean the pencil
+           about that same tip so it stays put as the hand moves. */
+        translate: -50% -100%;
+        rotate: 26deg;
+        transform-origin: 50% 100%;
+        filter: drop-shadow(0 6px 6px rgba(80, 60, 30, 0.28));
+      }
+
+      @keyframes ds-pencil-move {
+        /* Starts near the kid's hand rather than mid-air, so the first
+           frame reads as a pencil about to be put to paper. */
+        0%,
+        3% {
+          translate: 22% 72%;
+        }
+        5.5% {
+          translate: 50% 33%;
+        }
+        9.5% {
+          translate: 50% 65%;
+        }
+        13% {
+          translate: 21% 67%;
+        }
+        16% {
+          translate: 50% 86%;
+        }
+        19% {
+          translate: 49% 34%;
+        }
+        22% {
+          translate: 52% 22%;
+        }
+        25% {
+          translate: 85% 23%;
+        }
+        27% {
+          translate: 94% 4%;
+        }
+        32%,
+        100% {
+          translate: 115% -14%;
+        }
+      }
+
+      @keyframes ds-pencil-fade {
+        0%,
+        1% {
+          opacity: 0;
+        }
+        3%,
+        27% {
+          opacity: 1;
+        }
+        31%,
+        100% {
+          opacity: 0;
         }
       }
 
@@ -698,7 +916,7 @@ const BANDS = Array.from({ length: 10 }, (_, i) => ({
         62% {
           opacity: 1;
         }
-        72%,
+        70%,
         100% {
           opacity: 0;
         }
@@ -776,14 +994,14 @@ const BANDS = Array.from({ length: 10 }, (_, i) => ({
 
       @keyframes ds-fade-guides {
         0%,
-        44% {
+        48% {
           opacity: 0;
         }
-        50%,
-        56% {
+        54%,
+        60% {
           opacity: 0.75;
         }
-        62%,
+        66%,
         100% {
           opacity: 0;
         }
@@ -791,10 +1009,10 @@ const BANDS = Array.from({ length: 10 }, (_, i) => ({
 
       /* --- the robot --------------------------------------------------
          Fades up as edges lifting off the drawing, turns while it's being
-         modelled, and shifts aside at the end to make room for the paper
+         modelled, then settles onto the desk at the end next to the paper
          it came from. */
       .ds-bot {
-        --bot-end: 16%;
+        --bot-end: translate(32%, 27%) scale(0.44);
         position: absolute;
         inset: 7%;
         z-index: 5;
@@ -810,41 +1028,44 @@ const BANDS = Array.from({ length: 10 }, (_, i) => ({
 
       @keyframes ds-bot-in {
         0%,
-        30% {
+        31% {
           opacity: 0;
         }
-        39%,
+        40%,
         100% {
           opacity: 1;
         }
       }
 
+      /* Every keyframe carries the same function list — translate, scale,
+         rotateY — so they interpolate componentwise. `--bot-end` supplies
+         the translate and scale halves of the final pose. */
       @keyframes ds-bot-move {
         0%,
-        30% {
-          transform: translate(0, 3%) rotateY(0deg);
+        31% {
+          transform: translate(0, 3%) scale(1) rotateY(0deg);
         }
         /* lifting off the page */
         40%,
-        50% {
-          transform: translate(0, 0) rotateY(0deg);
+        52% {
+          transform: translate(0, 0) scale(1) rotateY(0deg);
         }
         /* turned, so you can read it as a solid object */
-        56% {
-          transform: translate(0, 0) rotateY(-14deg);
+        58% {
+          transform: translate(0, 0) scale(1) rotateY(-14deg);
         }
-        62% {
-          transform: translate(0, 0) rotateY(10deg);
+        64% {
+          transform: translate(0, 0) scale(1) rotateY(10deg);
         }
-        70%,
-        86% {
-          transform: translate(0, 0) rotateY(0deg);
+        72%,
+        90% {
+          transform: translate(0, 0) scale(1) rotateY(0deg);
         }
-        94% {
-          transform: translate(var(--bot-end), 0) rotateY(-12deg);
+        96% {
+          transform: var(--bot-end) rotateY(-10deg);
         }
         100% {
-          transform: translate(var(--bot-end), 0) rotateY(-2deg);
+          transform: var(--bot-end) rotateY(-2deg);
         }
       }
 
@@ -866,26 +1087,27 @@ const BANDS = Array.from({ length: 10 }, (_, i) => ({
           opacity: 0;
         }
         52%,
-        60% {
+        62% {
           transform: translate(1.2%, 1%);
           opacity: 1;
         }
         /* Out of the way while the model is opened up, so daylight shows
            between the layers instead of a solid body behind them. */
-        66%,
-        70% {
+        68%,
+        72% {
           transform: translate(1.2%, 1%);
           opacity: 0;
         }
-        76%,
+        78%,
         100% {
           transform: translate(1.2%, 1%);
           opacity: 1;
         }
       }
 
-      /* The pencil lines become edges, hold as a wireframe, thin out under
-         the solid material, then return as the print preview. */
+      /* The pencil lines become edges, hold as a wireframe, and stay on as
+         the object's outline — with the bands carrying material only, this
+         layer is doing all of the edge definition. */
       .ds-bot-wire {
         opacity: 0;
         animation-name: ds-wire;
@@ -897,29 +1119,29 @@ const BANDS = Array.from({ length: 10 }, (_, i) => ({
 
       @keyframes ds-wire {
         0%,
-        30% {
+        32% {
           opacity: 0;
         }
-        39%,
-        46% {
+        40%,
+        48% {
           opacity: 1;
         }
         54%,
-        60% {
+        62% {
           opacity: 0.55;
         }
         /* The outline is one whole silhouette, so it can't follow the bands
            when they separate — it steps aside instead of hanging in the air
            around an exploded model. */
-        64%,
-        70% {
+        68%,
+        72% {
           opacity: 0.1;
         }
-        76% {
+        78% {
           opacity: 0.55;
         }
-        79%,
-        90% {
+        82%,
+        92% {
           opacity: 0.45;
         }
         97%,
@@ -929,8 +1151,8 @@ const BANDS = Array.from({ length: 10 }, (_, i) => ({
       }
 
       /* The material. Fades in as the model solidifies, drops away while
-         the camera moves to the bed, then fills back up from the first
-         layer to the last. */
+         the printer takes over, then fills back up from the first layer to
+         the last. */
       .ds-bot-fill {
         opacity: 0;
         clip-path: inset(0 0 0 0);
@@ -972,7 +1194,7 @@ const BANDS = Array.from({ length: 10 }, (_, i) => ({
         79% {
           clip-path: inset(95% 0 0 0);
         }
-        92%,
+        93%,
         100% {
           clip-path: inset(4% 0 0 0);
         }
@@ -990,14 +1212,14 @@ const BANDS = Array.from({ length: 10 }, (_, i) => ({
 
       @keyframes ds-slice {
         0%,
-        58% {
+        62% {
           transform: translateY(0);
         }
-        66%,
-        70% {
+        68%,
+        72% {
           transform: translateY(calc(var(--i) * -4px));
         }
-        76%,
+        78%,
         100% {
           transform: translateY(0);
         }
@@ -1015,121 +1237,173 @@ const BANDS = Array.from({ length: 10 }, (_, i) => ({
 
       @keyframes ds-face {
         0%,
-        60% {
+        64% {
           opacity: 1;
         }
-        65%,
-        71% {
+        69%,
+        73% {
           opacity: 0;
         }
-        76%,
+        78%,
         100% {
           opacity: 1;
         }
       }
 
-      /* --- the printer ------------------------------------------------ */
-      .ds-bed {
+      /* --- the printer ------------------------------------------------
+         Frame, bed and spool are static and arrive as one piece. The
+         gantry is separate so it can ride the top of the material. */
+      .ds-printer {
         display: block;
         position: absolute;
-        left: 6%;
-        right: 6%;
-        bottom: 6%;
+        inset: 0;
         z-index: 2;
-        height: 9px;
-        border-radius: 9999px;
-        background: linear-gradient(180deg, var(--color-sand-200), var(--color-sand-300));
-        box-shadow: 0 12px 20px -12px rgba(15, 61, 58, 0.5);
-        animation-name: ds-fade-bed;
+        animation-name: ds-printer-in;
         animation-timing-function: linear;
         animation-fill-mode: both;
         animation-timeline: --dream;
         animation-range: contain 0% contain 100%;
       }
 
-      @keyframes ds-fade-bed {
+      @keyframes ds-printer-in {
         0%,
         72% {
           opacity: 0;
-        }
-        78%,
-        90% {
-          opacity: 1;
-        }
-        98%,
-        100% {
-          opacity: 0;
-        }
-      }
-
-      /* The print head rides the top of the material. It's a full-height
-         box with only its top border painted, so it moves on `transform`
-         rather than `top`. */
-      .ds-head {
-        display: block;
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 4%;
-        right: 4%;
-        z-index: 4;
-        border-top: 2px solid var(--color-brand-700);
-        animation-name: ds-head, ds-head-fade;
-        animation-timing-function: linear, linear;
-        animation-fill-mode: both, both;
-        animation-timeline: --dream, --dream;
-        animation-range: contain 0% contain 100%, contain 0% contain 100%;
-      }
-
-      @keyframes ds-head {
-        0%,
-        79% {
-          transform: translateY(94%);
-        }
-        92%,
-        100% {
-          transform: translateY(3%);
-        }
-      }
-
-      @keyframes ds-head-fade {
-        0%,
-        78% {
-          opacity: 0;
+          translate: 0 7%;
         }
         80%,
-        92% {
+        94% {
           opacity: 1;
+          translate: 0 0;
         }
-        96%,
+        99%,
         100% {
           opacity: 0;
+          translate: 0 4%;
         }
       }
 
-      .ds-nozzle {
-        position: absolute;
-        top: -0.7rem;
-        left: 8%;
-        width: 0.7rem;
-        height: 0.7rem;
-        border-radius: 2px 2px 5px 5px;
-        background: var(--color-brand-800);
-        animation-name: ds-nozzle;
+      /* The spool turns while filament is being laid down. */
+      .ds-spool {
+        transform-origin: 48px 14px;
+        animation-name: ds-spool;
         animation-timing-function: linear;
         animation-fill-mode: both;
         animation-timeline: --dream;
-        animation-range: contain 79% contain 92%;
-        animation-iteration-count: 9;
+        animation-range: contain 79% contain 93%;
+        animation-iteration-count: 3;
+      }
+
+      @keyframes ds-spool {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* The gantry beam sits at the top of a full-height track, so moving
+         it is a `translate` rather than an animated `top`. The track spans
+         exactly the printed object's extent, which is what keeps the nozzle
+         on the top layer instead of near it. */
+      .ds-gantry-track {
+        display: block;
+        position: absolute;
+        left: 6.5%;
+        right: 6.5%;
+        top: 10%;
+        bottom: 11%;
+        z-index: 6;
+        animation-name: ds-gantry-fade;
+        animation-timing-function: linear;
+        animation-fill-mode: both;
+        animation-timeline: --dream;
+        animation-range: contain 0% contain 100%;
+      }
+
+      @keyframes ds-gantry-fade {
+        0%,
+        76% {
+          opacity: 0;
+        }
+        80%,
+        95% {
+          opacity: 1;
+        }
+        99%,
+        100% {
+          opacity: 0;
+        }
+      }
+
+      .ds-gantry {
+        position: absolute;
+        inset: 0;
+        will-change: transform;
+        animation-name: ds-gantry;
+        animation-timing-function: linear;
+        animation-fill-mode: both;
+        animation-timeline: --dream;
+        animation-range: contain 0% contain 100%;
+      }
+
+      @keyframes ds-gantry {
+        0%,
+        79% {
+          translate: 0 100%;
+        }
+        93%,
+        100% {
+          translate: 0 0;
+        }
+      }
+
+      .ds-beam {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        height: 5px;
+        border-radius: 3px;
+        background: var(--color-brand-900);
+      }
+
+      .ds-carriage {
+        position: absolute;
+        top: 0;
+        left: 3%;
+        width: 13%;
+        height: 15px;
+        border-radius: 3px;
+        background: var(--color-brand-700);
+        animation-name: ds-carriage;
+        animation-timing-function: linear;
+        animation-fill-mode: both;
+        animation-timeline: --dream;
+        animation-range: contain 80% contain 93%;
+        animation-iteration-count: 10;
         animation-direction: alternate;
       }
 
-      @keyframes ds-nozzle {
+      /* The nozzle, hanging off the carriage onto the top layer. */
+      .ds-carriage::after {
+        content: "";
+        position: absolute;
+        bottom: -7px;
+        left: 50%;
+        margin-left: -5px;
+        border-left: 5px solid transparent;
+        border-right: 5px solid transparent;
+        border-top: 7px solid var(--color-brand-900);
+      }
+
+      @keyframes ds-carriage {
         from {
           transform: translateX(0);
         }
         to {
-          transform: translateX(1000%);
+          transform: translateX(560%);
         }
       }
 
@@ -1138,11 +1412,11 @@ const BANDS = Array.from({ length: 10 }, (_, i) => ({
          the copy gets less, so the robot stays large and readable. */
       @media (max-width: 1023px) {
         .ds-paper {
-          --paper-end: translate(28%, -27%) scale(0.4) rotate(2.2deg);
+          --paper-end: translate(4%, 21%) scale(0.32) rotate(-4deg);
         }
 
         .ds-bot {
-          --bot-end: 0%;
+          --bot-end: translate(31%, 25%) scale(0.42);
         }
 
         .ds-inner {
@@ -1151,8 +1425,8 @@ const BANDS = Array.from({ length: 10 }, (_, i) => ({
         }
 
         .ds-viewport {
-          width: min(24rem, 88vw);
-          max-height: 46svh;
+          width: min(25rem, 90vw);
+          max-height: 48svh;
         }
 
         .ds-steps {
@@ -1167,7 +1441,7 @@ const BANDS = Array.from({ length: 10 }, (_, i) => ({
 
       @media (max-width: 1023px) and (max-height: 700px) {
         .ds-viewport {
-          max-height: 40svh;
+          max-height: 42svh;
         }
       }
     }
