@@ -1,0 +1,223 @@
+---
+// A compact opening statement that tells the whole Printable Dreams story
+// without making visitors scrub through a long scroll-driven sequence.
+---
+
+<section class="story" aria-labelledby="story-statement">
+  <div class="container-page story-inner">
+    <div class="story-copy">
+      <p class="story-eyebrow">
+        <span aria-hidden="true"></span>
+        Our story
+      </p>
+      <p id="story-statement" class="story-statement">
+        Printable Dreams turns a child's drawing into a one-of-a-kind{" "}
+        <strong>3D-printed keepsake</strong> they can hold—reminding them that their imagination matters.
+      </p>
+    </div>
+
+    <div class="story-art" aria-hidden="true">
+      <div class="story-card story-card--drawing">
+        <svg viewBox="0 0 180 180" role="presentation">
+          <path class="paper" d="M25 13h130v154H25z"></path>
+          <path class="sketch" d="M57 71c-2-14 8-23 22-23h27c14 0 24 9 22 23v18c2 14-8 23-22 23H79c-14 0-24-9-22-23z"></path>
+          <path class="sketch" d="M70 112v23m45-23v23M55 81 39 96m90-15 16 15"></path>
+          <circle class="sketch-fill" cx="77" cy="76" r="5"></circle>
+          <circle class="sketch-fill" cx="108" cy="76" r="5"></circle>
+          <path class="sketch" d="M78 93c8 7 21 7 29 0M92 48V34m0 0 7-8m-7 8-7-8"></path>
+          <path class="spark" d="m137 31 3 8 8 3-8 3-3 8-3-8-8-3 8-3z"></path>
+        </svg>
+      </div>
+
+      <div class="story-path">
+        <span></span>
+        <svg viewBox="0 0 34 20" role="presentation"><path d="m2 10 25 0m-8-7 8 7-8 7"></path></svg>
+      </div>
+
+      <div class="story-card story-card--keepsake">
+        <svg viewBox="0 0 180 180" role="presentation">
+          <ellipse class="shadow" cx="92" cy="149" rx="55" ry="12"></ellipse>
+          <path class="side" d="M55 65 66 55h59l10 10v42l-10 10H66l-11-10z"></path>
+          <path class="model" d="M47 57 58 47h59l10 10v42l-10 10H58L47 99z"></path>
+          <path class="side" d="M59 109h17v33H59zm49 0h17v33h-17z"></path>
+          <path class="model" d="M51 109h17v33H51zm49 0h17v33h-17z"></path>
+          <path class="side" d="m48 74-23 20 8 9 22-18m73-11 23 20-8 9-22-18"></path>
+          <path class="model" d="m43 69-23 20 8 9 22-18m73-11 23 20-8 9-22-18"></path>
+          <circle class="face" cx="70" cy="73" r="6"></circle>
+          <circle class="face" cx="104" cy="73" r="6"></circle>
+          <path class="face-line" d="M72 91c8 7 21 7 29 0M87 47V32m0 0 7-8m-7 8-7-8"></path>
+          <path class="heart" d="M87 122c-7-10-18 1 0 15 18-14 7-25 0-15Z"></path>
+          <path class="highlight" d="M58 57h59M58 64h59M58 71h59M58 78h59M58 85h59M58 92h59M58 99h59"></path>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .story {
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid var(--color-brand-100);
+    background:
+      radial-gradient(circle at 8% 10%, color-mix(in srgb, var(--color-accent-500) 18%, transparent) 0 1px, transparent 2px) 0 0 / 28px 28px,
+      linear-gradient(135deg, var(--color-sand-50), white 48%, var(--color-brand-50));
+  }
+
+  .story::before,
+  .story::after {
+    position: absolute;
+    border-radius: 999px;
+    content: "";
+    filter: blur(2px);
+    pointer-events: none;
+  }
+
+  .story::before {
+    top: -9rem;
+    right: -5rem;
+    width: 22rem;
+    height: 22rem;
+    background: color-mix(in srgb, var(--color-brand-200) 46%, transparent);
+  }
+
+  .story::after {
+    bottom: -8rem;
+    left: 34%;
+    width: 16rem;
+    height: 16rem;
+    background: color-mix(in srgb, var(--color-accent-500) 10%, transparent);
+  }
+
+  .story-inner {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    align-items: center;
+    gap: 3rem;
+    min-height: min(42rem, 82vh);
+    padding-block: clamp(4rem, 7vw, 6.5rem);
+  }
+
+  .story-copy {
+    max-width: 50rem;
+  }
+
+  .story-eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    color: var(--color-brand-700);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .story-eyebrow span {
+    width: 0.45rem;
+    height: 0.45rem;
+    border-radius: 999px;
+    background: var(--color-accent-500);
+    box-shadow: 0 0 0 5px color-mix(in srgb, var(--color-accent-500) 16%, transparent);
+  }
+
+  .story-statement {
+    margin-top: 1.25rem;
+    color: var(--color-slate-900, #0f172a);
+    font-family: var(--font-display);
+    font-size: clamp(2.35rem, 4.2vw, 4.1rem);
+    font-weight: 600;
+    letter-spacing: -0.045em;
+    line-height: 0.99;
+  }
+
+  .story-statement strong {
+    color: var(--color-brand-700);
+    font-weight: 600;
+    text-decoration: underline;
+    text-decoration-color: color-mix(in srgb, var(--color-accent-500) 60%, transparent);
+    text-decoration-thickness: 0.13em;
+    text-underline-offset: 0.1em;
+  }
+
+  .story-art {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(0.65rem, 2vw, 1.25rem);
+  }
+
+  .story-card {
+    width: clamp(8.5rem, 18vw, 12rem);
+    aspect-ratio: 1;
+    overflow: hidden;
+    border: 1px solid color-mix(in srgb, var(--color-brand-700) 12%, transparent);
+    border-radius: 1.5rem;
+    background: rgb(255 255 255 / 88%);
+    box-shadow: 0 1.25rem 3rem rgb(15 23 42 / 12%);
+    transform: rotate(-3deg);
+  }
+
+  .story-card--keepsake {
+    background: linear-gradient(145deg, white, var(--color-brand-50));
+    transform: rotate(3deg);
+  }
+
+  .story-card svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .paper { fill: var(--color-sand-50); stroke: var(--color-sand-300); stroke-width: 2; }
+  .sketch { fill: none; stroke: var(--color-brand-800); stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
+  .sketch-fill { fill: var(--color-brand-800); }
+  .spark { fill: var(--color-accent-500); }
+  .shadow { fill: rgb(15 23 42 / 10%); }
+  .model { fill: var(--color-brand-500); }
+  .side { fill: var(--color-brand-800); }
+  .face { fill: white; }
+  .face-line { fill: none; stroke: white; stroke-width: 4; stroke-linecap: round; }
+  .heart { fill: var(--color-accent-500); }
+  .highlight { fill: none; stroke: rgb(255 255 255 / 18%); stroke-width: 2; }
+
+  .story-path {
+    display: flex;
+    width: clamp(2.5rem, 7vw, 5.5rem);
+    align-items: center;
+  }
+
+  .story-path span {
+    width: 100%;
+    border-top: 2px dashed var(--color-brand-300);
+  }
+
+  .story-path svg {
+    width: 2rem;
+    flex: none;
+    fill: none;
+    stroke: var(--color-brand-600);
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  @media (min-width: 64rem) {
+    .story-inner { grid-template-columns: minmax(0, 1.35fr) minmax(24rem, 0.65fr); }
+  }
+
+  @media (max-width: 40rem) {
+    .story-inner { min-height: auto; }
+    .story-art { margin-inline: auto; }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .story-card--drawing { animation: story-float 5s ease-in-out infinite; }
+    .story-card--keepsake { animation: story-float 5s ease-in-out -2.5s infinite; }
+  }
+
+  @keyframes story-float {
+    0%, 100% { translate: 0 0; }
+    50% { translate: 0 -0.45rem; }
+  }
+</style>

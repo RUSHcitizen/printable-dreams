@@ -45,4 +45,22 @@ const projects = defineCollection({
       }),
 });
 
-export const collections = { projects };
+const posts = defineCollection({
+  loader: glob({ pattern: "**/*.md", base: "./src/content/posts" }),
+  schema: ({ image }) =>
+    z
+      .object({
+        title: z.string(),
+        date: z.coerce.date(),
+        excerpt: z.string(),
+        cover: image().optional(),
+        coverAlt: z.string().optional(),
+        draft: z.boolean().default(false),
+      })
+      .refine((data) => !data.cover || Boolean(data.coverAlt?.trim()), {
+        message: "coverAlt is required whenever cover is set (for accessible alt text).",
+        path: ["coverAlt"],
+      }),
+});
+
+export const collections = { projects, posts };

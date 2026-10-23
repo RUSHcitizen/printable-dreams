@@ -44,11 +44,10 @@ const logo = logos.get(slug);
 >
   {
     logo && (
+      /* The partner's name is already rendered below as text, so repeating
+         it as alt text would make screen readers announce it twice. */
       <Image
         src={logo}
-        /* The partner's name is already right below as real text — giving
-           the logo the same name as alt text would just make a screen
-           reader say it twice. */
         alt=""
         width={360}
         class="h-16 w-auto max-w-full object-contain transition-transform duration-300 group-hover:scale-[1.04]"
