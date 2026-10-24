@@ -40,7 +40,7 @@ import { PARTNERS } from "../config/site";
       {
         PARTNERS.map((partner) => (
           <li class="reveal-item">
-            <PartnerMark name={partner.name} context={partner.context} />
+            <PartnerMark name={partner.name} context={partner.context} href={partner.href} />
           </li>
         ))
       }

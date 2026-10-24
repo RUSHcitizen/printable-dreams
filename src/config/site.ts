@@ -92,6 +92,8 @@ export const NAV_LINKS: NavLink[] = [
 
 export interface Partner {
   name: string;
+  /** Official website or public profile supplied by the partner. */
+  href: string;
   /**
    * Optional one-line context — an organizational affiliation for a named
    * individual. Only ever what's been explicitly confirmed; never an
@@ -105,10 +107,10 @@ export interface Partner {
  * beyond what's been explicitly provided — see README "Content accuracy".
  */
 export const PARTNERS: Partner[] = [
-  { name: "Sammamish Rotary" },
-  { name: "BlueGrit Wellness" },
-  { name: "Todd Henderson", context: "Inglewood Middle School" },
-  { name: "Amy Lam", context: "Sammamish City Council" },
+  { name: "Sammamish Rotary", href: "https://sammamishrotary.org" },
+  { name: "BlueGrit Wellness", href: "https://www.bluegritwellness.com/" },
+  { name: "Todd Henderson", context: "Inglewood Middle School", href: "https://ims.lwsd.org" },
+  { name: "Amy Lam", context: "Sammamish City Council", href: "https://www.amyforsammamish.com/" },
 ];
 
 export interface SocialLink {

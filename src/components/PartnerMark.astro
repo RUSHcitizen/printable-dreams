@@ -27,9 +27,10 @@ const logos = new Map(
 interface Props {
   name: string;
   context?: string;
+  href: string;
 }
 
-const { name, context } = Astro.props;
+const { name, context, href } = Astro.props;
 
 const slug = name
   .toLowerCase()
@@ -39,7 +40,11 @@ const slug = name
 const logo = logos.get(slug);
 ---
 
-<div
+<a
+  href={href}
+  target="_blank"
+  rel="noopener noreferrer"
+  aria-label={`Visit ${name}'s website`}
   class="lift group flex h-full flex-col items-center justify-center gap-4 rounded-xl border border-slate-200 bg-white px-6 py-8 text-center hover:border-brand-200 hover:shadow-card"
 >
   {
@@ -58,4 +63,4 @@ const logo = logos.get(slug);
     <p class="font-display text-xl font-semibold text-slate-900">{name}</p>
     {context && <p class="mt-1 text-xs font-medium uppercase tracking-wide text-slate-500">{context}</p>}
   </div>
-</div>
+</a>
