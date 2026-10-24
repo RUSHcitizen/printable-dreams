@@ -109,6 +109,10 @@ export interface Partner {
 export const PARTNERS: Partner[] = [
   { name: "Sammamish Rotary", href: "https://sammamishrotary.org" },
   { name: "BlueGrit Wellness", href: "https://www.bluegritwellness.com/" },
+  {
+    name: "Sammamish Children's Child Life",
+    href: "https://www.seattlechildrens.org/clinics/child-life/",
+  },
   { name: "Todd Henderson", context: "Inglewood Middle School", href: "https://ims.lwsd.org" },
   { name: "Amy Lam", context: "Sammamish City Council", href: "https://www.amyforsammamish.com/" },
 ];

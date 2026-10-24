@@ -11,6 +11,22 @@ import { PARTNERS } from "../config/site";
   title="Partners"
   description="Organizations and community members who partner with Printable Dreams."
 >
+  <Section background="sand">
+    <SectionHeading eyebrow="Current Partners" title="Our Partners" />
+    <ul class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+      {
+        PARTNERS.map((partner) => (
+          <li>
+            <PartnerMark name={partner.name} context={partner.context} href={partner.href} />
+          </li>
+        ))
+      }
+    </ul>
+    <p class="mt-8 text-center text-sm text-slate-600">
+      Read how <a href="/blog/sammamish-rotary-support/" class="font-semibold text-brand-700 underline hover:text-brand-800">Sammamish Rotary supported Printable Dreams</a>.
+    </p>
+  </Section>
+
   <Section background="brand">
     <p class="flex items-center gap-2 text-sm font-semibold uppercase tracking-wide text-brand-700">
       <span class="h-1.5 w-1.5 rounded-full bg-accent-500" aria-hidden="true"></span>
@@ -31,22 +47,6 @@ import { PARTNERS } from "../config/site";
       Partners help Printable Dreams reach more kids and strengthen the work of turning a child's drawing into a
       real keepsake. If you represent an organization or community group interested in working with us, we'd
       love to hear from you.
-    </p>
-  </Section>
-
-  <Section background="sand" reveal>
-    <SectionHeading eyebrow="Current Partners" title="Our Partners" />
-    <ul class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-      {
-        PARTNERS.map((partner) => (
-          <li class="reveal-item">
-            <PartnerMark name={partner.name} context={partner.context} href={partner.href} />
-          </li>
-        ))
-      }
-    </ul>
-    <p class="mt-8 text-center text-sm text-slate-600">
-      Read how <a href="/blog/sammamish-rotary-support/" class="font-semibold text-brand-700 underline hover:text-brand-800">Sammamish Rotary supported Printable Dreams</a>.
     </p>
   </Section>
 
