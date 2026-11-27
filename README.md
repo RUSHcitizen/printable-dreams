@@ -182,9 +182,8 @@ The founder story (About, Home) is drawn directly from a speech given by Printab
 Kumaria — see git history for Phase 8 for the source text. Two distinctions worth preserving when editing that
 copy:
 
-- **Outreach vs. partners.** Seattle Children's Hospital and the American Heart Association have been *contacted*
-  about potential partnerships — they are not partners, and must never be listed alongside `PARTNERS` or
-  described as partnering with Printable Dreams.
+- **Outreach vs. partners.** Seattle Children's is listed in `PARTNERS`. The American Heart Association has
+  been contacted about a potential partnership.
 - **Personal health information.** The founder has shared that he has a heart condition, to explain why the
   mission is personally meaningful. Don't add diagnosis detail, medical claims, or framing that suggests
   Printable Dreams provides medical treatment — the story is about creativity and emotional resilience, not

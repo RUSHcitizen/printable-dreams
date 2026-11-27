@@ -1,0 +1,43 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Section from "../components/Section.astro";
+
+const meetings = [
+  { title: "City of Sammamish Council Meeting", videoId: "3pu2xsp7NME", startSeconds: 993, timestamp: "16:33" },
+  { title: "Issaquah City Council Meeting", videoId: "SItSP6VM7vA", startSeconds: 1858, timestamp: "30:58" },
+];
+---
+
+<BaseLayout
+  title="Our Story in Motion"
+  description="Watch Printable Dreams at the Sammamish and Issaquah city council meetings."
+>
+  <Section background="brand">
+    <h1 class="font-display text-5xl font-semibold tracking-tight text-slate-900 sm:text-6xl">
+      Our Story in Motion
+    </h1>
+    <div class="mt-10 grid gap-8 lg:grid-cols-2">
+      {
+        meetings.map(({ title, videoId, startSeconds, timestamp }) => (
+          <article class="min-w-0">
+            <h2 class="font-display text-2xl font-semibold tracking-tight text-slate-900">{title}</h2>
+            <iframe
+              src={`https://www.youtube-nocookie.com/embed/${videoId}?start=${startSeconds}`}
+              title={title}
+              class="mt-4 aspect-video w-full rounded-xl bg-slate-900"
+              loading="lazy"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allowfullscreen
+            ></iframe>
+            <a
+              href={`https://www.youtube.com/watch?v=${videoId}&t=${startSeconds}s`}
+              class="mt-3 inline-flex min-h-11 items-center text-sm font-semibold text-brand-700 underline underline-offset-4"
+            >
+              Watch on YouTube at {timestamp}
+            </a>
+          </article>
+        ))
+      }
+    </div>
+  </Section>
+</BaseLayout>
