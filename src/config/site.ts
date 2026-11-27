@@ -81,6 +81,7 @@ export const NAV_LINKS: NavLink[] = [
   { label: "Our Story in Motion", href: "/our-story-in-motion/" },
   { label: "Projects", href: "/projects/" },
   { label: "Partners", href: "/partners/" },
+  { label: "Blog", href: "/blog/" },
   { label: "Get Involved", href: "/get-involved/" },
   { label: "Support", href: "/support/" },
 ];
