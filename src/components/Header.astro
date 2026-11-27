@@ -27,7 +27,7 @@ const currentPath = Astro.url.pathname;
       {SITE_TITLE}
     </a>
 
-    <nav aria-label="Primary" class="hidden md:block">
+    <nav aria-label="Primary" class="hidden xl:block">
       <ul class="flex items-center gap-6">
         {
           NAV_LINKS.map((link) => {
@@ -48,7 +48,7 @@ const currentPath = Astro.url.pathname;
       </ul>
     </nav>
 
-    <div class="hidden items-center gap-3 md:flex">
+    <div class="hidden items-center gap-3 xl:flex">
       <div data-auth="signed-out" class="flex items-center gap-3">
         <Button href="/signup" label="Join Printable Dreams" variant="secondary" />
       </div>
@@ -72,7 +72,7 @@ const currentPath = Astro.url.pathname;
       <Button href="/request-a-print/" label="Request a Print" variant="primary" />
     </div>
 
-    <details class="relative md:hidden">
+    <details class="relative xl:hidden">
       <summary
         class="flex min-h-11 cursor-pointer list-none items-center rounded-md border border-slate-300 px-3 text-sm font-medium text-slate-700"
       >

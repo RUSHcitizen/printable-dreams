@@ -75,15 +75,10 @@ export interface NavLink {
   href: string;
 }
 
-// The primary nav — kept to 6 items so the header stays uncluttered even
-// with auth-state nav and the "Request a Print" CTA also present (see
-// Header.astro). Contact is intentionally not in this list: it's still a
-// real page, reachable from the footer (where the contact email already
-// lives on every page) and from Support/Get Involved — demoting it here
-// was a deliberate call to make room for Partners without growing the bar.
 export const NAV_LINKS: NavLink[] = [
   { label: "Home", href: "/" },
   { label: "About", href: "/about/" },
+  { label: "Our Story in Motion", href: "/our-story-in-motion/" },
   { label: "Projects", href: "/projects/" },
   { label: "Partners", href: "/partners/" },
   { label: "Get Involved", href: "/get-involved/" },
